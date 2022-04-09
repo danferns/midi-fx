@@ -22,22 +22,23 @@
     let activeInput: Input;
     let activeInputName: string;
 
-    onMount(() => {
-        WebMidi.addOneTimeListener("enabled", async () => {
-            const inputs = WebMidi.inputs;
-            for (const input of inputs) {
-                inputNames.push(input.name);
-            }
-            const lastInput = await inputStore.getValue();
-            if (inputNames.includes(lastInput)) {
-                changeInput(lastInput);
-            }
-            updateInputs();
-        });
+    onMount(async () => {
+        await WebMidi.enable();
+        WebMidi.addListener("portschanged", updateInputs);
+        updateInputs();
     });
 
     async function updateInputs() {
-        inputNames = inputNames;
+        const newInputNames = []
+        const inputs = WebMidi.inputs;
+        for (const input of inputs) {
+            newInputNames.push(input.name);
+        }
+        inputNames = newInputNames;
+        const lastInput = await inputStore.getValue();
+        if (inputNames.includes(lastInput)) {
+            changeInput(lastInput);
+        }
         await tick();
         dispatch("resize", {});
     }
