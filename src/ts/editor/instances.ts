@@ -94,6 +94,11 @@ const nodes = {
         position: [500, 0],
         connections: {},
     },
+    filter: {
+        type: "filter",
+        position: [0, 0],
+        connections: {},
+    },
 };
 
 async function init() {
