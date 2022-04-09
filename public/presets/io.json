@@ -1,0 +1,23 @@
+{
+    "in": {
+        "type": "midi-input",
+        "position": [
+            0,
+            0
+        ],
+        "connections": {
+            "MIDI": [
+                {
+                    "out": "MIDI"
+                }
+            ]
+        }
+    },
+    "out": {
+        "type": "midi-output",
+        "position": [
+            100,
+            100
+        ]
+    }
+}
