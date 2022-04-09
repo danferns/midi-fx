@@ -41,4 +41,10 @@
         height: 100%;
         width: 100%;
     }
+
+    :global(:root) {
+        --background: hsl(0 0% 10%);
+        --background-accent: hsl(0 0% 20%);
+        --background-accent-focused: hsl(0 0% 30%);
+    }
 </style>
