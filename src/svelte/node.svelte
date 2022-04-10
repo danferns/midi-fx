@@ -146,7 +146,7 @@
             />
         </div>
     {/each}
-    <svelte:component this={gui} on:resize={updateCoords} />
+    <svelte:component this={gui} on:resize={updateCoords} id={id}/>
     {#each Object.entries(outputs) as [name]}
         <div class="output">
             <span>{name}</span>

@@ -21,6 +21,8 @@
     import { onMount, tick, createEventDispatcher } from "svelte";
     import { Output, WebMidi } from "webmidi";
 
+    export let id;
+
     const dispatch = createEventDispatcher();
 
     let outputNames: Array<string> = [];

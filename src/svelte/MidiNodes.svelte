@@ -8,8 +8,6 @@
     instances.subscribe((val: Instances) => {
         localInstances = val;
     });
-
-
 </script>
 
 <main>
@@ -30,6 +28,7 @@
                     y1={localInstances[key].outputs[outputName].y}
                     x2={localInstances[connection[0]].inputs[connection[1]].x}
                     y2={localInstances[connection[0]].inputs[connection[1]].y}
+                    active={output.active}
                 />
             {/each}
         {/each}

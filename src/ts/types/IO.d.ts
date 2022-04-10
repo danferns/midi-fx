@@ -12,5 +12,6 @@ type GUIOutput = {
     node: NodeOutput,
     x: number,
     y: number,
-    connections: []
+    connections: [],
+    active: boolean | undefined
 }

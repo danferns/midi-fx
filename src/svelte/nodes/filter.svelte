@@ -1,4 +1,6 @@
 <script lang="ts" context="module">
+import { highlightOutput } from "../../ts/util/NodeUtil";
+
     export const inputs = {
         MIDI: {
             call: (status, data1, data2) => {
@@ -16,10 +18,13 @@
         MIDI: new Set(),
     };
 
+    let nodeId: string;
+
     function emit(output, ...data) {
         for (const receiver of outputs[output]) {
             receiver.call(...data);
         }
+        highlightOutput(nodeId, output);
     }
 
     const messageTypes = {
@@ -58,6 +63,13 @@
 </script>
 
 <script lang="ts">
+    import { onMount } from "svelte";
+
+    export let id: string;
+
+    onMount(() => {
+        nodeId = id;
+    });
 </script>
 
 <main>
@@ -90,7 +102,7 @@
     input[type="checkbox"] {
         appearance: none;
         margin: 0;
-        
+
         background: var(--background);
         box-shadow: inset var(--background-accent) 0px 0px 0px 2px;
         height: 1.15em;
