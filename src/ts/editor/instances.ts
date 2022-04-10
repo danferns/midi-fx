@@ -84,21 +84,30 @@ export type Instances = {
 const nodes = {
     in: {
         type: "midi-input",
-        position: [-500, 0],
+        position: [-550, 46],
         connections: {
-            MIDI: [["out", "MIDI"]],
+            MIDI: [["filter", "MIDI"]],
         },
     },
     out: {
         type: "midi-output",
-        position: [500, 0],
+        position: [447, 65],
         connections: {},
     },
     filter: {
         type: "filter",
-        position: [0, 0],
-        connections: {},
+        position: [-189, 18],
+        connections: {
+            MIDI: [["delay", "MIDI"], ["out", "MIDI"]]
+        },
     },
+    delay:  {
+        type: "delay",
+        position: [159, -148],
+        connections: {
+            MIDI: [["out", "MIDI"]]
+        }
+    }
 };
 
 async function init() {
@@ -106,13 +115,13 @@ async function init() {
         await createNode(id, node.type, node.position);
     }
 
-    // for (const [id, node] of Object.entries(nodes)) {
-    //     for (const [output, connections] of Object.entries(node.connections)) {
-    //         for (const connection of connections) {
-    //             createConnection(id, output, connection);
-    //         }
-    //     }
-    // }
+    for (const [id, node] of Object.entries(nodes)) {
+        for (const [output, connections] of Object.entries(node.connections)) {
+            for (const connection of connections) {
+                createConnection(id, output, connection);
+            }
+        }
+    }
 }
 
 init();
