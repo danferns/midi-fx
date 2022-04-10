@@ -1,5 +1,5 @@
 <script lang="ts" context="module">
-    import { highlightOutput } from "../..//ts/util/NodeUtil";
+    import { highlightOutput } from "../../ts/util/NodeUtil";
 
     let millis = 1000;
 
