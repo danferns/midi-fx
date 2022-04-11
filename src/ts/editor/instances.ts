@@ -105,6 +105,13 @@ const nodes = {
         type: "delay",
         position: [159, -148],
         connections: {
+            MIDI: [["transpose", "MIDI"]]
+        }
+    },
+    transpose: {
+        type: "transpose",
+        position: [0, 0],
+        connections: {
             MIDI: [["out", "MIDI"]]
         }
     }

@@ -27,7 +27,7 @@ import { highlightOutput } from "../../ts/util/NodeUtil";
         highlightOutput(nodeId, output);
     }
 
-    const messageTypes = {
+    export const messageTypes = {
         "Note On / Off": (status) => {
             if (status >= 128 && status <= 159) return true;
             else return false;
