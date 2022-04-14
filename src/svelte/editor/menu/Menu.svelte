@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { addNode } from "../../../ts/editor/instances";
+
     import MenuItem, { menuItem } from "./MenuItem.svelte";
 
     const nodes = {
@@ -31,7 +33,7 @@
 
         for (const [name, node] of Object.entries(nodeList)) {
             menu.Add[category][name] = () => {
-                console.log(node);
+                addNode(node);
             };
         }
 

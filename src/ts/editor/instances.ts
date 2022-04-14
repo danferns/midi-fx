@@ -1,8 +1,13 @@
 import { writable } from "svelte/store";
 
+let localInstances: Instances = {};
 export const instances = writable();
 
 instances.set({});
+
+instances.subscribe((insts: Instances) => {
+    localInstances = insts;
+})
 
 export async function createNode(id, type, position) {
     const component = await import(`../../svelte/nodes/${type}.svelte`);
@@ -33,6 +38,17 @@ export async function createNode(id, type, position) {
         };
         return insts;
     });
+}
+
+export async function addNode(type: string) {
+    const keys = Object.keys(localInstances);
+    for (let i = 1; i <= keys.length; i++) {
+        const id = "midi-node-" + i.toString()
+        if (!keys.includes(id)) {
+            await createNode(id, type, [0, 0]);
+            return;
+        }
+    }
 }
 
 export function createConnection(outputNode, outputName, connection) {
