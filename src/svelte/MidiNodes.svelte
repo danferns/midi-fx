@@ -2,6 +2,7 @@
     import Node from "./node.svelte";
     import Path from "./Path.svelte";
     import { Instances, instances } from "../ts/editor/instances";
+    import Menu from "./editor/menu/Menu.svelte";
 
     let localInstances: Instances = {};
 
@@ -11,6 +12,7 @@
 </script>
 
 <main>
+    <Menu />
     {#each Object.entries(localInstances) as [key, instance]}
         <Node
             id={key}
