@@ -1,32 +1,4 @@
 <script lang="ts" context="module">
-import { highlightOutput } from "../../ts/util/NodeUtil";
-
-    export const inputs = {
-        MIDI: {
-            call: (status, data1, data2) => {
-                for (const messageType of passThrough) {
-                    if (messageTypes[messageType](status)) {
-                        emit("MIDI", status, data1, data2);
-                        return;
-                    }
-                }
-            },
-        },
-    };
-
-    export const outputs = {
-        MIDI: new Set(),
-    };
-
-    let nodeId: string;
-
-    function emit(output, ...data) {
-        for (const receiver of outputs[output]) {
-            receiver.call(...data);
-        }
-        highlightOutput(nodeId, output);
-    }
-
     export const messageTypes = {
         "Note On / Off": (status) => {
             if (status >= 128 && status <= 159) return true;
@@ -58,18 +30,36 @@ import { highlightOutput } from "../../ts/util/NodeUtil";
             else return false;
         },
     };
-
-    let passThrough = [];
 </script>
 
 <script lang="ts">
-    import { onMount } from "svelte";
-
     export let id: string;
+    export const inputs = {
+        MIDI: {
+            call: (status, data1, data2) => {
+                for (const messageType of passThrough) {
+                    if (messageTypes[messageType](status)) {
+                        emit("MIDI", status, data1, data2);
+                        return;
+                    }
+                }
+            },
+        },
+    };
+    export const outputs = {
+        MIDI: new Set(),
+    };
 
-    onMount(() => {
-        nodeId = id;
-    });
+    import { highlightOutput } from "../../ts/util/NodeUtil";
+
+    function emit(output, ...data) {
+        for (const receiver of outputs[output]) {
+            receiver.call(...data);
+        }
+        highlightOutput(id, output);
+    }
+
+    let passThrough = [];
 </script>
 
 <main>

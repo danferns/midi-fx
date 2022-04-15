@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { onMount } from "svelte";
+    import { onMount, tick } from "svelte";
 
     import {
         createConnection,
@@ -14,23 +14,46 @@
     export let x = 0;
     export let y = 0;
 
-    export let outputs: {
+    export let gui;
+
+    let nodeInputs = {};
+    let nodeOutputs = {};
+
+    let guiOutputs: {
         [key: string]: GUIOutput;
     } = {};
 
-    export let inputs: {
+    let guiInputs: {
         [key: string]: GUIInput;
     } = {};
 
-    export let gui;
+    $: {
+        for (const [name, node] of Object.entries(nodeInputs)) {
+            (guiInputs[name] ??= {
+                x: 0,
+                y: 0,
+            } as GUIInput).node = node as NodeInput;
+        }
+        for (const [name, node] of Object.entries(nodeOutputs)) {
+            (guiOutputs[name] ??= {
+                x: 0,
+                y: 0,
+                connections: new Set(),
+                active: false,
+            } as GUIOutput).node = node as NodeOutput;
+        }
+    }
 
-    let guiInputs: {
+    let inputElements: {
         [key: string]: HTMLElement;
     } = {};
 
-    let guiOutputs: {
+    let outputElements: {
         [key: string]: HTMLElement;
     } = {};
+
+    $instances[id].inputs = guiInputs;
+    $instances[id].outputs = guiOutputs;
 
     function handleMousedown() {
         window.addEventListener("mousemove", handleMousemove);
@@ -48,14 +71,14 @@
         instances.update((insts) => {
             insts[id].x = x;
             insts[id].y = y;
-            for (const [name, input] of Object.entries(guiInputs)) {
+            for (const [name, input] of Object.entries(inputElements)) {
                 const box = input.getBoundingClientRect();
                 const inputY = (box.top + box.bottom) / 2;
                 const inputX = (box.left + box.right) / 2;
                 insts[id].inputs[name].x = inputX;
                 insts[id].inputs[name].y = inputY;
             }
-            for (const [name, output] of Object.entries(guiOutputs)) {
+            for (const [name, output] of Object.entries(outputElements)) {
                 const box = output.getBoundingClientRect();
                 const outputY = (box.top + box.bottom) / 2;
                 const outputX = (box.left + box.right) / 2;
@@ -73,6 +96,7 @@
     }
 
     onMount(async () => {
+        await tick();
         updateCoords();
     });
 
@@ -130,12 +154,12 @@
 <svelte:window on:resize={updateCoords} />
 
 <div class="node" on:mousedown={handleMousedown} style="--x: {x}px; --y: {y}px;">
-    {#each Object.entries(inputs) as [name]}
+    {#each Object.entries(guiInputs) as [name]}
         <div class="input">
             <span>{name}</span>
             <div
                 class={name}
-                bind:this={guiInputs[name]}
+                bind:this={inputElements[name]}
                 on:mouseup={(e) => {
                     onInputMouseup(e, name);
                 }}
@@ -146,13 +170,19 @@
             />
         </div>
     {/each}
-    <svelte:component this={gui} on:resize={updateCoords} id={id}/>
-    {#each Object.entries(outputs) as [name]}
+    <svelte:component
+        this={gui}
+        on:resize={updateCoords}
+        {id}
+        bind:inputs={nodeInputs}
+        bind:outputs={nodeOutputs}
+    />
+    {#each Object.entries(guiOutputs) as [name]}
         <div class="output">
             <span>{name}</span>
             <div
                 class={name}
-                bind:this={guiOutputs[name]}
+                bind:this={outputElements[name]}
                 on:mousedown={(e) => {
                     onOutputMousedown(e, name);
                 }}

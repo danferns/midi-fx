@@ -1,27 +1,21 @@
-<script lang="ts" context="module">
-    import {highlightOutput} from "../../ts/util/NodeUtil";
+<script lang="ts">
+    export let id: string;
     export const inputs = {};
     export const outputs = {
         MIDI: new Set(),
     };
 
-    let nodeId: string;
+    import { storage } from "../../ts/storage";
+    import { onMount, createEventDispatcher, tick } from "svelte";
+    import { Input, WebMidi, Message } from "webmidi";
+    import { highlightOutput } from "../../ts/util/NodeUtil";
 
     function emit(output, ...data) {
         for (const receiver of outputs[output]) {
             receiver.call(...data);
         }
-        highlightOutput(nodeId, output);
+        highlightOutput(id, output);
     }
-
-</script>
-
-<script lang="ts">
-    import { storage } from "../../ts/storage";
-    import { onMount, createEventDispatcher, tick } from "svelte";
-    import { Input, WebMidi, Message } from "webmidi";
-
-    export let id: string;
 
     const dispatch = createEventDispatcher();
 
@@ -30,7 +24,6 @@
     let activeInputName: string;
 
     onMount(async () => {
-        nodeId = id;
         await WebMidi.enable();
         WebMidi.addListener("portschanged", updateInputs);
         updateInputs();

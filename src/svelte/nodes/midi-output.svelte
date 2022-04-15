@@ -1,27 +1,23 @@
-<script lang="ts" context="module">
-    let activeOutput: Output;
-    var runningStatus;
-
+<script lang="ts">
     export const outputs = {};
     export const inputs = {
         MIDI: {
             call: (status, data1, data2) => {
-                const message = [status? status: runningStatus];
+                const message = [status ? status : runningStatus];
                 if (typeof data1 === "number") message.push(data1);
                 if (typeof data1 === "number" && typeof data2 === "number") message.push(data2);
                 activeOutput.send(message);
-                runningStatus = status? status: runningStatus;
+                runningStatus = status ? status : runningStatus;
             },
         },
     };
-</script>
 
-<script lang="ts">
     import { storage } from "../../ts/storage";
     import { onMount, tick, createEventDispatcher } from "svelte";
     import { Output, WebMidi } from "webmidi";
 
-    export let id;
+    let activeOutput: Output;
+    var runningStatus;
 
     const dispatch = createEventDispatcher();
 

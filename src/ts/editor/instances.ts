@@ -12,27 +12,11 @@ instances.subscribe((insts: Instances) => {
 export async function createNode(id, type, position) {
     const component = await import(`../../svelte/nodes/${type}.svelte`);
 
-    const guiInputs = {};
-    const guiOutputs = {};
-
-    for (const [name, input] of Object.entries(component.inputs)) {
-        guiInputs[name] = {
-            node: input as NodeInput,
-        };
-    }
-
-    for (const [name, output] of Object.entries(component.outputs)) {
-        guiOutputs[name] = {
-            node: output as NodeOutput,
-            connections: new Set(),
-        };
-    }
-
     instances.update((insts: Instances) => {
         insts[id] = {
             component: component.default,
-            inputs: guiInputs,
-            outputs: guiOutputs,
+            inputs: {},
+            outputs: {},
             x: position[0],
             y: position[1],
         };

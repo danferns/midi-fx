@@ -1,9 +1,5 @@
-<script lang="ts" context="module">
-    import { highlightOutput } from "../../ts/util/NodeUtil";
-    import { messageTypes } from "./filter.svelte";
-
-    let transpose = 0;
-
+<script lang="ts">
+    export let id: string;
     export const inputs = {
         MIDI: {
             call: (status, data1, data2) => {
@@ -18,19 +14,18 @@
     export const outputs = {
         MIDI: new Set(),
     };
-    let nodeId: string;
+
+    import { highlightOutput } from "../../ts/util/NodeUtil";
+    import { messageTypes } from "./filter.svelte";
+
+    let transpose = 0;
+
     function emit(output, ...data) {
         for (const receiver of outputs[output]) {
             receiver.call(...data);
         }
-        highlightOutput(nodeId, output);
+        highlightOutput(id, output);
     }
-</script>
-
-<script lang="ts">
-    export let id;
-
-    nodeId = id;
 </script>
 
 <main>

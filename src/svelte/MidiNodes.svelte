@@ -16,8 +16,6 @@
     {#each Object.entries(localInstances) as [key, instance]}
         <Node
             id={key}
-            outputs={instance.outputs}
-            inputs={instance.inputs}
             x={instance.x}
             y={instance.y}
             gui={instance.component}
