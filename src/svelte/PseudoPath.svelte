@@ -9,6 +9,7 @@
 <script lang="ts">
     import Path from "./Path.svelte";
     import { instances } from "../ts/editor/instances";
+    import { translateX, translateY } from "./MidiNodes.svelte";
 
     let insts;
     instances.subscribe((val) => {
@@ -51,7 +52,7 @@
     <Path
         x1={insts[connection.from[0]].outputs[connection.from[1]].x}
         y1={insts[connection.from[0]].outputs[connection.from[1]].y}
-        x2={mouseX}
-        y2={mouseY}
+        x2={mouseX - $translateX}
+        y2={mouseY - $translateY}
     />
 {/if}

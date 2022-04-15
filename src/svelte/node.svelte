@@ -9,6 +9,8 @@
     } from "../ts/editor/instances";
     import PseudoPath, { pseudoConnection } from "./PseudoPath.svelte";
 
+    import { translateX, translateY } from "./MidiNodes.svelte";
+
     export let id;
 
     export let x = 0;
@@ -75,15 +77,15 @@
                 const box = input.getBoundingClientRect();
                 const inputY = (box.top + box.bottom) / 2;
                 const inputX = (box.left + box.right) / 2;
-                insts[id].inputs[name].x = inputX;
-                insts[id].inputs[name].y = inputY;
+                insts[id].inputs[name].x = inputX - $translateX;
+                insts[id].inputs[name].y = inputY - $translateY;
             }
             for (const [name, output] of Object.entries(outputElements)) {
                 const box = output.getBoundingClientRect();
                 const outputY = (box.top + box.bottom) / 2;
                 const outputX = (box.left + box.right) / 2;
-                insts[id].outputs[name].x = outputX;
-                insts[id].outputs[name].y = outputY;
+                insts[id].outputs[name].x = outputX - $translateX;
+                insts[id].outputs[name].y = outputY - $translateY;
             }
             return insts;
         });
@@ -153,7 +155,7 @@
 
 <svelte:window on:resize={updateCoords} />
 
-<div class="node" on:mousedown={handleMousedown} style="--x: {x}px; --y: {y}px;">
+<div class="node" on:mousedown|stopPropagation={handleMousedown} style="--x: {x}px; --y: {y}px;">
     {#each Object.entries(guiInputs) as [name]}
         <div class="input">
             <span>{name}</span>

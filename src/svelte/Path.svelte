@@ -44,5 +44,6 @@
 
         position: absolute;
         pointer-events: stroke;
+        overflow: visible;
     }
 </style>
