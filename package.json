@@ -25,8 +25,6 @@
     "vite-plugin-pwa": "^0.11.13"
   },
   "dependencies": {
-    "rete": "^1.4.7",
-    "rete-connection-plugin": "^0.9.0",
     "webmidi": "^3.0.11"
   }
 }
