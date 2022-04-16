@@ -1,9 +1,11 @@
 <script lang="ts">
+    import { createEmitter } from "../../ts/util/NodeUtil";
     export let id: string;
-    export const inputs = {};
-    export const outputs = {
+    export const outputs: NodeOutputs = {
         MIDI: new Set(),
     };
+
+    const emit = createEmitter(id, outputs);
 
     import NodeUI from "../widgets/NodeUI.svelte";
     import DropDown from "../widgets/DropDown.svelte";
@@ -12,14 +14,6 @@
     import { storage } from "../../ts/storage";
     import { onMount, createEventDispatcher, tick } from "svelte";
     import { Input, WebMidi, Message } from "webmidi";
-    import { highlightOutput } from "../../ts/util/NodeUtil";
-
-    function emit(output, ...data) {
-        for (const receiver of outputs[output]) {
-            receiver.call(...data);
-        }
-        highlightOutput(id, output);
-    }
 
     const dispatch = createEventDispatcher();
 

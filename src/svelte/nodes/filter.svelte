@@ -33,34 +33,26 @@
 </script>
 
 <script lang="ts">
+    import { createEmitter } from "../../ts/util/NodeUtil";
     export let id: string;
-    export const inputs = {
-        MIDI: {
-            call: (status, data1, data2) => {
-                for (const messageType of passThrough) {
-                    if (messageTypes[messageType](status)) {
-                        emit("MIDI", status, data1, data2);
-                        return;
-                    }
+    export const inputs: NodeInputs = {
+        MIDI: (status, data1, data2) => {
+            for (const messageType of passThrough) {
+                if (messageTypes[messageType](status)) {
+                    emit("MIDI", status, data1, data2);
+                    return;
                 }
-            },
+            }
         },
     };
-    export const outputs = {
+    export const outputs: NodeOutputs = {
         MIDI: new Set(),
     };
 
+    const emit = createEmitter(id, outputs);
+
     import NodeUI from "../widgets/NodeUI.svelte";
     import LabelledCheckBox from "../widgets/LabelledCheckBox.svelte";
-
-    import { highlightOutput } from "../../ts/util/NodeUtil";
-
-    function emit(output, ...data) {
-        for (const receiver of outputs[output]) {
-            receiver.call(...data);
-        }
-        highlightOutput(id, output);
-    }
 
     let passThrough = [];
 </script>

@@ -1,14 +1,11 @@
 <script lang="ts">
-    export const outputs = {};
-    export const inputs = {
-        MIDI: {
-            call: (status, data1, data2) => {
-                const message = [status ? status : runningStatus];
-                if (typeof data1 === "number") message.push(data1);
-                if (typeof data1 === "number" && typeof data2 === "number") message.push(data2);
-                activeOutput.send(message);
-                runningStatus = status ? status : runningStatus;
-            },
+    export const inputs: NodeInputs = {
+        MIDI: (status, data1, data2) => {
+            const message = [status ? status : runningStatus];
+            if (typeof data1 === "number") message.push(data1);
+            if (typeof data1 === "number" && typeof data2 === "number") message.push(data2);
+            activeOutput.send(message);
+            runningStatus = status ? status : runningStatus;
         },
     };
 

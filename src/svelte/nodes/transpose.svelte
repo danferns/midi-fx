@@ -1,35 +1,28 @@
 <script lang="ts">
+    import { createEmitter } from "../../ts/util/NodeUtil";
     export let id: string;
-    export const inputs = {
-        MIDI: {
-            call: (status, data1, data2) => {
-                if (messageTypes["Note On / Off"](status)) {
-                    emit("MIDI", status, data1 + transpose, data2);
-                } else {
-                    emit("MIDI", status, data1, data2);
-                }
-            },
+    export const inputs: NodeInputs = {
+        MIDI: (status, data1, data2) => {
+            if (messageTypes["Note On / Off"](status)) {
+                emit("MIDI", status, data1 + transpose, data2);
+            } else {
+                emit("MIDI", status, data1, data2);
+            }
         },
     };
-    export const outputs = {
+    export const outputs: NodeOutputs = {
         MIDI: new Set(),
     };
+
+    const emit = createEmitter(id, outputs);
 
     import NodeUI from "../widgets/NodeUI.svelte";
     import Title from "../widgets/Title.svelte";
     import NumericInput from "../widgets/NumericInput.svelte";
 
-    import { highlightOutput } from "../../ts/util/NodeUtil";
     import { messageTypes } from "./filter.svelte";
 
     let transpose = 0;
-
-    function emit(output, ...data) {
-        for (const receiver of outputs[output]) {
-            receiver.call(...data);
-        }
-        highlightOutput(id, output);
-    }
 </script>
 
 <NodeUI width="150">

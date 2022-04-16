@@ -1,32 +1,24 @@
 <script lang="ts">
+    import { createEmitter } from "../../ts/util/NodeUtil";
     export let id: string;
-    export const inputs = {
-        MIDI: {
-            call: (status, data1, data2) => {
-                setTimeout(() => {
-                    emit("MIDI", status, data1, data2);
-                }, millis);
-            },
+    export const inputs: NodeInputs = {
+        MIDI: (status, data1, data2) => {
+            setTimeout(() => {
+                emit("MIDI", status, data1, data2);
+            }, millis);
         },
     };
-    export const outputs = {
+    export const outputs: NodeOutputs = {
         MIDI: new Set(),
     };
+
+    const emit = createEmitter(id, outputs);
 
     import NodeUI from "../widgets/NodeUI.svelte";
     import Title from "../widgets/Title.svelte";
     import NumericInput from "../widgets/NumericInput.svelte";
 
-    import { highlightOutput } from "../../ts/util/NodeUtil";
-
     let millis = 1000;
-
-    function emit(output, ...data) {
-        for (const receiver of outputs[output]) {
-            receiver.call(...data);
-        }
-        highlightOutput(id, output);
-    }
 </script>
 
 <NodeUI width="150">

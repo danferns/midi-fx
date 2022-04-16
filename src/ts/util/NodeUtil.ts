@@ -1,6 +1,6 @@
 import { instances } from "../editor/instances";
 
-export async function highlightOutput(nodeId, output) {
+async function highlightOutput(nodeId, output) {
     instances.update((insts) => {
         if (insts) insts[nodeId].outputs[output].active = true;
         return insts;
@@ -12,8 +12,17 @@ export async function highlightOutput(nodeId, output) {
     });
 }
 
+export function createEmitter(id: string, outputs: { [key: string]: NodeOutput }) {
+    return (output: string, status: number, data1: number, data2: number) => {
+        for (const receiver of outputs[output]) {
+            receiver(status, data1, data2);
+        }
+        highlightOutput(id, output);
+    };
+}
+
 function wait(millis) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
         setTimeout(resolve, millis);
-    })
+    });
 }
