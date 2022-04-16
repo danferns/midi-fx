@@ -43,7 +43,10 @@
         width: 100%;
 
         position: absolute;
+        top: 50%;
+        left: 50%;
         pointer-events: stroke;
         overflow: visible;
+        transform: translate(-50%, -50%);
     }
 </style>

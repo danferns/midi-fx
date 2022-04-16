@@ -3,6 +3,7 @@
 
     export const translateX = writable(0);
     export const translateY = writable(0);
+    export const scale = writable(1);
 </script>
 
 <script lang="ts">
@@ -36,12 +37,18 @@
         $translateX += e.movementX;
         $translateY += e.movementY;
     }
+
+    function onEditorScroll(e: WheelEvent) {
+        $translateX = $translateX + Math.sign(e.deltaY) * e.clientX * ($scale + 0.1 - $scale);
+        $translateY = $translateY + Math.sign(e.deltaY) * e.clientY * ($scale + 0.1 - $scale);
+        $scale = $scale - Math.sign(e.deltaY) * 0.1;
+    }
 </script>
 
-<svelte:window on:mousedown={onEditorMouseDown} />
+<svelte:window on:mousedown={onEditorMouseDown} on:wheel={onEditorScroll} />
 
 <Menu />
-<main style="transform: translate({$translateX}px, {$translateY}px);">
+<main style="transform: translate({$translateX}px, {$translateY}px) scale({$scale});">
     {#each Object.entries(localInstances) as [key, instance]}
         <Node id={key} x={instance.x} y={instance.y} gui={instance.component} />
 
@@ -63,6 +70,7 @@
     main {
         height: 100%;
         width: 100%;
+        transform-origin: 0 0 0;
     }
 
     :global(:root) {

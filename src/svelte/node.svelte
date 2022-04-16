@@ -9,7 +9,7 @@
     } from "../ts/editor/instances";
     import PseudoPath, { pseudoConnection } from "./PseudoPath.svelte";
 
-    import { translateX, translateY } from "./MidiNodes.svelte";
+    import { translateX, translateY, scale } from "./MidiNodes.svelte";
 
     export let id;
 
@@ -64,8 +64,8 @@
     }
 
     function handleMousemove(event: MouseEvent) {
-        x += event.movementX;
-        y += event.movementY;
+        x += event.movementX / $scale;
+        y += event.movementY / $scale;
         updateCoords();
     }
 
@@ -77,15 +77,15 @@
                 const box = input.getBoundingClientRect();
                 const inputY = (box.top + box.bottom) / 2;
                 const inputX = (box.left + box.right) / 2;
-                insts[id].inputs[name].x = inputX - $translateX;
-                insts[id].inputs[name].y = inputY - $translateY;
+                insts[id].inputs[name].x = (inputX - $translateX) / $scale;
+                insts[id].inputs[name].y = (inputY - $translateY) / $scale;
             }
             for (const [name, output] of Object.entries(outputElements)) {
                 const box = output.getBoundingClientRect();
                 const outputY = (box.top + box.bottom) / 2;
                 const outputX = (box.left + box.right) / 2;
-                insts[id].outputs[name].x = outputX - $translateX;
-                insts[id].outputs[name].y = outputY - $translateY;
+                insts[id].outputs[name].x = (outputX - $translateX) / $scale;
+                insts[id].outputs[name].y = (outputY - $translateY) / $scale;
             }
             return insts;
         });
