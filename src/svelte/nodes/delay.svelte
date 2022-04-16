@@ -13,6 +13,10 @@
         MIDI: new Set(),
     };
 
+    import NodeUI from "../widgets/NodeUI.svelte";
+    import Title from "../widgets/Title.svelte";
+    import NumericInput from "../widgets/NumericInput.svelte";
+
     import { highlightOutput } from "../../ts/util/NodeUtil";
 
     let millis = 1000;
@@ -25,35 +29,7 @@
     }
 </script>
 
-<main>
-    <span>Delay (ms)</span>
-    <input type="number" bind:value={millis} />
-</main>
-
-<style>
-    main {
-        margin: 8px;
-        background: var(--background);
-        display: flex;
-        flex-direction: column;
-        border-radius: 8px;
-        width: 150px;
-    }
-    span {
-        text-align: center;
-        padding: 16px;
-    }
-    input {
-        font: inherit;
-        color: inherit;
-        background: var(--background-accent);
-        padding: 16px;
-        border: unset;
-        border-radius: 8px;
-    }
-
-    input:focus {
-        background: var(--background-accent-focused);
-        outline: none;
-    }
-</style>
+<NodeUI width="150">
+    <Title>Delay (ms)</Title>
+    <NumericInput bind:value={millis} />
+</NodeUI>

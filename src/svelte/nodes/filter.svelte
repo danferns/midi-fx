@@ -50,6 +50,9 @@
         MIDI: new Set(),
     };
 
+    import NodeUI from "../widgets/NodeUI.svelte";
+    import LabelledCheckBox from "../widgets/LabelledCheckBox.svelte";
+
     import { highlightOutput } from "../../ts/util/NodeUtil";
 
     function emit(output, ...data) {
@@ -62,50 +65,8 @@
     let passThrough = [];
 </script>
 
-<main>
+<NodeUI>
     {#each Object.keys(messageTypes) as messageType}
-        <div>
-            <input
-                type="checkbox"
-                bind:group={passThrough}
-                name={messageType}
-                value={messageType}
-            />
-            <span>&nbsp;{messageType}</span>
-        </div>
+        <LabelledCheckBox bind:group={passThrough} name={messageType} />
     {/each}
-</main>
-
-<style>
-    main {
-        padding: 8px;
-        margin: 8px;
-        background: var(--background);
-        border-radius: 8px;
-        font-size: small;
-    }
-
-    div {
-        padding: 8px;
-    }
-
-    input[type="checkbox"] {
-        appearance: none;
-        margin: 0;
-
-        background: var(--background);
-        box-shadow: inset var(--background-accent) 0px 0px 0px 2px;
-        height: 1.15em;
-        width: 1.15em;
-        vertical-align: middle;
-    }
-
-    input[type="checkbox"]:checked {
-        background: var(--background-accent-focused);
-        box-shadow: none;
-    }
-
-    span {
-        vertical-align: middle;
-    }
-</style>
+</NodeUI>
