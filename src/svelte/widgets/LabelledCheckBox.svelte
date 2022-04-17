@@ -9,7 +9,7 @@
     <input type="checkbox" bind:group {name} value={name} bind:this={inputCheckbox} />
     <span
         on:click={() => {
-            inputCheckbox.checked = !inputCheckbox.checked;
+            inputCheckbox.click();
         }}>&nbsp;{name}</span
     >
 </div>
