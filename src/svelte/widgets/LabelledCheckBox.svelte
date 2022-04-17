@@ -1,11 +1,17 @@
 <script lang="ts">
     export let group;
     export let name;
+
+    let inputCheckbox;
 </script>
 
 <div>
-    <input type="checkbox" bind:group {name} value={name} />
-    <span>&nbsp;{name}</span>
+    <input type="checkbox" bind:group {name} value={name} bind:this={inputCheckbox} />
+    <span
+        on:click={() => {
+            inputCheckbox.checked = !inputCheckbox.checked;
+        }}>&nbsp;{name}</span
+    >
 </div>
 
 <style>
