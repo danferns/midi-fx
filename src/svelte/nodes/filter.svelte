@@ -54,7 +54,7 @@
     import NodeUI from "../widgets/NodeUI.svelte";
     import LabelledCheckBox from "../widgets/LabelledCheckBox.svelte";
 
-    let passThrough = [];
+    let passThrough: string[] = [];
 </script>
 
 <NodeUI>

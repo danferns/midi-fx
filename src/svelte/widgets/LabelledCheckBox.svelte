@@ -1,12 +1,35 @@
 <script lang="ts">
-    export let group;
-    export let name;
+    export let group: string[];
+    export let name: string;
+    export let checked: boolean = false;
 
     let inputCheckbox;
+
+    $: updateChekbox(group);
+    $: updateGroup(checked);
+
+    function updateChekbox(group) {
+        checked = group.indexOf(name) >= 0;
+    }
+
+    function updateGroup(checked) {
+        const index = group.indexOf(name);
+        if (checked) {
+            if (index < 0) {
+                group.push(name);
+                group = group;
+            }
+        } else {
+            if (index >= 0) {
+                group.splice(index, 1);
+                group = group;
+            }
+        }
+    }
 </script>
 
 <div>
-    <input type="checkbox" bind:group {name} value={name} bind:this={inputCheckbox} />
+    <input type="checkbox" {name} value={name} bind:this={inputCheckbox} bind:checked />
     <span
         on:click={() => {
             inputCheckbox.click();
