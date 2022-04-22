@@ -10,6 +10,7 @@
         },
         Filter: {
             Filter: "filter",
+            "Note Splitter": "note-splitter",
         },
         Transform: {
             Delay: "delay",
