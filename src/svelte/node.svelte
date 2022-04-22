@@ -57,7 +57,14 @@
     $instances[id].inputs = guiInputs;
     $instances[id].outputs = guiOutputs;
 
-    function handleMousedown() {
+    function handleMousedown(e: MouseEvent) {
+        for (const elm of e.composedPath()) {
+            if (
+                (elm as HTMLElement).classList &&
+                (elm as HTMLElement).classList.contains("mousedrag")
+            )
+                return;
+        }
         window.addEventListener("mousemove", handleMousemove);
         window.addEventListener("mouseup", handleMouseup);
         window.addEventListener("blur", handleMouseup);

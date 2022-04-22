@@ -14,6 +14,7 @@
         Transform: {
             Delay: "delay",
             Transpose: "transpose",
+            Scale: "scale",
         },
     };
 
