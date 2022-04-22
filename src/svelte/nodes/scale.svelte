@@ -8,7 +8,8 @@
     export const inputs: NodeInputs = {
         MIDI: (status, data1, data2) => {
             if (messageTypes["Note On / Off"](status)) {
-                emit("MIDI", status, data1, Math.round((data2 * level) / 100));
+                const scaledLevel = Math.floor(data2 * level) / 100;
+                emit("MIDI", status, data1, scaledLevel);
             } else {
                 emit("MIDI", status, data1, data2);
             }
