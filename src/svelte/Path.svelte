@@ -9,18 +9,26 @@
 
     let brightness = 0.7;
 
+    let isAnimating = false;
+
     beforeUpdate(() => {
         if (active === true) {
             brightness = 1;
+            if (!isAnimating) {
+                isAnimating = true;
+                fadeOut();
+            }
         }
     });
 
     function fadeOut() {
-        brightness = Math.max(brightness - 0.015, 0.7);
-        requestAnimationFrame(fadeOut);
+        if (brightness > 0.7) {
+            brightness = Math.max(brightness - 0.015, 0.7);
+            requestAnimationFrame(fadeOut);
+        } else {
+            isAnimating = false;
+        }
     }
-
-    requestAnimationFrame(fadeOut);
 </script>
 
 <svg>
