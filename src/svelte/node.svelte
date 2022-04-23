@@ -208,7 +208,6 @@
         transform: translate(-50%, -50%);
         min-width: fit-content;
         background: hsl(0 0% 0% / 75%);
-        backdrop-filter: blur(6px);
         border-radius: 16px;
         outline: hsl(0 0% 20%) solid 2px;
         user-select: none;
