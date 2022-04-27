@@ -4,7 +4,10 @@
     export const inputs: NodeInputs = {
         MIDI: (status, data1, data2) => {
             if (messageTypes["Note On / Off"](status)) {
-                emit("MIDI", status, data1 + transpose, data2);
+                const transposedNote = data1 + transpose;
+                if (transposedNote > 0 && transposedNote < 127) {
+                    emit("MIDI", status, transposedNote, data2);
+                }
             } else {
                 emit("MIDI", status, data1, data2);
             }
