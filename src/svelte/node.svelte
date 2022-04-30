@@ -181,7 +181,10 @@
     {/each}
     <svelte:component
         this={gui}
-        on:resize={updateCoords}
+        on:resize={async () => {
+            await tick();
+            updateCoords();
+        }}
         {id}
         bind:inputs={nodeInputs}
         bind:outputs={nodeOutputs}
