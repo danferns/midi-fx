@@ -7,7 +7,7 @@ instances.set({});
 
 instances.subscribe((insts: Instances) => {
     localInstances = insts;
-})
+});
 
 export async function createNode(id, type, position) {
     const component = await import(`../../svelte/nodes/${type}.svelte`);
@@ -27,7 +27,7 @@ export async function createNode(id, type, position) {
 export async function addNode(type: string) {
     const keys = Object.keys(localInstances);
     for (let i = 1; i <= keys.length; i++) {
-        const id = "midi-node-" + i.toString()
+        const id = "midi-node-" + i.toString();
         if (!keys.includes(id)) {
             await createNode(id, type, [0, 0]);
             return;
@@ -84,37 +84,47 @@ export type Instances = {
 const nodes = {
     in: {
         type: "midi-input",
-        position: [-550, 46],
+        position: [-550, -190],
         connections: {
-            MIDI: [["filter", "MIDI"]],
+            MIDI: [["chordExplorer", "MIDI"]],
         },
     },
     out: {
         type: "midi-output",
-        position: [447, 65],
+        position: [550, 65],
         connections: {},
     },
     filter: {
         type: "filter",
-        position: [-189, 18],
+        position: [-159, 137],
         connections: {
-            MIDI: [["delay", "MIDI"], ["out", "MIDI"]]
+            MIDI: [
+                ["delay", "MIDI"],
+                ["out", "MIDI"],
+            ],
         },
     },
-    delay:  {
+    delay: {
         type: "delay",
-        position: [159, -148],
+        position: [65, -84],
         connections: {
-            MIDI: [["transpose", "MIDI"]]
-        }
+            MIDI: [["transpose", "MIDI"]],
+        },
     },
     transpose: {
         type: "transpose",
-        position: [0, 0],
+        position: [286, -132],
         connections: {
-            MIDI: [["out", "MIDI"]]
-        }
-    }
+            MIDI: [["out", "MIDI"]],
+        },
+    },
+    chordExplorer: {
+        type: "chord-explorer",
+        position: [-490, 111],
+        connections: {
+            MIDI: [["filter", "MIDI"]],
+        },
+    },
 };
 
 async function init() {

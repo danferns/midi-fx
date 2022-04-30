@@ -17,6 +17,9 @@
             Transpose: "transpose",
             Scale: "scale",
         },
+        Analysis: {
+            "Chord Explorer": "chord-explorer",
+        },
     };
 
     let menu: {
