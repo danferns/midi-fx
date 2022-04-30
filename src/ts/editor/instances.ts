@@ -14,6 +14,7 @@ export async function createNode(id, type, position) {
 
     instances.update((insts: Instances) => {
         insts[id] = {
+            type: type,
             component: component.default,
             inputs: {},
             outputs: {},
@@ -26,7 +27,7 @@ export async function createNode(id, type, position) {
 
 export async function addNode(type: string) {
     const keys = Object.keys(localInstances);
-    for (let i = 1; i <= keys.length; i++) {
+    for (let i = 1; i <= keys.length + 1; i++) {
         const id = "midi-node-" + i.toString();
         if (!keys.includes(id)) {
             await createNode(id, type, [0, 0]);
@@ -38,6 +39,7 @@ export async function addNode(type: string) {
 export function createConnection(outputNode, outputName, connection) {
     instances.update((insts) => {
         for (const conn of insts[outputNode].outputs[outputName].connections) {
+            // check if this connection already exists
             if (conn[0] === connection[0] && conn[1] === connection[1]) {
                 return insts;
             }
@@ -52,7 +54,6 @@ export function createConnection(outputNode, outputName, connection) {
 export function destroyConnection(outputNode, outputName, connection) {
     instances.update((insts) => {
         for (const conn of insts[outputNode].outputs[outputName].connections) {
-            console.log(conn, connection);
             if (conn[0] === connection[0] && conn[1] === connection[1]) {
                 insts[outputNode].outputs[outputName].connections.delete(conn);
             }
@@ -60,7 +61,6 @@ export function destroyConnection(outputNode, outputName, connection) {
         const receiver = insts[connection[0]].inputs[connection[1]].node;
 
         for (const input of insts[outputNode].outputs[outputName].node) {
-            console.log(input, receiver);
             if (input === receiver) {
                 insts[outputNode].outputs[outputName].node.delete(input);
             }
@@ -72,6 +72,7 @@ export function destroyConnection(outputNode, outputName, connection) {
 
 export type Instances = {
     [key: string]: {
+        type: string;
         component;
         inputs: { [key: string]: GUIInput };
         outputs: { [key: string]: GUIOutput };
@@ -80,8 +81,18 @@ export type Instances = {
     };
 };
 
+export type PortableInstances = {
+    [key: string]: {
+        type: string;
+        position: [number, number];
+        connections: {
+            [key: string]: [string, string][];
+        };
+    };
+};
+
 // example
-const nodes = {
+const nodes: PortableInstances = {
     in: {
         type: "midi-input",
         position: [-550, -190],
@@ -127,12 +138,15 @@ const nodes = {
     },
 };
 
-async function init() {
-    for (const [id, node] of Object.entries(nodes)) {
+export async function applyPortableInstances(portableInstances: PortableInstances) {
+    // start by resetting the live instances
+    instances.set({});
+
+    for (const [id, node] of Object.entries(portableInstances)) {
         await createNode(id, node.type, node.position);
     }
 
-    for (const [id, node] of Object.entries(nodes)) {
+    for (const [id, node] of Object.entries(portableInstances)) {
         for (const [output, connections] of Object.entries(node.connections)) {
             for (const connection of connections) {
                 createConnection(id, output, connection);
@@ -141,4 +155,24 @@ async function init() {
     }
 }
 
-init();
+export function getPortableInstances() {
+    const jsonNodes: PortableInstances = {};
+
+    for (const [id, instance] of Object.entries(localInstances)) {
+        jsonNodes[id] = {
+            type: instance.type,
+            position: [instance.x, instance.y],
+            connections: {},
+        };
+
+        for (const [outputName, output] of Object.entries(instance.outputs)) {
+            for (const connection of output.connections.values()) {
+                (jsonNodes[id].connections[outputName] ??= []).push(connection);
+            }
+        }
+    }
+
+    return jsonNodes;
+}
+
+// applyPortableInstances(nodes);

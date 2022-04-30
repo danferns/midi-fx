@@ -11,6 +11,19 @@
     import Path from "./Path.svelte";
     import { Instances, instances } from "../ts/editor/instances";
     import Menu from "./editor/menu/Menu.svelte";
+    import { onMount } from "svelte";
+    import { loadEditorState, saveEditorState } from "../ts/editor/save";
+
+    onMount(async () => {
+        await loadEditorState();
+    });
+
+    document.addEventListener("keydown", (e) => {
+        if (e.ctrlKey && e.key === "s") {
+            e.preventDefault();
+            saveEditorState();
+        }
+    });
 
     let localInstances: Instances = {};
 
