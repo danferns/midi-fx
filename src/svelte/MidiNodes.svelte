@@ -12,10 +12,19 @@
     import { Instances, instances } from "../ts/editor/instances";
     import Menu from "./editor/menu/Menu.svelte";
     import { onMount } from "svelte";
-    import { loadEditorState, saveEditorState } from "../ts/editor/save";
+    import {
+        isSavedStateAvailable,
+        loadBuiltInPreset,
+        loadEditorState,
+        saveEditorState,
+    } from "../ts/editor/save";
 
     onMount(async () => {
-        await loadEditorState();
+        if (isSavedStateAvailable()) {
+            await loadEditorState();
+        } else {
+            await loadBuiltInPreset("io");
+        }
     });
 
     document.addEventListener("keydown", (e) => {

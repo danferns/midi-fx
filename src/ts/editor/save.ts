@@ -10,7 +10,7 @@ export function saveEditorState() {
 
 export function isSavedStateAvailable() {
     const state = editorStateStore.getValue();
-    return typeof state === "object";
+    return state !== "";
 }
 
 export async function loadEditorState() {
@@ -18,4 +18,9 @@ export async function loadEditorState() {
     if (typeof state === "object") {
         await applyPortableInstances(state);
     }
+}
+
+export async function loadBuiltInPreset(presetName: string) {
+    const json = await fetch(`./presets/${presetName}.json`).then((res) => res.json());
+    await applyPortableInstances(json);
 }
