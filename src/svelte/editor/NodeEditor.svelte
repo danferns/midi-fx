@@ -7,17 +7,17 @@
 </script>
 
 <script lang="ts">
-    import Node from "./node.svelte";
+    import Node from "./Node.svelte";
     import Path from "./Path.svelte";
-    import { Instances, instances } from "../ts/editor/instances";
-    import Menu from "./editor/menu/Menu.svelte";
+    import { Instances, instances } from "../../ts/editor/instances";
+    import Menu from "./menu/Menu.svelte";
     import { onMount } from "svelte";
     import {
         isSavedStateAvailable,
         loadBuiltInPreset,
         loadEditorState,
         saveEditorState,
-    } from "../ts/editor/save";
+    } from "../../ts/editor/save";
 
     onMount(async () => {
         if (isSavedStateAvailable()) {

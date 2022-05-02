@@ -6,10 +6,10 @@
         destroyConnection,
         Instances,
         instances,
-    } from "../ts/editor/instances";
+    } from "../../ts/editor/instances";
     import PseudoPath, { pseudoConnection } from "./PseudoPath.svelte";
 
-    import { translateX, translateY, scale } from "./MidiNodes.svelte";
+    import { translateX, translateY, scale } from "./NodeEditor.svelte";
 
     export let id;
 

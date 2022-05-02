@@ -1,5 +1,5 @@
 <script lang="ts">
-    import MidiNodes from "./svelte/MidiNodes.svelte";
+    import MidiNodes from "./svelte/editor/NodeEditor.svelte";
 </script>
 
 <main>
