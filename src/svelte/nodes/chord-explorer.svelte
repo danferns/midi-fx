@@ -92,7 +92,7 @@
 
 <NodeUi width={200}>
     <Title>Chord Explorer</Title>
-    <div>{matchedChords[0] || ""}</div>
+    <div>{matchedChords.join(", ") || ""}</div>
 </NodeUi>
 
 <style>
