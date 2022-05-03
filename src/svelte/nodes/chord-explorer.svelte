@@ -91,5 +91,18 @@
 </script>
 
 <NodeUi width={200}>
-    <Title>{matchedChords[0] || "Chord Explorer"}</Title>
+    <Title>Chord Explorer</Title>
+    <div>{matchedChords[0] || ""}</div>
 </NodeUi>
+
+<style>
+    div {
+        background: var(--background-accent);
+        height: 50px;
+        border-radius: 8px;
+        font-size: larger;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
