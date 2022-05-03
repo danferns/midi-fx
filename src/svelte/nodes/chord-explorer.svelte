@@ -1,12 +1,29 @@
 <script lang="ts" context="module">
     const chordShapes: { [key: string]: number[] } = {
-        Power: [0, 7],
-        Major: [0, 4, 7],
-        "Major Seventh": [0, 4, 7, 11],
-        Minor: [0, 3, 7],
-        Augmented: [0, 4, 8],
-        Diminished: [0, 3, 6],
-        "Suspended 4": [0, 5, 7],
+        M: [0, 4, 7],
+        "(9)": [0, 2, 4, 7],
+        "6": [0, 4, 7, 9],
+        mM7: [0, 3, 7, 11],
+        M7: [0, 4, 7, 11],
+        m: [0, 3, 7],
+        "m(9)": [0, 2, 3, 7],
+        m6: [0, 3, 7, 9],
+        "m7(9)": [0, 2, 3, 7, 10],
+        m7: [0, 3, 7, 10],
+        m7b5: [0, 3, 6, 10],
+        "7": [0, 4, 7, 10],
+        "7(b9)": [0, 1, 4, 7, 10],
+        "7(9)": [0, 2, 4, 7, 10],
+        "7(#9)": [0, 3, 4, 7, 10],
+        "7(b13)": [0, 4, 7, 8, 10],
+        "7(13)": [0, 4, 7, 9, 10],
+        "7(#11)": [0, 4, 6, 7, 10],
+        dim7: [0, 3, 6, 9],
+        dim: [0, 3, 6],
+        "7aug": [0, 4, 8, 10],
+        aug: [0, 4, 8],
+        "7sus4": [0, 5, 7, 10],
+        sus4: [0, 5, 7],
     };
 </script>
 
@@ -49,7 +66,7 @@
         for (const [name, shape] of Object.entries(chordShapes)) {
             const rootNote = isChordOfShape(chord, shape);
             if (typeof rootNote === "number") {
-                matchArray.push(`${rootNoteNumToName(rootNote)} ${name}`);
+                matchArray.push(`${rootNoteNumToName(rootNote)}${name}`);
             }
         }
 
