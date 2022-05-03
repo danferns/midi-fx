@@ -1,4 +1,5 @@
 <script>
+    import { boundValue } from "../../ts/util/MathUtil";
     export let size = 24; // pixels
     export let percent = 50;
     export let onReset = (p) => {
@@ -23,10 +24,6 @@
     let notchStart, notchEnd;
     $: notchStart = polarToCartesian(x, y, meterRadius * 0.65, endAngle);
     $: notchEnd = polarToCartesian(x, y, meterRadius * 0.825, endAngle);
-
-    function boundValue(val, min, max) {
-        return Math.min(Math.max(val, min), max);
-    }
 
     function polarToCartesian(centerX, centerY, radius, degrees) {
         const radians = ((degrees - 90) * Math.PI) / 180.0;
