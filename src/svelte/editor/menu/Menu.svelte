@@ -7,6 +7,7 @@
         "Input / Output": {
             "External Input": "midi-input",
             "External Output": "midi-output",
+            "Serial Controller": "serial-controller",
         },
         Filter: {
             Filter: "filter",
