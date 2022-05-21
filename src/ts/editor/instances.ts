@@ -91,53 +91,6 @@ export type PortableInstances = {
     };
 };
 
-// example
-const nodes: PortableInstances = {
-    in: {
-        type: "midi-input",
-        position: [-550, -190],
-        connections: {
-            MIDI: [["chordExplorer", "MIDI"]],
-        },
-    },
-    out: {
-        type: "midi-output",
-        position: [550, 65],
-        connections: {},
-    },
-    filter: {
-        type: "filter",
-        position: [-159, 137],
-        connections: {
-            MIDI: [
-                ["delay", "MIDI"],
-                ["out", "MIDI"],
-            ],
-        },
-    },
-    delay: {
-        type: "delay",
-        position: [65, -84],
-        connections: {
-            MIDI: [["transpose", "MIDI"]],
-        },
-    },
-    transpose: {
-        type: "transpose",
-        position: [286, -132],
-        connections: {
-            MIDI: [["out", "MIDI"]],
-        },
-    },
-    chordExplorer: {
-        type: "chord-explorer",
-        position: [-490, 111],
-        connections: {
-            MIDI: [["filter", "MIDI"]],
-        },
-    },
-};
-
 export async function applyPortableInstances(portableInstances: PortableInstances) {
     // start by resetting the live instances
     instances.set({});
@@ -174,5 +127,3 @@ export function getPortableInstances() {
 
     return jsonNodes;
 }
-
-// applyPortableInstances(nodes);
