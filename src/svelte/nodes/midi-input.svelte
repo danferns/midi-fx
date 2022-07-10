@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { createEmitter } from "../../ts/util/NodeUtil";
+    import { createEmitter } from "src/ts/util/NodeUtil";
     export let id: string;
     export const outputs: NodeOutputs = {
         MIDI: new Set(),
@@ -11,7 +11,7 @@
     import DropDown from "../widgets/DropDown.svelte";
     import Title from "../widgets/Title.svelte";
 
-    import { storage } from "../../ts/storage";
+    import { storage } from "src/ts/storage";
     import { onMount, createEventDispatcher, tick } from "svelte";
     import { Input, WebMidi, Message } from "webmidi";
 

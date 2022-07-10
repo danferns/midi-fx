@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { createEmitter } from "../../ts/util/NodeUtil";
+    import { createEmitter } from "src/ts/util/NodeUtil";
     import Knob from "../widgets/Knob.svelte";
     import NodeUi from "../widgets/NodeUI.svelte";
     import Title from "../widgets/Title.svelte";

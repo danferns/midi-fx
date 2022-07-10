@@ -1,6 +1,6 @@
 <script lang="ts" context="module">
-    import { Instances, instances } from "../../../src/ts/editor/instances";
-    import Info from "../../res/info";
+    import { Instances, instances } from "src/ts/editor/instances";
+    import Info from "src/res/info";
     import { writable } from "svelte/store";
 
     let insts: Instances = {};

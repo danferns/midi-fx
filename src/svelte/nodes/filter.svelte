@@ -33,7 +33,7 @@
 </script>
 
 <script lang="ts">
-    import { createEmitter } from "../../ts/util/NodeUtil";
+    import { createEmitter } from "src/ts/util/NodeUtil";
     export let id: string;
     export const inputs: NodeInputs = {
         MIDI: (status, data1, data2) => {

@@ -12,7 +12,7 @@
 </script>
 
 <script lang="ts">
-    import { createEmitter } from "../../ts/util/NodeUtil";
+    import { createEmitter } from "src/ts/util/NodeUtil";
     import NodeUi from "../widgets/NodeUI.svelte";
     import Title from "../widgets/Title.svelte";
     export let id: string;

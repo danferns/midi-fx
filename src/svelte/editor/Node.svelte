@@ -7,7 +7,7 @@
         destroyNode,
         Instances,
         instances,
-    } from "../../ts/editor/instances";
+    } from "src/ts/editor/instances";
     import PseudoPath, { pseudoConnection } from "./PseudoPath.svelte";
 
     import { translateX, translateY, scale } from "./NodeEditor.svelte";

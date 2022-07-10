@@ -8,7 +8,7 @@
 
 <script lang="ts">
     import Path from "./Path.svelte";
-    import { instances } from "../../ts/editor/instances";
+    import { instances } from "src/ts/editor/instances";
     import { translateX, translateY, scale } from "./NodeEditor.svelte";
 
     let insts;

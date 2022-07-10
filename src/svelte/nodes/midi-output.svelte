@@ -13,7 +13,7 @@
     import Title from "../widgets/Title.svelte";
     import DropDown from "../widgets/DropDown.svelte";
 
-    import { storage } from "../../ts/storage";
+    import { storage } from "src/ts/storage";
     import { onMount, tick, createEventDispatcher } from "svelte";
     import { Output, WebMidi } from "webmidi";
 

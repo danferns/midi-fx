@@ -1,5 +1,5 @@
 <script>
-    import { boundValue } from "../../ts/util/MathUtil";
+    import { boundValue } from "src/ts/util/MathUtil";
     export let size = 24; // pixels
     export let percent = 50;
     export let onReset = (p) => {

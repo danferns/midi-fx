@@ -9,7 +9,7 @@
 <script lang="ts">
     import Node from "./Node.svelte";
     import Path from "./Path.svelte";
-    import { Instances, instances } from "../../ts/editor/instances";
+    import { Instances, instances } from "src/ts/editor/instances";
     import Menu from "./menu/Menu.svelte";
     import InfoModal from "./InfoModal.svelte";
     import { onMount } from "svelte";
@@ -18,7 +18,7 @@
         loadBuiltInPreset,
         loadEditorState,
         saveEditorState,
-    } from "../../ts/editor/save";
+    } from "src/ts/editor/save";
 
     onMount(async () => {
         if (isSavedStateAvailable()) {

@@ -28,8 +28,8 @@
 </script>
 
 <script lang="ts">
-    import { rootNoteNumToName } from "../../ts/util/Notation";
-    import { createEmitter } from "../../ts/util/NodeUtil";
+    import { rootNoteNumToName } from "src/ts/util/Notation";
+    import { createEmitter } from "src/ts/util/NodeUtil";
     import NodeUi from "../widgets/NodeUI.svelte";
     import Title from "../widgets/Title.svelte";
     import { isNoteOff, isNoteOn } from "./note-splitter.svelte";

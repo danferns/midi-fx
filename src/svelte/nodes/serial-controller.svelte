@@ -1,6 +1,6 @@
 <script lang="ts">
     import { onMount } from "svelte";
-    import { createEmitter } from "../../ts/util/NodeUtil";
+    import { createEmitter } from "src/ts/util/NodeUtil";
     import Button from "../widgets/Button.svelte";
     import NodeUi from "../widgets/NodeUI.svelte";
     import NumericInput from "../widgets/NumericInput.svelte";

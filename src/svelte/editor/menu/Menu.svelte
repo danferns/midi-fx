@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { addNode } from "../../../ts/editor/instances";
+    import { addNode } from "src/ts/editor/instances";
 
     import MenuItem, { menuItem } from "./MenuItem.svelte";
 
