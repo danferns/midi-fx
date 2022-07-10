@@ -11,6 +11,7 @@
     import Path from "./Path.svelte";
     import { Instances, instances } from "../../ts/editor/instances";
     import Menu from "./menu/Menu.svelte";
+    import InfoModal from "./InfoModal.svelte";
     import { onMount } from "svelte";
     import {
         isSavedStateAvailable,
@@ -90,6 +91,8 @@
         {/each}
     {/each}
 </main>
+
+<InfoModal />
 
 <style>
     main {

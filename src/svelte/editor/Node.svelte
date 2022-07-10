@@ -4,12 +4,16 @@
     import {
         createConnection,
         destroyConnection,
+        destroyNode,
         Instances,
         instances,
     } from "../../ts/editor/instances";
     import PseudoPath, { pseudoConnection } from "./PseudoPath.svelte";
 
     import { translateX, translateY, scale } from "./NodeEditor.svelte";
+
+    import ContextMenu from "./ContextMenu.svelte";
+    import { showInfo } from "./InfoModal.svelte";
 
     export let id;
 
@@ -58,6 +62,7 @@
     $instances[id].outputs = guiOutputs;
 
     function handleMousedown(e: MouseEvent) {
+        if (!(e.buttons === 1)) return;
         for (const elm of e.composedPath()) {
             if (
                 (elm as HTMLElement).classList &&
@@ -156,13 +161,50 @@
             }
         }
     }
+
+    let showContextMenu: boolean = false;
+    let contextMenuX: number;
+    let contextMenuY: number;
+
+    function onContextMenu(e: MouseEvent) {
+        contextMenuX = e.clientX / $scale - $translateX / $scale;
+        contextMenuY = e.clientY / $scale - $translateY / $scale;
+        showContextMenu = true;
+    }
+
+    const contextMenuItems: {
+        [key: string]: () => void;
+    } = {
+        Info: () => {
+            showInfo(id);
+        },
+        "Delete Node": () => {
+            destroyNode(id);
+        },
+    };
 </script>
+
+{#if showContextMenu}
+    <ContextMenu
+        items={contextMenuItems}
+        x={contextMenuX}
+        y={contextMenuY}
+        on:close={() => {
+            showContextMenu = false;
+        }}
+    />
+{/if}
 
 <PseudoPath />
 
 <svelte:window on:resize={updateCoords} />
 
-<div class="node" on:mousedown|stopPropagation={handleMousedown} style="--x: {x}px; --y: {y}px;">
+<div
+    class="node"
+    on:mousedown|stopPropagation={handleMousedown}
+    on:contextmenu|preventDefault={onContextMenu}
+    style="--x: {x}px; --y: {y}px;"
+>
     {#each Object.entries(guiInputs) as [name]}
         <div class="input">
             <span>{name}</span>

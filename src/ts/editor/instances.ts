@@ -9,7 +9,7 @@ instances.subscribe((insts: Instances) => {
     localInstances = insts;
 });
 
-export async function createNode(id, type, position) {
+export async function createNode(id: string, type: string, position: [number, number]) {
     const component = await import(`../../svelte/nodes/${type}.svelte`);
 
     instances.update((insts: Instances) => {
@@ -36,7 +36,25 @@ export async function addNode(type: string) {
     }
 }
 
-export function createConnection(outputNode, outputName, connection) {
+export function destroyNode(id: string) {
+    instances.update((insts: Instances) => {
+        // destroy any connections to this node
+        for (const instance of Object.keys(insts)) {
+            for (const output of Object.keys(insts[instance].outputs)) {
+                for (const connection of insts[instance].outputs[output].connections) {
+                    if (connection[0] === id) {
+                        insts[instance].outputs[output].connections.delete(connection);
+                    }
+                }
+            }
+        }
+
+        delete insts[id];
+        return insts;
+    })
+}
+
+export function createConnection(outputNode: string, outputName: string, connection: [string, string]) {
     instances.update((insts) => {
         for (const conn of insts[outputNode].outputs[outputName].connections) {
             // check if this connection already exists
@@ -51,7 +69,7 @@ export function createConnection(outputNode, outputName, connection) {
     });
 }
 
-export function destroyConnection(outputNode, outputName, connection) {
+export function destroyConnection(outputNode: string, outputName: string, connection: [string, string]) {
     instances.update((insts) => {
         for (const conn of insts[outputNode].outputs[outputName].connections) {
             if (conn[0] === connection[0] && conn[1] === connection[1]) {
