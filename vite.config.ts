@@ -32,4 +32,5 @@ export default defineConfig({
     resolve: {
         alias: [{ find: "src", replacement: resolve(__dirname, "src") }],
     },
+    base: "/midi-fx/",
 });
