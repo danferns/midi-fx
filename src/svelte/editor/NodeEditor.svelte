@@ -41,7 +41,10 @@
         localInstances = val;
     });
 
+    let editor: HTMLElement;
+
     function onEditorMouseDown(e: MouseEvent) {
+        if (!e.composedPath().includes(editor)) return;
         if (e.buttons === 1) {
             e.stopPropagation();
             window.addEventListener("mousemove", onEditorMouseDrag);
@@ -74,23 +77,25 @@
 <svelte:window on:mousedown={onEditorMouseDown} on:wheel={onEditorScroll} />
 
 <Menu />
-<main style="transform: translate({$translateX}px, {$translateY}px) scale({$scale});">
-    {#each Object.entries(localInstances) as [key, instance]}
-        <Node id={key} x={instance.x} y={instance.y} gui={instance.component} />
+<div bind:this={editor}>
+    <main style="transform: translate({$translateX}px, {$translateY}px) scale({$scale});">
+        {#each Object.entries(localInstances) as [key, instance]}
+            <Node id={key} x={instance.x} y={instance.y} gui={instance.component} />
 
-        {#each Object.entries(instance.outputs) as [outputName, output]}
-            {#each [...output.connections.values()] as connection}
-                <Path
-                    x1={localInstances[key].outputs[outputName].x}
-                    y1={localInstances[key].outputs[outputName].y}
-                    x2={localInstances[connection[0]].inputs[connection[1]].x}
-                    y2={localInstances[connection[0]].inputs[connection[1]].y}
-                    active={output.active}
-                />
+            {#each Object.entries(instance.outputs) as [outputName, output]}
+                {#each [...output.connections.values()] as connection}
+                    <Path
+                        x1={localInstances[key].outputs[outputName].x}
+                        y1={localInstances[key].outputs[outputName].y}
+                        x2={localInstances[connection[0]].inputs[connection[1]].x}
+                        y2={localInstances[connection[0]].inputs[connection[1]].y}
+                        active={output.active}
+                    />
+                {/each}
             {/each}
         {/each}
-    {/each}
-</main>
+    </main>
+</div>
 
 <InfoModal />
 
@@ -105,5 +110,10 @@
         --background: hsl(0 0% 10%);
         --background-accent: hsl(0 0% 20%);
         --background-accent-focused: hsl(0 0% 30%);
+    }
+
+    div {
+        height: 100%;
+        width: 100%;
     }
 </style>
