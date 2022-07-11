@@ -14,7 +14,6 @@
     export function showInfo(id: string) {
         type.set(insts[id].type);
         info.set(Info[insts[id].type] || "No information available.");
-        console.log(Info);
     }
 </script>
 
