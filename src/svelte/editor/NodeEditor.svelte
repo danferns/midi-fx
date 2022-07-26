@@ -43,19 +43,19 @@
 
     let editor: HTMLElement;
 
-    function onEditorMouseDown(e: MouseEvent) {
+    function onEditorMouseDown(e: PointerEvent) {
         if (!e.composedPath().includes(editor)) return;
-        if (e.buttons === 1) {
+        if (e.pointerType !== "mouse" || e.buttons === 1) {
             e.stopPropagation();
-            window.addEventListener("mousemove", onEditorMouseDrag);
-            window.addEventListener("mouseup", onEditorMouseUp);
+            window.addEventListener("pointermove", onEditorMouseDrag);
+            window.addEventListener("pointerup", onEditorMouseUp);
             window.addEventListener("blur", onEditorMouseUp);
         }
     }
 
     function onEditorMouseUp() {
-        window.removeEventListener("mousemove", onEditorMouseDrag);
-        window.removeEventListener("mouseup", onEditorMouseUp);
+        window.removeEventListener("pointermove", onEditorMouseDrag);
+        window.removeEventListener("pointerup", onEditorMouseUp);
         window.removeEventListener("blur", onEditorMouseUp);
     }
 
@@ -74,7 +74,7 @@
     }
 </script>
 
-<svelte:window on:mousedown={onEditorMouseDown} on:wheel={onEditorScroll} />
+<svelte:window on:pointerdown={onEditorMouseDown} on:wheel={onEditorScroll} />
 
 <Menu />
 <div bind:this={editor}>
@@ -104,6 +104,7 @@
         height: 100%;
         width: 100%;
         transform-origin: 0 0 0;
+        touch-action: none;
     }
 
     :global(:root) {

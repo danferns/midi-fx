@@ -63,5 +63,6 @@
         display: flex;
 
         font-family: Arial, Helvetica, sans-serif;
+        user-select: none;
     }
 </style>

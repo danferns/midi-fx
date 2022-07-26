@@ -40,7 +40,7 @@
 </script>
 
 <svelte:window
-    on:mousemove={(e) => {
+    on:pointermove={(e) => {
         mouseX = e.clientX;
         mouseY = e.clientY;
     }}

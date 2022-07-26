@@ -61,8 +61,8 @@
     $instances[id].inputs = guiInputs;
     $instances[id].outputs = guiOutputs;
 
-    function handleMousedown(e: MouseEvent) {
-        if (!(e.buttons === 1)) return;
+    function handlePointerdown(e: PointerEvent) {
+        if (e.pointerType === "mouse" && !(e.buttons === 1)) return;
         for (const elm of e.composedPath()) {
             if (
                 (elm as HTMLElement).classList &&
@@ -70,14 +70,15 @@
             )
                 return;
         }
-        window.addEventListener("mousemove", handleMousemove);
-        window.addEventListener("mouseup", handleMouseup);
-        window.addEventListener("blur", handleMouseup);
+        window.addEventListener("pointermove", handlePointermove);
+        window.addEventListener("pointerup", handlePointerup);
+        window.addEventListener("blur", handlePointerup);
     }
 
-    function handleMousemove(event: MouseEvent) {
-        x += event.movementX / $scale;
-        y += event.movementY / $scale;
+    function handlePointermove(e: PointerEvent) {
+        e.preventDefault();
+        x += e.movementX / $scale;
+        y += e.movementY / $scale;
         updateCoords();
     }
 
@@ -103,10 +104,10 @@
         });
     }
 
-    function handleMouseup() {
-        window.removeEventListener("mousemove", handleMousemove);
-        window.removeEventListener("mouseup", handleMouseup);
-        window.removeEventListener("blur", handleMouseup);
+    function handlePointerup() {
+        window.removeEventListener("pointermove", handlePointermove);
+        window.removeEventListener("pointerup", handlePointerup);
+        window.removeEventListener("blur", handlePointerup);
     }
 
     onMount(async () => {
@@ -114,8 +115,8 @@
         updateCoords();
     });
 
-    function onOutputMousedown(e: MouseEvent, name: string) {
-        if (e.buttons === 1) {
+    function onOutputPointerdown(e: PointerEvent, name: string) {
+        if (e.pointerType !== "mouse" || e.buttons === 1) {
             e.stopPropagation();
 
             pseudoConnection.update((val) => {
@@ -125,7 +126,7 @@
         }
     }
 
-    function onInputMouseup(e: MouseEvent, name: string) {
+    function onInputPointerup(e: Event, name: string) {
         pseudoConnection.update((val) => {
             if (val.from) {
                 createConnection(val.from[0], val.from[1], [id, name]);
@@ -135,30 +136,42 @@
         });
     }
 
-    function onInputMouseleave(e: MouseEvent, name: string) {
-        if (e.buttons === 1) {
+    function onInputPointerdown(e: PointerEvent, name: string) {
+        if (e.pointerType !== "mouse" || e.buttons === 1) {
             e.stopPropagation();
-            let outputNode, outputName;
-            instances.update((val: Instances) => {
-                for (const node of Object.entries(val)) {
-                    for (const output of Object.entries(node[1].outputs)) {
-                        for (const connection of output[1].connections) {
-                            if (connection[0] === id && connection[1] === name) {
-                                outputNode = node[0];
-                                outputName = output[0];
+
+            function onInputPointerleave(e: PointerEvent) {
+                if (e.pointerType !== "mouse" || e.buttons === 1) {
+                    e.stopPropagation();
+                    let outputNode, outputName;
+                    instances.update((val: Instances) => {
+                        for (const node of Object.entries(val)) {
+                            for (const output of Object.entries(node[1].outputs)) {
+                                for (const connection of output[1].connections) {
+                                    if (connection[0] === id && connection[1] === name) {
+                                        outputNode = node[0];
+                                        outputName = output[0];
+                                    }
+                                }
                             }
                         }
+                        return val;
+                    });
+                    if (outputNode) {
+                        destroyConnection(outputNode, outputName, [id, name]);
+                        pseudoConnection.update((val) => {
+                            val.from = [outputNode, outputName];
+                            return val;
+                        });
                     }
                 }
-                return val;
-            });
-            if (outputNode) {
-                destroyConnection(outputNode, outputName, [id, name]);
-                pseudoConnection.update((val) => {
-                    val.from = [outputNode, outputName];
-                    return val;
-                });
             }
+
+            e.target.addEventListener("pointerleave", onInputPointerleave);
+
+            window.addEventListener("pointerup", () => {
+                e.target.removeEventListener("pointerleave", onInputPointerleave);
+            });
         }
     }
 
@@ -201,7 +214,7 @@
 
 <div
     class="node"
-    on:mousedown|stopPropagation={handleMousedown}
+    on:pointerdown|stopPropagation={handlePointerdown}
     on:contextmenu|preventDefault={onContextMenu}
     style="--x: {x}px; --y: {y}px;"
 >
@@ -211,13 +224,10 @@
             <div
                 class={name}
                 bind:this={inputElements[name]}
-                on:mouseup={(e) => {
-                    onInputMouseup(e, name);
+                on:pointerup={(e) => {
+                    onInputPointerup(e, name);
                 }}
-                on:mouseleave={(e) => {
-                    onInputMouseleave(e, name);
-                }}
-                on:mousedown|stopPropagation
+                on:pointerdown|stopPropagation={(e) => onInputPointerdown(e, name)}
             />
         </div>
     {/each}
@@ -237,8 +247,8 @@
             <div
                 class={name}
                 bind:this={outputElements[name]}
-                on:mousedown={(e) => {
-                    onOutputMousedown(e, name);
+                on:pointerdown={(e) => {
+                    onOutputPointerdown(e, name);
                 }}
             />
         </div>
