@@ -43,23 +43,23 @@
 
     let editor: HTMLElement;
 
-    function onEditorMouseDown(e: PointerEvent) {
+    function onEditorPointerDown(e: PointerEvent) {
         if (!e.composedPath().includes(editor)) return;
         if (e.pointerType !== "mouse" || e.buttons === 1) {
             e.stopPropagation();
-            window.addEventListener("pointermove", onEditorMouseDrag);
-            window.addEventListener("pointerup", onEditorMouseUp);
-            window.addEventListener("blur", onEditorMouseUp);
+            window.addEventListener("pointermove", onEditorPointerDrag);
+            window.addEventListener("pointerup", onEditorPointerUp);
+            window.addEventListener("blur", onEditorPointerUp);
         }
     }
 
-    function onEditorMouseUp() {
-        window.removeEventListener("pointermove", onEditorMouseDrag);
-        window.removeEventListener("pointerup", onEditorMouseUp);
-        window.removeEventListener("blur", onEditorMouseUp);
+    function onEditorPointerUp() {
+        window.removeEventListener("pointermove", onEditorPointerDrag);
+        window.removeEventListener("pointerup", onEditorPointerUp);
+        window.removeEventListener("blur", onEditorPointerUp);
     }
 
-    function onEditorMouseDrag(e: MouseEvent) {
+    function onEditorPointerDrag(e: PointerEvent) {
         $translateX += e.movementX;
         $translateY += e.movementY;
     }
@@ -74,7 +74,7 @@
     }
 </script>
 
-<svelte:window on:pointerdown={onEditorMouseDown} on:wheel={onEditorScroll} />
+<svelte:window on:pointerdown={onEditorPointerDown} on:wheel={onEditorScroll} />
 
 <Menu />
 <div bind:this={editor}>
