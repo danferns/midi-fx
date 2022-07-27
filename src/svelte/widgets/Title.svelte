@@ -1,4 +1,4 @@
-<span><slot /></span>
+<span on:dblclick><slot /></span>
 
 <style>
     span {

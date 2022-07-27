@@ -8,4 +8,7 @@ export default {
     scale: `Scales the velocity of note on / off MIDI messages.`,
     "serial-controller": `Receives an integer (0-127) from a serial device and forwards that as a Control Change message on Channel 0.`,
     transpose: `Transposes note on / off events by the given semitones.`,
+    "typing-keyboard": `Turns your typing keyboard into a MIDI input device. You can choose between multiple key mappings.
+    
+    Double-click on "Typing Keyboard" to view the active mapping file.`,
 };
