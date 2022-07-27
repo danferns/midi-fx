@@ -70,7 +70,7 @@
     }
 
     async function setMapping(filename: string) {
-        const file = "/keymaps/" + filename + ".json";
+        const file = "./keymaps/" + filename + ".json";
         mappingData = await fetch(file)
             .then((response) => {
                 if (!response.ok) throw new Error("HTTP error " + response.status);
