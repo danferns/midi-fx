@@ -16,7 +16,7 @@
     "@typescript-eslint/parser": "^5.14.0",
     "eslint": "^8.10.0",
     "prettier": "^2.5.1",
-    "svelte": "^3.44.0",
+    "svelte": "^3.49.0",
     "svelte-check": "^2.2.7",
     "svelte-preprocess": "^4.9.8",
     "tslib": "^2.3.1",
