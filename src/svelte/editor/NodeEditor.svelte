@@ -80,7 +80,13 @@
 <div bind:this={editor}>
     <main style="transform: translate({$translateX}px, {$translateY}px) scale({$scale});">
         {#each Object.entries(localInstances) as [key, instance]}
-            <Node id={key} x={instance.x} y={instance.y} gui={instance.component} />
+            <Node
+                id={key}
+                x={instance.x}
+                y={instance.y}
+                gui={instance.component}
+                bind:state={instance.state}
+            />
 
             {#each Object.entries(instance.outputs) as [outputName, output]}
                 {#each [...output.connections.values()] as connection}

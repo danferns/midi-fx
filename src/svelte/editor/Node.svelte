@@ -21,6 +21,7 @@
     export let y = 0;
 
     export let gui;
+    export let state;
 
     let nodeInputs = {};
     let nodeOutputs = {};
@@ -238,6 +239,7 @@
             updateCoords();
         }}
         {id}
+        bind:state
         bind:inputs={nodeInputs}
         bind:outputs={nodeOutputs}
     />

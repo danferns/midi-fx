@@ -9,7 +9,12 @@ instances.subscribe((insts: Instances) => {
     localInstances = insts;
 });
 
-export async function createNode(id: string, type: string, position: [number, number]) {
+export async function createNode(
+    id: string,
+    type: string,
+    position: [number, number],
+    state: { [key: string]: unknown } | undefined = undefined
+) {
     const component = await import(`../../svelte/nodes/${type}.svelte`);
 
     instances.update((insts: Instances) => {
@@ -20,6 +25,7 @@ export async function createNode(id: string, type: string, position: [number, nu
             outputs: {},
             x: position[0],
             y: position[1],
+            state: state,
         };
         return insts;
     });
@@ -51,10 +57,14 @@ export function destroyNode(id: string) {
 
         delete insts[id];
         return insts;
-    })
+    });
 }
 
-export function createConnection(outputNode: string, outputName: string, connection: [string, string]) {
+export function createConnection(
+    outputNode: string,
+    outputName: string,
+    connection: [string, string]
+) {
     instances.update((insts) => {
         for (const conn of insts[outputNode].outputs[outputName].connections) {
             // check if this connection already exists
@@ -69,7 +79,11 @@ export function createConnection(outputNode: string, outputName: string, connect
     });
 }
 
-export function destroyConnection(outputNode: string, outputName: string, connection: [string, string]) {
+export function destroyConnection(
+    outputNode: string,
+    outputName: string,
+    connection: [string, string]
+) {
     instances.update((insts) => {
         for (const conn of insts[outputNode].outputs[outputName].connections) {
             if (conn[0] === connection[0] && conn[1] === connection[1]) {
@@ -96,6 +110,7 @@ export type Instances = {
         outputs: { [key: string]: GUIOutput };
         x: number;
         y: number;
+        state: { [key: string]: unknown } | undefined;
     };
 };
 
@@ -106,6 +121,7 @@ export type PortableInstances = {
         connections: {
             [key: string]: [string, string][];
         };
+        state: { [key: string]: unknown };
     };
 };
 
@@ -114,7 +130,7 @@ export async function applyPortableInstances(portableInstances: PortableInstance
     instances.set({});
 
     for (const [id, node] of Object.entries(portableInstances)) {
-        await createNode(id, node.type, node.position);
+        await createNode(id, node.type, node.position, node.state);
     }
 
     for (const [id, node] of Object.entries(portableInstances)) {
@@ -134,6 +150,7 @@ export function getPortableInstances() {
             type: instance.type,
             position: [instance.x, instance.y],
             connections: {},
+            state: instance.state,
         };
 
         for (const [outputName, output] of Object.entries(instance.outputs)) {
