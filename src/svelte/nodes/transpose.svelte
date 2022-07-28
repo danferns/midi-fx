@@ -4,7 +4,7 @@
     export const inputs: NodeInputs = {
         MIDI: (status, data1, data2) => {
             if (messageTypes["Note On / Off"](status)) {
-                const transposedNote = data1 + transpose;
+                const transposedNote = data1 + state.transpose;
                 if (transposedNote > 0 && transposedNote < 127) {
                     emit("MIDI", status, transposedNote, data2);
                 }
@@ -16,6 +16,9 @@
     export const outputs: NodeOutputs = {
         MIDI: new Set(),
     };
+    export let state = {
+        transpose: 0,
+    };
 
     const emit = createEmitter(id, outputs);
 
@@ -24,11 +27,9 @@
     import NumericInput from "../widgets/NumericInput.svelte";
 
     import { messageTypes } from "./filter.svelte";
-
-    let transpose = 0;
 </script>
 
 <NodeUI width="150">
     <Title>Transpose</Title>
-    <NumericInput bind:value={transpose} />
+    <NumericInput bind:value={state.transpose} />
 </NodeUI>

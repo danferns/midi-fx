@@ -17,11 +17,13 @@
     export const outputs: NodeOutputs = {
         MIDI: new Set(),
     };
+    export let state = {
+        mapping: "Default",
+        transpose: 0,
+    };
     const emit = createEmitter(id, outputs);
 
     const activeKeys = new Set<string>();
-    let transpose = 0;
-    let mapping = "Default";
     let mappingData: {
         notes: {
             [key: string]: number;
@@ -43,11 +45,11 @@
 
         if (Object.keys(mappingData.notes).includes(key)) {
             activeKeys.add(key);
-            const note = mappingData.notes[key] + transpose;
+            const note = mappingData.notes[key] + state.transpose;
             if (note >= 0 && note <= 127) emit("MIDI", 144, note, 127);
         } else if (Object.keys(mappingData.transpose).includes(key)) {
             clearActiveKeys();
-            transpose = boundValue(transpose + mappingData.transpose[key], -127, 127);
+            state.transpose = boundValue(state.transpose + mappingData.transpose[key], -127, 127);
         }
     }
 
@@ -57,14 +59,14 @@
 
         activeKeys.delete(key);
         if (Object.keys(mappingData.notes).includes(key)) {
-            const note = mappingData.notes[key] + transpose;
+            const note = mappingData.notes[key] + state.transpose;
             if (note >= 0 && note <= 127) emit("MIDI", 144, note, 0);
         }
     }
 
     function clearActiveKeys() {
         for (const key of activeKeys) {
-            emit("MIDI", 144, mappingData.notes[key] + transpose, 0);
+            emit("MIDI", 144, mappingData.notes[key] + state.transpose, 0);
         }
         activeKeys.clear();
     }
@@ -84,17 +86,19 @@
     function openMappingFile() {
         const link = document.createElement("a");
         link.target = "_blank";
-        link.href = "./keymaps/" + keymaps[mapping] + ".json";
+        link.href = "./keymaps/" + keymaps[state.mapping] + ".json";
         link.click();
     }
 </script>
 
 <NodeUi width="200">
     <Title on:dblclick={openMappingFile}>Typing Keyboard</Title>
-    <DropDown bind:value={mapping} options={Object.keys(keymaps)} />
-    {#await setMapping(keymaps[mapping])}
+    <DropDown bind:value={state.mapping} options={Object.keys(keymaps)} />
+    {#await setMapping(keymaps[state.mapping])}
         <Title>loading...</Title>
     {:then m}
-        <Title>Transpose: {Math.floor(transpose / 12) * 12} + {(transpose + 120) % 12}</Title>
+        <Title>
+            Transpose: {Math.floor(state.transpose / 12) * 12} + {(state.transpose + 120) % 12}
+        </Title>
     {/await}
 </NodeUi>

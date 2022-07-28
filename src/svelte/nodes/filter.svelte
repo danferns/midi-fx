@@ -37,7 +37,7 @@
     export let id: string;
     export const inputs: NodeInputs = {
         MIDI: (status, data1, data2) => {
-            for (const messageType of passThrough) {
+            for (const messageType of state.passThrough) {
                 if (messageTypes[messageType](status)) {
                     emit("MIDI", status, data1, data2);
                     return;
@@ -48,17 +48,18 @@
     export const outputs: NodeOutputs = {
         MIDI: new Set(),
     };
+    export let state = {
+        passThrough: [],
+    };
 
     const emit = createEmitter(id, outputs);
 
     import NodeUI from "../widgets/NodeUI.svelte";
     import LabelledCheckBox from "../widgets/LabelledCheckBox.svelte";
-
-    let passThrough: string[] = [];
 </script>
 
 <NodeUI>
     {#each Object.keys(messageTypes) as messageType}
-        <LabelledCheckBox bind:group={passThrough} name={messageType} />
+        <LabelledCheckBox bind:group={state.passThrough} name={messageType} />
     {/each}
 </NodeUI>

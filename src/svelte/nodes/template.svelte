@@ -3,5 +3,6 @@
     export let id: string;
     export const inputs: NodeInputs = {};
     export const outputs: NodeOutputs = {};
+    export let state = {};
     const emit = createEmitter(id, outputs);
 </script>

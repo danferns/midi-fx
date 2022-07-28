@@ -5,11 +5,14 @@
         MIDI: (status, data1, data2) => {
             setTimeout(() => {
                 emit("MIDI", status, data1, data2);
-            }, millis);
+            }, state.millis);
         },
     };
     export const outputs: NodeOutputs = {
         MIDI: new Set(),
+    };
+    export let state = {
+        millis: 1000,
     };
 
     const emit = createEmitter(id, outputs);
@@ -17,11 +20,9 @@
     import NodeUI from "../widgets/NodeUI.svelte";
     import Title from "../widgets/Title.svelte";
     import NumericInput from "../widgets/NumericInput.svelte";
-
-    let millis = 1000;
 </script>
 
 <NodeUI width="150">
     <Title>Delay (ms)</Title>
-    <NumericInput bind:value={millis} />
+    <NumericInput bind:value={state.millis} />
 </NodeUI>
