@@ -89,12 +89,20 @@
         link.href = "./keymaps/" + keymaps[state.mapping] + ".json";
         link.click();
     }
+
+    // workaround to prevent setMapping() to be called each time global state updates.
+    let activeMapping;
+    $: {
+        if (state.mapping !== activeMapping) {
+            activeMapping = state.mapping;
+        }
+    }
 </script>
 
 <NodeUi width="200">
     <Title on:dblclick={openMappingFile}>Typing Keyboard</Title>
     <DropDown bind:value={state.mapping} options={Object.keys(keymaps)} />
-    {#await setMapping(keymaps[state.mapping])}
+    {#await setMapping(keymaps[activeMapping])}
         <Title>loading...</Title>
     {:then m}
         <Title>
