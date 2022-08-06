@@ -1,7 +1,7 @@
 <script lang="ts">
 </script>
 
-<button on:click><slot /></button>
+<button on:click class="mousedrag"><slot /></button>
 
 <style>
     button {
