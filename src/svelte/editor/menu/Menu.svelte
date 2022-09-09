@@ -9,6 +9,7 @@
             "External Output": "midi-output",
             "Typing Keyboard": "typing-keyboard",
             "Serial Controller": "serial-controller",
+            "Virtual Piano": "virtual-piano",
         },
         Filter: {
             Filter: "filter",
