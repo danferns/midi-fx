@@ -10,9 +10,11 @@
     let bias = 0;
 
     // the accidental keys are not perfectly in center
-    if (!isNatural) {
-        if ([1, 6].includes(noteNum % 12)) bias = -keyWidth / 12;
-        else if ([3, 10].includes(noteNum % 12)) bias = keyWidth / 12;
+    $: {
+        if (!isNatural) {
+            if ([1, 6].includes(noteNum % 12)) bias = -keyWidth / 18;
+            else if ([3, 10].includes(noteNum % 12)) bias = keyWidth / 18;
+        }
     }
 
     function keyPressed() {

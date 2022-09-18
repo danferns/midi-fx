@@ -25,7 +25,9 @@
     "vite-plugin-pwa": "^0.12.2"
   },
   "dependencies": {
+    "@fortawesome/free-solid-svg-icons": "^6.2.0",
     "@types/w3c-web-serial": "^1.0.2",
+    "svelte-fa": "^3.0.3",
     "webmidi": "^3.0.11"
   }
 }

@@ -1,11 +1,11 @@
 <script lang="ts">
+    export let padding: number = 16;
 </script>
 
-<button on:click class="mousedrag"><slot /></button>
+<button on:click class="mousedrag" style:padding={padding}px ><slot /></button>
 
 <style>
     button {
-        padding: 16px;
         font: inherit;
         background: var(--background-accent);
         color: inherit;

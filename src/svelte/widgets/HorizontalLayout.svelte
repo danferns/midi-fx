@@ -1,4 +1,8 @@
-<div><slot /></div>
+<script lang="ts">
+    export let alignItems: "flex-start" | "flex-end" | "center" | "stretch" | "baseline" = "center";
+</script>
+
+<div style:align-items={alignItems}><slot /></div>
 
 <style>
     div {
