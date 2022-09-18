@@ -21,7 +21,7 @@
                 on:noteon
                 on:noteoff
                 pressed={keysPressed.includes(note)}
-                keyWidth={(width - 16) / (octaves * 12 + 1)}
+                keyWidth={(width - 16) / (octaves * 7 + 1)}
             />
         {/each}
     </div>
