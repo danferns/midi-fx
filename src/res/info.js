@@ -6,7 +6,9 @@ export default {
     "midi-output": `Sends MIDI messages to an external MIDI device.`,
     "note-splitter": `Splits "note on" and "note off" events into separate outputs. Other MIDI messages do not pass through this node.`,
     scale: `Scales the velocity of note on / off MIDI messages.`,
-    "serial-controller": `Receives an integer (0-127) from a serial device and forwards that as a Control Change message on Channel 0.`,
+    "serial-input": `Receives MIDI messages from a Serial input, and forwards them. This makes it possible to use microcontrollers (like the Arduino Uno) as MIDI inputs.
+    
+    Messages must be sent as bytes, and not as text. With an Arduino, this can be done by sending each byte in its own Serial.write() command.`,
     transpose: `Transposes note on / off events by the given semitones.`,
     "typing-keyboard": `Turns your typing keyboard into a MIDI input device. You can choose between multiple key mappings.
     

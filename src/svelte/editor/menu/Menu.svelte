@@ -8,7 +8,7 @@
             "External Input": "midi-input",
             "External Output": "midi-output",
             "Typing Keyboard": "typing-keyboard",
-            "Serial Controller": "serial-controller",
+            "Serial Input": "serial-input",
             "Virtual Piano": "virtual-piano",
         },
         Filter: {
