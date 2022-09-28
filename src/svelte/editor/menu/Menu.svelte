@@ -19,6 +19,7 @@
             Delay: "delay",
             Transpose: "transpose",
             Scale: "scale",
+            "Channel Mapper": "channel-mapper",
         },
         Analysis: {
             "Chord Explorer": "chord-explorer",
