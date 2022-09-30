@@ -21,6 +21,7 @@
 
 <script lang="ts">
     import { createEmitter } from "src/ts/util/NodeUtil";
+    import { tick } from "svelte";
     import Matrix from "../widgets/matrix/Matrix.svelte";
     import NodeUi from "../widgets/NodeUI.svelte";
     export let id: string;
@@ -28,6 +29,7 @@
         MIDI: (status, data1, data2) => {
             if (isChannelSpecificMessage(status)) {
                 const channelFrom = getChannel(status);
+                highlightChannels(channelFrom);
                 for (let channelTo = 0; channelTo < 16; channelTo++) {
                     if (state.matrix[channelFrom][channelTo] !== 0) {
                         emit("MIDI", status - channelFrom + channelTo, data1, data2);
@@ -50,8 +52,18 @@
 
     const xArray = channels;
     const yArray = channels;
+
+    async function highlightChannels(channelIndex: number) {
+        xHighlight.add(channelIndex);
+        xHighlight = xHighlight;
+        await tick();
+        xHighlight.delete(channelIndex);
+        xHighlight = xHighlight;
+    }
+
+    let xHighlight: Set<number> = new Set();
 </script>
 
 <NodeUi>
-    <Matrix {xArray} {yArray} bind:state={state.matrix} />
+    <Matrix {xArray} {yArray} bind:state={state.matrix} {xHighlight} />
 </NodeUi>
