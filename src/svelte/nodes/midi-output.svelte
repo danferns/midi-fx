@@ -4,7 +4,7 @@
             const message = [status ? status : runningStatus];
             if (typeof data1 === "number") message.push(data1);
             if (typeof data1 === "number" && typeof data2 === "number") message.push(data2);
-            activeOutput.send(message);
+            activeOutput?.send(message);
             runningStatus = status ? status : runningStatus;
         },
     };
