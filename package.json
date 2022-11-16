@@ -29,6 +29,7 @@
     "@types/w3c-web-serial": "^1.0.2",
     "colord": "^2.9.3",
     "svelte-fa": "^3.0.3",
+    "webgl-plot": "^0.7.0",
     "webmidi": "^3.0.11"
   }
 }

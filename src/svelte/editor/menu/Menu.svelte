@@ -24,6 +24,7 @@
         },
         Analysis: {
             "Chord Explorer": "chord-explorer",
+            "CC Visualizer": "cc-visualizer",
         },
     };
 
