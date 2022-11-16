@@ -21,6 +21,7 @@
             Transpose: "transpose",
             Scale: "scale",
             "Channel Mapper": "channel-mapper",
+            "Velocity to CC": "velocity-to-cc",
         },
         Analysis: {
             "Chord Explorer": "chord-explorer",
