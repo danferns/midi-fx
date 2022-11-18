@@ -34,8 +34,8 @@
         octaves: 2,
         middleOctave: 5,
         showGui: true,
-        height: 160,
-        width: 1400,
+        height: 90,
+        width: 400,
     };
     const emit = createEmitter(id, outputs);
     const dispatch = createEventDispatcher();
