@@ -65,7 +65,7 @@
     }
 
     function onEditorScroll(e: WheelEvent) {
-        const newScale = $scale - Math.sign(e.deltaY) * 0.1;
+        const newScale = $scale * (1 - Math.sign(e.deltaY) * 0.1);
         if (newScale > 0.3 && newScale < 3) {
             $translateX = e.clientX - (e.clientX - $translateX) * newScale / $scale;
             $translateY = e.clientY - (e.clientY - $translateY) * newScale / $scale;
