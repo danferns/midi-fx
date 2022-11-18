@@ -1,10 +1,19 @@
 import { storage } from "../storage";
-import { applyPortableInstances, getPortableInstances } from "./instances";
+import { applyPortableInstances, getPortableInstances, PortableInstances } from "./instances";
+import { getTransform, setTransform, Transform } from "./transform";
+
+export type State = {
+    instances: PortableInstances;
+    transform?: Transform;
+};
 
 const editorStateStore = new storage.local("editor-state");
 
 export function saveEditorState() {
-    const state = getPortableInstances();
+    const state: State = {
+        instances: getPortableInstances(),
+        transform: getTransform(),
+    };
     editorStateStore.setValue(JSON.stringify(state));
 }
 
@@ -14,13 +23,27 @@ export function isSavedStateAvailable() {
 }
 
 export async function loadEditorState() {
-    const state = JSON.parse(editorStateStore.getValue());
-    if (typeof state === "object") {
-        await applyPortableInstances(state);
+    const state: State = JSON.parse(editorStateStore.getValue());
+    if (isStateValid(state)) {
+        if (state.transform) setTransform(state.transform);
+        await applyPortableInstances(state.instances);
     }
 }
 
 export async function loadBuiltInPreset(presetName: string) {
     const json = await fetch(`./presets/${presetName}.json`).then((res) => res.json());
     await applyPortableInstances(json);
+}
+
+function isStateValid(state: State) {
+    if (typeof state === "object") {
+        if (
+            typeof state.instances === "object" &&
+            (state.transform === undefined || typeof state.transform === "object")
+        ) {
+            return true;
+        }
+    }
+
+    return false;
 }

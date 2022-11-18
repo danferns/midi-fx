@@ -1,15 +1,8 @@
-<script lang="ts" context="module">
-    import { writable } from "svelte/store";
-
-    export const translateX = writable(0);
-    export const translateY = writable(0);
-    export const scale = writable(1);
-</script>
-
 <script lang="ts">
     import Node from "./Node.svelte";
     import Path from "./Path.svelte";
     import { Instances, instances } from "src/ts/editor/instances";
+    import { translateX, translateY, scale } from "src/ts/editor/transform";
     import Menu from "./menu/Menu.svelte";
     import InfoModal from "./InfoModal.svelte";
     import { onMount } from "svelte";

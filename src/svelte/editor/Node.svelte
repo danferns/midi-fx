@@ -10,7 +10,7 @@
     } from "src/ts/editor/instances";
     import PseudoPath, { pseudoConnection } from "./PseudoPath.svelte";
 
-    import { translateX, translateY, scale } from "./NodeEditor.svelte";
+    import { translateX, translateY, scale } from "src/ts/editor/transform";
 
     import ContextMenu from "./ContextMenu.svelte";
     import { showInfo } from "./InfoModal.svelte";
