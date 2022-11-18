@@ -263,7 +263,7 @@
         top: calc(50% + var(--y, 0));
         left: calc(50% + var(--x, 0));
         transform: translate(-50%, -50%);
-        min-width: fit-content;
+        min-width: max-content;
         background: hsl(0 0% 0% / 75%);
         border-radius: 16px;
         outline: hsl(0 0% 20%) solid 2px;
