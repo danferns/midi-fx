@@ -1,6 +1,7 @@
 <script lang="ts">
     import { addNode } from "src/ts/editor/instances";
     import {
+        clearEditorState,
         openEditorStateFilePicker,
         saveEditorState,
         saveEditorStateAsFile,
@@ -37,6 +38,9 @@
         [key: string]: menuItem;
     } = {
         File: {
+            Clear: () => {
+                clearEditorState();
+            },
             Load: () => {
                 openEditorStateFilePicker();
             },

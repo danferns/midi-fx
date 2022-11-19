@@ -30,6 +30,11 @@ export async function loadEditorState() {
     }
 }
 
+export async function clearEditorState() {
+    setTransform({ translateX: 0, translateY: 0, scale: 1 });
+    await applyPortableInstances({});
+}
+
 export async function loadBuiltInPreset(presetName: string) {
     const state = await fetch(`./presets/${presetName}.json`).then((res) => res.json());
     if (isStateValid(state)) {
