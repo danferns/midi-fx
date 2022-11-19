@@ -50,3 +50,44 @@ function isStateValid(state: State) {
 
     return false;
 }
+
+export function saveEditorStateAsFile() {
+    const state: State = {
+        instances: getPortableInstances(),
+        transform: getTransform(),
+    };
+    const data = JSON.stringify(state);
+    saveAsFile(data, "Preset.midi-fx");
+}
+
+export function loadEditorStateFromFile(file: File) {
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+        const state: State = JSON.parse(e.target.result as string);
+        if (isStateValid(state)) {
+            if (state.transform) setTransform(state.transform);
+            await applyPortableInstances(state.instances);
+        }
+    };
+    reader.readAsText(file);
+}
+
+export function openEditorStateFilePicker() {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = ".midi-fx";
+    input.onchange = () => {
+        if (input.files) loadEditorStateFromFile(input.files[0]);
+    };
+    input.click();
+}
+
+function saveAsFile(data: string, filename: string) {
+    const blob = new Blob([data], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.download = filename;
+    link.href = url;
+    link.click();
+}

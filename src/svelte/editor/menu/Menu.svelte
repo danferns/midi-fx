@@ -1,6 +1,10 @@
 <script lang="ts">
     import { addNode } from "src/ts/editor/instances";
-    import { saveEditorState } from "src/ts/editor/save";
+    import {
+        openEditorStateFilePicker,
+        saveEditorState,
+        saveEditorStateAsFile,
+    } from "src/ts/editor/save";
 
     import MenuItem, { menuItem } from "./MenuItem.svelte";
 
@@ -33,11 +37,15 @@
         [key: string]: menuItem;
     } = {
         File: {
-            Load: () => {},
+            Load: () => {
+                openEditorStateFilePicker();
+            },
             Save: () => {
                 saveEditorState();
             },
-            "Save as...": () => {},
+            "Save as...": () => {
+                saveEditorStateAsFile();
+            },
         },
         Add: {},
     };
