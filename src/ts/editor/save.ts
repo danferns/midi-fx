@@ -19,7 +19,7 @@ export function saveEditorState() {
 
 export function isSavedStateAvailable() {
     const state = editorStateStore.getValue();
-    return state !== "";
+    return state && state !== "";
 }
 
 export async function loadEditorState() {
@@ -31,12 +31,15 @@ export async function loadEditorState() {
 }
 
 export async function loadBuiltInPreset(presetName: string) {
-    const json = await fetch(`./presets/${presetName}.json`).then((res) => res.json());
-    await applyPortableInstances(json);
+    const state = await fetch(`./presets/${presetName}.json`).then((res) => res.json());
+    if (isStateValid(state)) {
+        if (state.transform) setTransform(state.transform);
+        await applyPortableInstances(state.instances);
+    }
 }
 
 function isStateValid(state: State) {
-    if (typeof state === "object") {
+    if (typeof state === "object" && state !== null) {
         if (
             typeof state.instances === "object" &&
             (state.transform === undefined || typeof state.transform === "object")

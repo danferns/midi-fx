@@ -1,25 +1,27 @@
 {
-    "in": {
-        "type": "midi-input",
-        "position": [
-            -500,
-            0
-        ],
-        "connections": {
-            "MIDI": [
-                [
-                    "out",
-                    "MIDI"
+    "instances": {
+        "in": {
+            "type": "midi-input",
+            "position": [
+                -500,
+                0
+            ],
+            "connections": {
+                "MIDI": [
+                    [
+                        "out",
+                        "MIDI"
+                    ]
                 ]
-            ]
+            }
+        },
+        "out": {
+            "type": "midi-output",
+            "position": [
+                500,
+                0
+            ],
+            "connections": {}
         }
-    },
-    "out": {
-        "type": "midi-output",
-        "position": [
-            500,
-            0
-        ],
-        "connections": {}
     }
 }
