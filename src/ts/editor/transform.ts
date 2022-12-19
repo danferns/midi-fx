@@ -4,12 +4,6 @@ export const translateX = writable(0);
 export const translateY = writable(0);
 export const scale = writable(1);
 
-export type Transform = {
-    scale: number;
-    translateX: number;
-    translateY: number;
-}
-
 const localTransform: Transform = {
     scale: 1,
     translateX: 0,

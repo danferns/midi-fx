@@ -15,12 +15,12 @@ export async function createNode(
     position: [number, number],
     state: { [key: string]: unknown } | undefined = undefined
 ) {
-    const component = await import(`../../svelte/nodes/${type}.svelte`);
+    const componentModule = await import(`../../svelte/nodes/${type}.svelte`);
 
     instances.update((insts: Instances) => {
         insts[id] = {
             type: type,
-            component: component.default,
+            component: componentModule.default,
             inputs: {},
             outputs: {},
             x: position[0],
@@ -31,12 +31,12 @@ export async function createNode(
     });
 }
 
-export async function addNode(type: string) {
+export async function addNode(type: string, position: [number, number] = [0, 0]) {
     const keys = Object.keys(localInstances);
     for (let i = 1; i <= keys.length + 1; i++) {
         const id = "midi-node-" + i.toString();
         if (!keys.includes(id)) {
-            await createNode(id, type, [0, 0]);
+            await createNode(id, type, position);
             return;
         }
     }
@@ -45,11 +45,11 @@ export async function addNode(type: string) {
 export function destroyNode(id: string) {
     instances.update((insts: Instances) => {
         // destroy any connections to this node
-        for (const instance of Object.keys(insts)) {
-            for (const output of Object.keys(insts[instance].outputs)) {
-                for (const connection of insts[instance].outputs[output].connections) {
+        for (const instance of Object.values(insts)) {
+            for (const output of Object.values(instance.outputs)) {
+                for (const connection of output.connections) {
                     if (connection[0] === id) {
-                        insts[instance].outputs[output].connections.delete(connection);
+                        output.connections.delete(connection);
                     }
                 }
             }
@@ -60,70 +60,44 @@ export function destroyNode(id: string) {
     });
 }
 
-export function createConnection(
-    outputNode: string,
-    outputName: string,
-    connection: [string, string]
-) {
-    instances.update((insts) => {
-        for (const conn of insts[outputNode].outputs[outputName].connections) {
+export function createConnection(outputNode: string, outputName: string, connection: Connection) {
+    instances.update((insts: Instances) => {
+        const output = insts[outputNode].outputs[outputName];
+        const input = insts[connection[0]].inputs[connection[1]].node;
+
+        for (const conn of output.connections) {
             // check if this connection already exists
             if (conn[0] === connection[0] && conn[1] === connection[1]) {
                 return insts;
             }
         }
-        insts[outputNode].outputs[outputName].connections.add(connection);
-        const receiver = insts[connection[0]].inputs[connection[1]].node;
-        insts[outputNode].outputs[outputName].node.add(receiver);
+
+        output.connections.add(connection);
+        output.node.add(input);
         return insts;
     });
 }
 
-export function destroyConnection(
-    outputNode: string,
-    outputName: string,
-    connection: [string, string]
-) {
-    instances.update((insts) => {
-        for (const conn of insts[outputNode].outputs[outputName].connections) {
+export function destroyConnection(outputNode: string, outputName: string, connection: Connection) {
+    instances.update((insts: Instances) => {
+        const output = insts[outputNode].outputs[outputName];
+        const input = insts[connection[0]].inputs[connection[1]];
+
+        for (const conn of output.connections) {
             if (conn[0] === connection[0] && conn[1] === connection[1]) {
-                insts[outputNode].outputs[outputName].connections.delete(conn);
+                output.connections.delete(conn);
             }
         }
-        const receiver = insts[connection[0]].inputs[connection[1]].node;
 
-        for (const input of insts[outputNode].outputs[outputName].node) {
-            if (input === receiver) {
-                insts[outputNode].outputs[outputName].node.delete(input);
+        for (const connectedInput of output.node) {
+            if (connectedInput === input.node) {
+                output.node.delete(connectedInput);
             }
         }
 
         return insts;
     });
 }
-
-export type Instances = {
-    [key: string]: {
-        type: string;
-        component;
-        inputs: { [key: string]: GUIInput };
-        outputs: { [key: string]: GUIOutput };
-        x: number;
-        y: number;
-        state: { [key: string]: unknown } | undefined;
-    };
-};
-
-export type PortableInstances = {
-    [key: string]: {
-        type: string;
-        position: [number, number];
-        connections: {
-            [key: string]: [string, string][];
-        };
-        state: { [key: string]: unknown };
-    };
-};
 
 export async function applyPortableInstances(portableInstances: PortableInstances) {
     // start by resetting the live instances

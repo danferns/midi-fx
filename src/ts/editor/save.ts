@@ -1,11 +1,6 @@
 import { storage } from "../storage";
-import { applyPortableInstances, getPortableInstances, PortableInstances } from "./instances";
-import { getTransform, setTransform, Transform } from "./transform";
-
-export type State = {
-    instances: PortableInstances;
-    transform?: Transform;
-};
+import { applyPortableInstances, getPortableInstances } from "./instances";
+import { getTransform, setTransform } from "./transform";
 
 const editorStateStore = new storage.local("editor-state");
 

@@ -16,6 +16,8 @@ type GUIOutput = {
     node: NodeOutput;
     x: number;
     y: number;
-    connections: Set<>;
+    connections: Set<Connection>;
     active: boolean | undefined;
 };
+
+type Connection = [string, string];
