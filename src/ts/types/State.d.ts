@@ -1,4 +1,4 @@
-type State = {
+type EditorState = {
     instances: PortableInstances;
     transform?: Transform;
 };

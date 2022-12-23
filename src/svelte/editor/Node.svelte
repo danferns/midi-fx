@@ -5,7 +5,6 @@
         createConnection,
         destroyConnection,
         destroyNode,
-        Instances,
         instances,
     } from "src/ts/editor/instances";
     import PseudoPath, { pseudoConnection } from "./PseudoPath.svelte";
@@ -15,13 +14,13 @@
     import ContextMenu from "./ContextMenu.svelte";
     import { showInfo } from "./InfoModal.svelte";
 
-    export let id;
+    export let id: string;
 
     export let x = 0;
     export let y = 0;
 
-    export let gui;
-    export let state;
+    export let gui: NodeComponent;
+    export let state: { [key: string]: unknown };
 
     let nodeInputs = {};
     let nodeOutputs = {};

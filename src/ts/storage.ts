@@ -1,14 +1,17 @@
+type storageOnChangeCallback = (newVal: string, oldVal: string) => void;
+type storageUpdateCallback = (oldVal: string) => string;
+
 class storedObject {
     #area: Storage;
     key: string;
     namespace: string;
-    constructor(key, area, namespace) {
+    constructor(key: string, area: Storage, namespace: string) {
         this.key = key;
         this.namespace = namespace;
         this.#area = area;
     }
 
-    setValue(value) {
+    setValue(value: string) {
         this.#area.setItem(this.key, value);
     }
 
@@ -16,13 +19,13 @@ class storedObject {
         return this.#area.getItem(this.key);
     }
 
-    update(func) {
+    update(func: storageUpdateCallback) {
         const oldVal = this.getValue();
         const newVal = func(oldVal);
         this.setValue(newVal);
     }
 
-    onChange(callback) {
+    onChange(callback: storageOnChangeCallback) {
         onChangeCallbacks[this.namespace][this.key] =
             onChangeCallbacks[this.namespace][this.key] || [];
         onChangeCallbacks[this.namespace][this.key].push(callback);
@@ -30,13 +33,13 @@ class storedObject {
 }
 
 class LocalStorage extends storedObject {
-    constructor(key) {
+    constructor(key: string) {
         super(key, window.localStorage, "local");
     }
 }
 
 class SessionStorage extends storedObject {
-    constructor(key) {
+    constructor(key: string) {
         super(key, window.sessionStorage, "session");
     }
 }
@@ -54,6 +57,8 @@ const onChangeCallbacks = {
 window.addEventListener("storage", (e: StorageEvent) => {
     const namespace = e.storageArea === window.localStorage ? "local" : "session";
     if (onChangeCallbacks[namespace][e.key]) {
-        onChangeCallbacks[namespace][e.key].forEach((f) => f(e.newValue, e.oldValue));
+        onChangeCallbacks[namespace][e.key].forEach((f: storageOnChangeCallback) =>
+            f(e.newValue, e.oldValue)
+        );
     }
 });

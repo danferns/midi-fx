@@ -6,7 +6,7 @@
     export let items: { [key: string]: () => any } = {};
     export let x: number, y: number;
 
-    let self;
+    let self: HTMLElement;
 
     document.addEventListener("pointerdown", onPointerDown, true);
 

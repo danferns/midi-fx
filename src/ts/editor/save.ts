@@ -5,7 +5,7 @@ import { getTransform, setTransform } from "./transform";
 const editorStateStore = new storage.local("editor-state");
 
 export function saveEditorState() {
-    const state: State = {
+    const state: EditorState = {
         instances: getPortableInstances(),
         transform: getTransform(),
     };
@@ -18,7 +18,7 @@ export function isSavedStateAvailable() {
 }
 
 export async function loadEditorState() {
-    const state: State = JSON.parse(editorStateStore.getValue());
+    const state: EditorState = JSON.parse(editorStateStore.getValue());
     if (isStateValid(state)) {
         if (state.transform) setTransform(state.transform);
         await applyPortableInstances(state.instances);
@@ -38,7 +38,7 @@ export async function loadBuiltInPreset(presetName: string) {
     }
 }
 
-function isStateValid(state: State) {
+function isStateValid(state: EditorState) {
     if (typeof state === "object" && state !== null) {
         if (
             typeof state.instances === "object" &&
@@ -52,7 +52,7 @@ function isStateValid(state: State) {
 }
 
 export function saveEditorStateAsFile() {
-    const state: State = {
+    const state: EditorState = {
         instances: getPortableInstances(),
         transform: getTransform(),
     };
@@ -63,7 +63,7 @@ export function saveEditorStateAsFile() {
 export function loadEditorStateFromFile(file: File) {
     const reader = new FileReader();
     reader.onload = async (e) => {
-        const state: State = JSON.parse(e.target.result as string);
+        const state: EditorState = JSON.parse(e.target.result as string);
         if (isStateValid(state)) {
             if (state.transform) setTransform(state.transform);
             await applyPortableInstances(state.instances);

@@ -1,7 +1,7 @@
 <script lang="ts">
     import Node from "./Node.svelte";
     import Path from "./Path.svelte";
-    import { Instances, instances } from "src/ts/editor/instances";
+    import { instances } from "src/ts/editor/instances";
     import { translateX, translateY, scale } from "src/ts/editor/transform";
     import Menu from "./menu/Menu.svelte";
     import InfoModal from "./InfoModal.svelte";

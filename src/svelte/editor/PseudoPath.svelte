@@ -11,8 +11,8 @@
     import { instances } from "src/ts/editor/instances";
     import { translateX, translateY, scale } from "src/ts/editor/transform";
 
-    let insts;
-    instances.subscribe((val) => {
+    let insts : Instances;
+    instances.subscribe((val: Instances) => {
         insts = val;
     });
 
