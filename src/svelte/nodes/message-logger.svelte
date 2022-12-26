@@ -9,17 +9,12 @@
     export const inputs: NodeInputs = {
         MIDI: (status, data1, data2) => {
             messageArray.unshift([status, data1, data2]);
-            if (messageArray.length > state.maxItems)
-                messageArray = messageArray.slice(0, state.maxItems);
-            else messageArray = messageArray;
+            messageArray = messageArray;
             emit("MIDI", status, data1, data2);
         },
     };
     export const outputs: NodeOutputs = {
         MIDI: new Set(),
-    };
-    export let state = {
-        maxItems: 1,
     };
     const emit = createEmitter(id, outputs);
 
