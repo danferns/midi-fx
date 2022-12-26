@@ -1,7 +1,11 @@
 {
   "name": "midi-fx",
-  "private": true,
-  "version": "0.0.0",
+  "description": "Node Editor for Creative MIDI Effects",
+  "author": "Daniel Fernandes (https://github.com/danferns)",
+  "homepage": "https://github.com/danferns/midi-fx",
+  "bugs" : "https://github.com/danferns/midi-fx/issues",
+  "license": "GPL-3.0-or-later",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
