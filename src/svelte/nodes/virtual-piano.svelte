@@ -35,7 +35,7 @@
         middleOctave: 5,
         showGui: true,
         height: 90,
-        width: 400,
+        width: 550,
     };
     const emit = createEmitter(id, outputs);
     const dispatch = createEventDispatcher();
