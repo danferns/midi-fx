@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Node from "./Node.svelte";
+    import Node, { isClassinEventPath } from "./Node.svelte";
     import Path from "./Path.svelte";
     import { instances } from "src/ts/editor/instances";
     import { translateX, translateY, scale } from "src/ts/editor/transform";
@@ -58,10 +58,11 @@
     }
 
     function onEditorScroll(e: WheelEvent) {
+        if (isClassinEventPath(e, "scroll")) return;
         const newScale = $scale * (1 - Math.sign(e.deltaY) * 0.1);
         if (newScale > 0.3 && newScale < 3) {
-            $translateX = e.clientX - (e.clientX - $translateX) * newScale / $scale;
-            $translateY = e.clientY - (e.clientY - $translateY) * newScale / $scale;
+            $translateX = e.clientX - ((e.clientX - $translateX) * newScale) / $scale;
+            $translateY = e.clientY - ((e.clientY - $translateY) * newScale) / $scale;
             $scale = newScale;
         }
     }

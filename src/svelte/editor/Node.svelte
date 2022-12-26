@@ -1,3 +1,16 @@
+<script lang="ts" context="module">
+    export function isClassinEventPath(e: Event, className: string) {
+        for (const elm of e.composedPath()) {
+            if (
+                (elm as HTMLElement).classList &&
+                (elm as HTMLElement).classList.contains(className)
+            )
+                return true;
+        }
+        return false;
+    }
+</script>
+
 <script lang="ts">
     import { onMount, tick } from "svelte";
 
@@ -63,13 +76,7 @@
 
     function handlePointerdown(e: PointerEvent) {
         if (e.pointerType === "mouse" && !(e.buttons === 1)) return;
-        for (const elm of e.composedPath()) {
-            if (
-                (elm as HTMLElement).classList &&
-                (elm as HTMLElement).classList.contains("mousedrag")
-            )
-                return;
-        }
+        if (isClassinEventPath(e, "mousedrag")) return;
         window.addEventListener("pointermove", handlePointermove);
         window.addEventListener("pointerup", handlePointerup);
         window.addEventListener("blur", handlePointerup);

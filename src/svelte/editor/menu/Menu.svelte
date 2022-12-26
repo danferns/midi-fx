@@ -31,6 +31,7 @@
         Analysis: {
             "Chord Explorer": "chord-explorer",
             "CC Visualizer": "cc-visualizer",
+            "Message Logger": "message-logger",
         },
     };
 
