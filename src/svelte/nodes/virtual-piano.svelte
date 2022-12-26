@@ -54,16 +54,14 @@
 </script>
 
 <FoldingLayout folded={!state.showGui} on:resize>
-    <HorizontalLayout>
-        <NodeUi>
+    <NodeUi>
+        <HorizontalLayout>
             <Title>Octaves</Title>
             <NumericButtonInput bind:value={state.octaves} />
-        </NodeUi>
-        <NodeUi>
             <Title>Middle C</Title>
             <NumericButtonInput bind:value={state.middleOctave} />
-        </NodeUi>
-    </HorizontalLayout>
+        </HorizontalLayout>
+    </NodeUi>
 </FoldingLayout>
 
 <NodeUi>
@@ -89,8 +87,8 @@
 
             <ResizeCorner
                 onResize={(dx, dy) => {
-                    state.width = boundValue(state.width + 2 * dx, 316, 10000);
-                    state.height = boundValue(state.height + 2 * dy, 86, 10000);
+                    state.width = boundValue(state.width + 2 * dx, 550, 10000);
+                    state.height = boundValue(state.height + 2 * dy, 82, 10000);
                     dispatch("resize");
                 }}
             />
