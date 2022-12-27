@@ -1,6 +1,8 @@
 # MIDI-FX
 
-MIDI-FX lets you transform and analyze MIDI messages in creative ways. It uses a node graph architecture where each node can receive MIDI messages from other nodes, process them, and send transformed MIDI messages to other nodes. 
+MIDI-FX lets you transform and analyze MIDI messages in creative ways. It uses a node graph architecture where each node can receive MIDI messages, process them, and emit transformed MIDI messages for other nodes to receive. 
+
+![Screenshot](/Screenshot.png)
 
 ### Highlights
 
