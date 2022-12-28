@@ -25,16 +25,17 @@ type NodeInputs = { [key: string]: NodeInput };
 
 type NodeOutputs = { [key: string]: NodeOutput };
 
-type GUIInput = {
-    node: NodeInput;
+type LiveIO = {
     x: number;
     y: number;
 };
 
-type GUIOutput = {
+type LiveInput = LiveIO & {
+    node: NodeInput;
+};
+
+type LiveOutput = LiveIO & {
     node: NodeOutput;
-    x: number;
-    y: number;
     connections: Set<Connection>;
     active: boolean | undefined;
 };

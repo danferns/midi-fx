@@ -26,12 +26,12 @@ type NodeComponent = ComponentType<
     }>
 >;
 
-type Instances = {
+type LiveInstances = {
     [key: string]: {
         type: string;
         component: NodeComponent;
-        inputs: { [key: string]: GUIInput };
-        outputs: { [key: string]: GUIOutput };
+        inputs: { [key: string]: LiveInput };
+        outputs: { [key: string]: LiveOutput };
         x: number;
         y: number;
         state: { [key: string]: unknown } | undefined;

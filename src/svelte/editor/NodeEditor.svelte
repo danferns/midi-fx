@@ -48,9 +48,9 @@
         }
     });
 
-    let localInstances: Instances = {};
+    let localInstances: LiveInstances = {};
 
-    instances.subscribe((val: Instances) => {
+    instances.subscribe((val: LiveInstances) => {
         localInstances = val;
     });
 

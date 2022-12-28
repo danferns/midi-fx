@@ -19,12 +19,12 @@
 
 import { writable } from "svelte/store";
 
-let localInstances: Instances = {};
+let localInstances: LiveInstances = {};
 export const instances = writable();
 
 instances.set({});
 
-instances.subscribe((insts: Instances) => {
+instances.subscribe((insts: LiveInstances) => {
     localInstances = insts;
 });
 
@@ -36,7 +36,7 @@ export async function createNode(
 ) {
     const componentModule = await import(`../../svelte/nodes/${type}.svelte`);
 
-    instances.update((insts: Instances) => {
+    instances.update((insts: LiveInstances) => {
         insts[id] = {
             type: type,
             component: componentModule.default,
@@ -62,7 +62,7 @@ export async function addNode(type: string, position: [number, number] = [0, 0])
 }
 
 export function destroyNode(id: string) {
-    instances.update((insts: Instances) => {
+    instances.update((insts: LiveInstances) => {
         // destroy any connections to this node
         for (const instance of Object.values(insts)) {
             for (const output of Object.values(instance.outputs)) {
@@ -80,7 +80,7 @@ export function destroyNode(id: string) {
 }
 
 export function createConnection(outputNode: string, outputName: string, connection: Connection) {
-    instances.update((insts: Instances) => {
+    instances.update((insts: LiveInstances) => {
         const output = insts[outputNode].outputs[outputName];
         const input = insts[connection[0]].inputs[connection[1]].node;
 
@@ -98,7 +98,7 @@ export function createConnection(outputNode: string, outputName: string, connect
 }
 
 export function destroyConnection(outputNode: string, outputName: string, connection: Connection) {
-    instances.update((insts: Instances) => {
+    instances.update((insts: LiveInstances) => {
         const output = insts[outputNode].outputs[outputName];
         const input = insts[connection[0]].inputs[connection[1]];
 

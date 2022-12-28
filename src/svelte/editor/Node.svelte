@@ -29,6 +29,14 @@
         }
         return false;
     }
+
+    export function getCenterCoords(elm: HTMLElement): Point {
+        const box = elm.getBoundingClientRect();
+        return {
+            x: (box.left + box.right) / 2,
+            y: (box.top + box.bottom) / 2,
+        };
+    }
 </script>
 
 <script lang="ts">
@@ -42,7 +50,7 @@
     } from "src/ts/editor/instances";
     import PseudoPath, { pseudoConnection } from "./PseudoPath.svelte";
 
-    import { translateX, translateY, scale } from "src/ts/editor/transform";
+    import { scale, displayToEditorCoords } from "src/ts/editor/transform";
 
     import ContextMenu from "./ContextMenu.svelte";
     import { showInfo } from "./InfoModal.svelte";
@@ -55,44 +63,44 @@
     export let gui: NodeComponent;
     export let state: { [key: string]: unknown };
 
-    let nodeInputs = {};
-    let nodeOutputs = {};
+    // these will be populated by the node component
+    let nodeInputs: NodeInputs = {};
+    let nodeOutputs: NodeOutputs = {};
 
-    let guiOutputs: {
-        [key: string]: GUIOutput;
+    let liveOutputs: {
+        [key: string]: LiveOutput;
     } = {};
 
-    let guiInputs: {
-        [key: string]: GUIInput;
+    let liveInputs: {
+        [key: string]: LiveInput;
     } = {};
 
     $: {
         for (const [name, node] of Object.entries(nodeInputs)) {
-            (guiInputs[name] ??= {
+            (liveInputs[name] ??= {
                 x: 0,
                 y: 0,
-            } as GUIInput).node = node as NodeInput;
+            } as LiveInput).node = node as NodeInput;
         }
         for (const [name, node] of Object.entries(nodeOutputs)) {
-            (guiOutputs[name] ??= {
+            (liveOutputs[name] ??= {
                 x: 0,
                 y: 0,
                 connections: new Set(),
                 active: false,
-            } as GUIOutput).node = node as NodeOutput;
+            } as LiveOutput).node = node as NodeOutput;
         }
     }
 
-    let inputElements: {
+    type IOElements = {
         [key: string]: HTMLElement;
-    } = {};
+    };
 
-    let outputElements: {
-        [key: string]: HTMLElement;
-    } = {};
+    let inputElements: IOElements = {};
+    let outputElements: IOElements = {};
 
-    $instances[id].inputs = guiInputs;
-    $instances[id].outputs = guiOutputs;
+    $instances[id].inputs = liveInputs;
+    $instances[id].outputs = liveOutputs;
 
     function handlePointerdown(e: PointerEvent) {
         if (e.pointerType === "mouse" && !(e.buttons === 1)) return;
@@ -109,24 +117,21 @@
         updateCoords();
     }
 
+    function updateIOCoords(elements: IOElements, io: { [key: string]: LiveIO }) {
+        for (const [name, elm] of Object.entries(elements)) {
+            const displayCoords = getCenterCoords(elm);
+            const { x, y } = displayToEditorCoords(displayCoords);
+            io[name].x = x;
+            io[name].y = y;
+        }
+    }
+
     function updateCoords() {
-        instances.update((insts) => {
+        instances.update((insts: LiveInstances) => {
             insts[id].x = x;
             insts[id].y = y;
-            for (const [name, input] of Object.entries(inputElements)) {
-                const box = input.getBoundingClientRect();
-                const inputY = (box.top + box.bottom) / 2;
-                const inputX = (box.left + box.right) / 2;
-                insts[id].inputs[name].x = (inputX - $translateX) / $scale;
-                insts[id].inputs[name].y = (inputY - $translateY) / $scale;
-            }
-            for (const [name, output] of Object.entries(outputElements)) {
-                const box = output.getBoundingClientRect();
-                const outputY = (box.top + box.bottom) / 2;
-                const outputX = (box.left + box.right) / 2;
-                insts[id].outputs[name].x = (outputX - $translateX) / $scale;
-                insts[id].outputs[name].y = (outputY - $translateY) / $scale;
-            }
+            updateIOCoords(inputElements, insts[id].inputs);
+            updateIOCoords(outputElements, insts[id].outputs);
             return insts;
         });
     }
@@ -171,7 +176,7 @@
                 if (e.pointerType !== "mouse" || e.buttons === 1) {
                     e.stopPropagation();
                     let outputNode, outputName;
-                    instances.update((val: Instances) => {
+                    instances.update((val: LiveInstances) => {
                         for (const node of Object.entries(val)) {
                             for (const output of Object.entries(node[1].outputs)) {
                                 for (const connection of output[1].connections) {
@@ -203,12 +208,13 @@
     }
 
     let showContextMenu: boolean = false;
-    let contextMenuX: number;
-    let contextMenuY: number;
+    let contextMenuCoords: Point;
 
     function onContextMenu(e: MouseEvent) {
-        contextMenuX = e.clientX / $scale - $translateX / $scale;
-        contextMenuY = e.clientY / $scale - $translateY / $scale;
+        contextMenuCoords = displayToEditorCoords({
+            x: e.clientX,
+            y: e.clientY,
+        });
         showContextMenu = true;
     }
 
@@ -227,8 +233,8 @@
 {#if showContextMenu}
     <ContextMenu
         items={contextMenuItems}
-        x={contextMenuX}
-        y={contextMenuY}
+        x={contextMenuCoords.x}
+        y={contextMenuCoords.y}
         on:close={() => {
             showContextMenu = false;
         }}
@@ -245,7 +251,7 @@
     on:contextmenu|preventDefault={onContextMenu}
     style="--x: {x}px; --y: {y}px;"
 >
-    {#each Object.entries(guiInputs) as [name]}
+    {#each Object.entries(liveInputs) as [name]}
         <div class="input">
             <span>{name}</span>
             <div
@@ -269,7 +275,7 @@
         bind:inputs={nodeInputs}
         bind:outputs={nodeOutputs}
     />
-    {#each Object.entries(guiOutputs) as [name]}
+    {#each Object.entries(liveOutputs) as [name]}
         <div class="output">
             <span>{name}</span>
             <div

@@ -23,9 +23,9 @@
     import Info from "src/res/info";
     import { writable } from "svelte/store";
 
-    let insts: Instances = {};
+    let insts: LiveInstances = {};
 
-    instances.subscribe((val: Instances) => {
+    instances.subscribe((val: LiveInstances) => {
         insts = val;
     });
 
