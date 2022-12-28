@@ -45,6 +45,7 @@
         background: var(--background-accent);
         border-radius: 8px;
         display: flex;
+        flex: 0;
     }
     input {
         font: inherit;
