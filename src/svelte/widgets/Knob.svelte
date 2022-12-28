@@ -20,11 +20,27 @@
 -->
 <script>
     import { boundValue } from "src/ts/util/MathUtil";
+    import interact from "interactjs";
+    import { onMount } from "svelte";
+
     export let size = 24; // pixels
     export let percent = 50;
     export let onReset = (p) => {
         return p;
     };
+
+    let knob;
+
+    onMount(() => {
+        interact(knob).styleCursor(false).draggable({
+            listeners: {
+                move: (e) => {
+                    percent = boundValue(percent - (25 * e.dy) / radius, 0, 100);
+                },
+            },
+        });
+    });
+
     let radius = size / 2.4;
 
     let x,
@@ -56,17 +72,12 @@
 </script>
 
 <svg
-    on:pointermove={(e) => {
-        if (e.buttons === 1) {
-            percent = boundValue(percent - (50 * e.movementY) / radius, 0, 100);
-        }
-    }}
+    bind:this={knob}
     on:contextmenu|preventDefault={() => {
         percent = onReset(percent);
     }}
     height={radius * 2.4}
     width={radius * 2.4}
-    class="mousedrag"
 >
     <circle r={radius} cx={x} cy={y} />
     <path
