@@ -22,7 +22,7 @@
     import Node, { isClassinEventPath } from "./Node.svelte";
     import Path from "./Path.svelte";
     import { instances } from "src/ts/editor/instances";
-    import { translateX, translateY, scale } from "src/ts/editor/transform";
+    import { translateX, translateY, scale, scaleAtPoint } from "src/ts/editor/transform";
     import Menu from "./menu/Menu.svelte";
     import InfoModal from "./InfoModal.svelte";
     import { onMount } from "svelte";
@@ -33,7 +33,27 @@
         saveEditorState,
     } from "src/ts/editor/save";
 
+    import interact from "interactjs";
+
     onMount(async () => {
+        interact(editor)
+            .styleCursor(false)
+            .draggable({
+                ignoreFrom: ".mousedrag",
+                listeners: {
+                    move: (e) => {
+                        $translateX += e.dx;
+                        $translateY += e.dy;
+                    },
+                },
+            })
+            .gesturable({
+                onmove: (e) => {
+                    const newScale = $scale + e.ds;
+                    scaleAtPoint(newScale, { x: e.clientX, y: e.clientY });
+                },
+            });
+
         if (isSavedStateAvailable()) {
             await loadEditorState();
         } else {
@@ -56,42 +76,15 @@
 
     let editor: HTMLElement;
 
-    function onEditorPointerDown(e: PointerEvent) {
-        if (!e.composedPath().includes(editor)) return;
-        if (e.pointerType !== "mouse" || e.buttons === 1) {
-            e.stopPropagation();
-            window.addEventListener("pointermove", onEditorPointerDrag);
-            window.addEventListener("pointerup", onEditorPointerUp);
-            window.addEventListener("blur", onEditorPointerUp);
-        }
-    }
-
-    function onEditorPointerUp() {
-        window.removeEventListener("pointermove", onEditorPointerDrag);
-        window.removeEventListener("pointerup", onEditorPointerUp);
-        window.removeEventListener("blur", onEditorPointerUp);
-    }
-
-    function onEditorPointerDrag(e: PointerEvent) {
-        $translateX += e.movementX;
-        $translateY += e.movementY;
-    }
-
     function onEditorScroll(e: WheelEvent) {
         if (isClassinEventPath(e, "scroll")) return;
         const newScale = $scale * (1 - Math.sign(e.deltaY) * 0.1);
-        if (newScale > 0.3 && newScale < 3) {
-            $translateX = e.clientX - ((e.clientX - $translateX) * newScale) / $scale;
-            $translateY = e.clientY - ((e.clientY - $translateY) * newScale) / $scale;
-            $scale = newScale;
-        }
+        scaleAtPoint(newScale, { x: e.clientX, y: e.clientY });
     }
 </script>
 
-<svelte:window on:pointerdown={onEditorPointerDown} on:wheel={onEditorScroll} />
-
 <Menu />
-<div bind:this={editor}>
+<div bind:this={editor} on:wheel={onEditorScroll} style:touch-action="none">
     <main style="transform: translate({$translateX}px, {$translateY}px) scale({$scale});">
         {#each Object.entries(localInstances) as [key, instance]}
             <Node
@@ -124,7 +117,6 @@
         height: 100%;
         width: 100%;
         transform-origin: 0 0 0;
-        touch-action: none;
     }
 
     :global(:root) {

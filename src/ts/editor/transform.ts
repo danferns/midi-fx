@@ -51,6 +51,17 @@ export function setTransform(transform: Transform) {
     scale.set(transform.scale);
 }
 
+export function scaleAtPoint(newScale: number, point: Point) {
+    if (newScale > 0.3 && newScale < 3) {
+        const lt = localTransform;
+        setTransform({
+            translateX: point.x - ((point.x - lt.translateX) * newScale) / lt.scale,
+            translateY: point.y - ((point.y - lt.translateY) * newScale) / lt.scale,
+            scale: newScale,
+        });
+    }
+}
+
 export function displayToEditorCoords({ x, y }: Point) {
     return {
         x: (x - localTransform.translateX) / localTransform.scale,

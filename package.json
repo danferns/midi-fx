@@ -3,7 +3,7 @@
   "description": "Node Editor for Creative MIDI Effects",
   "author": "Daniel Fernandes (https://github.com/danferns)",
   "homepage": "https://github.com/danferns/midi-fx",
-  "bugs" : "https://github.com/danferns/midi-fx/issues",
+  "bugs": "https://github.com/danferns/midi-fx/issues",
   "license": "GPL-3.0-or-later",
   "version": "0.0.1",
   "type": "module",
@@ -32,6 +32,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.2.0",
     "@types/w3c-web-serial": "^1.0.2",
     "colord": "^2.9.3",
+    "interactjs": "^1.10.17",
     "svelte-fa": "^3.0.3",
     "webgl-plot": "^0.7.0",
     "webmidi": "^3.0.11"

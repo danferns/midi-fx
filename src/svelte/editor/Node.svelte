@@ -54,6 +54,7 @@
 
     import ContextMenu from "./ContextMenu.svelte";
     import { showInfo } from "./InfoModal.svelte";
+    import interact from "interactjs";
 
     export let id: string;
 
@@ -102,21 +103,6 @@
     $instances[id].inputs = liveInputs;
     $instances[id].outputs = liveOutputs;
 
-    function handlePointerdown(e: PointerEvent) {
-        if (e.pointerType === "mouse" && !(e.buttons === 1)) return;
-        if (isClassinEventPath(e, "mousedrag")) return;
-        window.addEventListener("pointermove", handlePointermove);
-        window.addEventListener("pointerup", handlePointerup);
-        window.addEventListener("blur", handlePointerup);
-    }
-
-    function handlePointermove(e: PointerEvent) {
-        e.preventDefault();
-        x += e.movementX / $scale;
-        y += e.movementY / $scale;
-        updateCoords();
-    }
-
     function updateIOCoords(elements: IOElements, io: { [key: string]: LiveIO }) {
         for (const [name, elm] of Object.entries(elements)) {
             const displayCoords = getCenterCoords(elm);
@@ -136,13 +122,22 @@
         });
     }
 
-    function handlePointerup() {
-        window.removeEventListener("pointermove", handlePointermove);
-        window.removeEventListener("pointerup", handlePointerup);
-        window.removeEventListener("blur", handlePointerup);
-    }
-
+    let node: HTMLElement;
     onMount(async () => {
+        interact(node)
+            .styleCursor(false)
+            .draggable({
+                ignoreFrom: "* .mousedrag",
+                listeners: {
+                    move: (e) => {
+                        console.log(e);
+                        e.preventDefault();
+                        x += e.dx / $scale;
+                        y += e.dy / $scale;
+                        updateCoords();
+                    },
+                },
+            });
         await tick();
         updateCoords();
     });
@@ -247,9 +242,9 @@
 
 <div
     class="node"
-    on:pointerdown|stopPropagation={handlePointerdown}
     on:contextmenu|preventDefault={onContextMenu}
     style="--x: {x}px; --y: {y}px;"
+    bind:this={node}
 >
     {#each Object.entries(liveInputs) as [name]}
         <div class="input">
