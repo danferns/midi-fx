@@ -34,6 +34,7 @@
     import { definition as faGear } from "@fortawesome/free-solid-svg-icons/faGear";
     import Fa from "svelte-fa";
     import { boundValue } from "src/ts/util/MathUtil";
+    import { scale } from "src/ts/editor/transform";
     export let id: string;
     export const inputs: NodeInputs = {
         MIDI: (status, data1, data2) => {
@@ -107,8 +108,8 @@
 
             <ResizeCorner
                 onResize={(dx, dy) => {
-                    state.width = boundValue(state.width + 2 * dx, 550, 10000);
-                    state.height = boundValue(state.height + 2 * dy, 82, 10000);
+                    state.width = boundValue(state.width + (2 * dx) / $scale, 550, 10000);
+                    state.height = boundValue(state.height + (2 * dy) / $scale, 82, 10000);
                     dispatch("resize");
                 }}
             />
