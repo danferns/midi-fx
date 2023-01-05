@@ -1,15 +1,15 @@
 # MIDI-FX
 
-MIDI-FX lets you transform and analyze MIDI messages in creative ways. It uses a node graph architecture where each node can receive MIDI messages, process them, and emit transformed MIDI messages for other nodes to receive. 
+MIDI-FX is a powerful tool for transforming and analyzing MIDI messages in creative ways. Its node graph architecture offers a high degree of flexibility, making it a valuable tool for enhancing musical performances.
 
 ![Screenshot](/Screenshot.png)
 
 ### Highlights
 
-- Runs cross platform in the browser, and is installable for offline use as a Progressive Web App.
-- Transformation: transpose or delay notes, convert note velocity into a MIDI CC message, and more.
-- Analysis: visualize MIDI CC changes, learn the name of the chord you're playing, etc. 
-- Supports the Web Serial API (so you can receive MIDI from an Arduino).
+-   Installable Web App (cross-platform + offline support)
+-   Transform MIDI (e.g. transpose, delay notes, convert velocity to CC)
+-   Analyze MIDI (e.g. visualize CC changes, identify chords)
+-   Web Serial API support (so you can receive MIDI from an Arduino)
 
 ## How to use
 
@@ -23,19 +23,23 @@ You will need to set up a virtual loopback device to forward the messages from M
 
 ## How it works
 
-All nodes are implemented as their own Svelte components. This means that nodes can also access native Web APIs and customize their UI as needed. 
+All nodes are implemented as their own Svelte components. This means that nodes can also access native Web APIs and customize their UI as needed.
 
 Nodes can have multiple inputs and outputs. Each input is actually a function that is called for every MIDI message sent to it. Here's an input that simply logs the messages it receives:
 
 ```ts
 (status: number, data1: number, data2: number) => {
     console.log(`Status: ${status} Data 1: ${data1} Data 2: ${data2}`);
-}
+};
 ```
 
-An output is a `Set` of inputs (the functions). When an input is connected to an output, it is added to the `Set` that the output represents. 
+An output is a `Set` of inputs (the functions). When an input is connected to an output, it is added to the `Set` that the output represents.
 
 Under the hood, when a message is emitted through an output, all the inputs (the functions) in its `Set` are called, with the outgoing message bytes as their arguments.
+
+## Contributing
+
+Thank you for your interest in contributing to MIDI-FX! To make development a better experience for all of us, this project is undergoing a major refactor, due to which I'm currently not accepting contributions. Please check back in a few weeks for any updates!
 
 ## License
 
@@ -48,8 +52,8 @@ the Free Software Foundation, either version 3 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <https://www.gnu.org/licenses/>.
+along with this program. If not, see <https://www.gnu.org/licenses/>.
