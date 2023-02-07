@@ -35,9 +35,12 @@
                     lastValue = data2;
                 }
             }
+            emit("MIDI", status, data1, data2);
         },
     };
-    export const outputs: NodeOutputs = {};
+    export const outputs: NodeOutputs = {
+        MIDI: new Set(),
+    };
     export let state = {
         cc: -1,
     };
