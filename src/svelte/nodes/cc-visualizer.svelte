@@ -21,9 +21,9 @@
 <script lang="ts">
     import NodeUi from "../widgets/NodeUI.svelte";
     import { createEmitter } from "src/ts/util/NodeUtil";
-    import Title from "../widgets/Title.svelte";
-    import NumericInput from "../widgets/NumericInput.svelte";
-    import TimeSeries from "../widgets/TimeSeries.svelte";
+    import Title from "../widgets/info/Title.svelte";
+    import NumericInput from "../widgets/input/NumericInput.svelte";
+    import TimeSeries from "../widgets/data/TimeSeries.svelte";
     export let id: string;
     export const inputs: NodeInputs = {
         MIDI: (status, data1, data2) => {

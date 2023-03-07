@@ -20,9 +20,9 @@
 -->
 <script lang="ts">
     import { createEmitter } from "src/ts/util/NodeUtil";
-    import Knob from "../widgets/Knob.svelte";
+    import Knob from "../widgets/input/Knob.svelte";
     import NodeUi from "../widgets/NodeUI.svelte";
-    import Title from "../widgets/Title.svelte";
+    import Title from "../widgets/info/Title.svelte";
     import { messageTypes } from "./filter.svelte";
     export let id: string;
     export const inputs: NodeInputs = {

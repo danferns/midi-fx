@@ -19,7 +19,7 @@
 
 -->
 <script lang="ts">
-    import VerticalScrollLayout from "./VerticalScrollLayout.svelte";
+    import VerticalScrollLayout from "../layout/VerticalScrollLayout.svelte";
 
     export let tableData: unknown[][] = [];
     export let tableHeaders: string[] = [];

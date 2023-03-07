@@ -34,7 +34,7 @@
 <script lang="ts">
     import { createEmitter } from "src/ts/util/NodeUtil";
     import NodeUi from "../widgets/NodeUI.svelte";
-    import Title from "../widgets/Title.svelte";
+    import Title from "../widgets/info/Title.svelte";
     export let id: string;
     export const inputs: NodeInputs = {
         MIDI: (status, data1, data2) => {

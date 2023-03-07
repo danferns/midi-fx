@@ -20,11 +20,11 @@
 -->
 <script lang="ts">
     import { createEmitter } from "src/ts/util/NodeUtil";
-    import Button from "../widgets/Button.svelte";
-    import HorizontalLayout from "../widgets/HorizontalLayout.svelte";
+    import Button from "../widgets/input/Button.svelte";
+    import HorizontalLayout from "../widgets/layout/HorizontalLayout.svelte";
     import NodeUi from "../widgets/NodeUI.svelte";
-    import Table from "../widgets/Table.svelte";
-    import Title from "../widgets/Title.svelte";
+    import Table from "../widgets/data/Table.svelte";
+    import Title from "../widgets/info/Title.svelte";
     export let id: string;
     export const inputs: NodeInputs = {
         MIDI: (status, data1, data2) => {

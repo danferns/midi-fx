@@ -39,7 +39,7 @@
 
 <script lang="ts">
     import { onDestroy } from "svelte";
-    import Button from "../widgets/Button.svelte";
+    import Button from "../widgets/input/Button.svelte";
 
     const close = () => {
         $type = "";

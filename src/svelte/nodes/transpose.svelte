@@ -43,8 +43,8 @@
     const emit = createEmitter(id, outputs);
 
     import NodeUI from "../widgets/NodeUI.svelte";
-    import Title from "../widgets/Title.svelte";
-    import NumericInput from "../widgets/NumericInput.svelte";
+    import Title from "../widgets/info/Title.svelte";
+    import NumericInput from "../widgets/input/NumericInput.svelte";
 
     import { messageTypes } from "./filter.svelte";
 </script>

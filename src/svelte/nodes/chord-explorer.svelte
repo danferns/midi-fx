@@ -51,7 +51,7 @@
     import { rootNoteNumToName } from "src/ts/util/Notation";
     import { createEmitter } from "src/ts/util/NodeUtil";
     import NodeUi from "../widgets/NodeUI.svelte";
-    import Title from "../widgets/Title.svelte";
+    import Title from "../widgets/info/Title.svelte";
     import { isNoteOff, isNoteOn } from "./note-splitter.svelte";
     import { createEventDispatcher } from "svelte";
     export let id: string;

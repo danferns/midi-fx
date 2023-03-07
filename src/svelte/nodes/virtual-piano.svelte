@@ -21,15 +21,15 @@
 <script lang="ts">
     import { createEmitter } from "src/ts/util/NodeUtil";
     import { createEventDispatcher } from "svelte";
-    import Button from "../widgets/Button.svelte";
-    import FoldingLayout from "../widgets/FoldingLayout.svelte";
-    import HorizontalLayout from "../widgets/HorizontalLayout.svelte";
+    import Button from "../widgets/input/Button.svelte";
+    import FoldingLayout from "../widgets/layout/FoldingLayout.svelte";
+    import HorizontalLayout from "../widgets/layout/HorizontalLayout.svelte";
     import NodeUi from "../widgets/NodeUI.svelte";
-    import NumericButtonInput from "../widgets/NumericButtonInput.svelte";
+    import NumericButtonInput from "../widgets/input/NumericButtonInput.svelte";
     import Keyboard from "../widgets/piano/Keyboard.svelte";
     import ResizeCorner from "../widgets/ResizeCorner.svelte";
-    import Title from "../widgets/Title.svelte";
-    import VerticalLayout from "../widgets/VerticalLayout.svelte";
+    import Title from "../widgets/info/Title.svelte";
+    import VerticalLayout from "../widgets/layout/VerticalLayout.svelte";
     import { isNoteOff, isNoteOn } from "./note-splitter.svelte";
     import { definition as faGear } from "@fortawesome/free-solid-svg-icons/faGear";
     import Fa from "svelte-fa";
