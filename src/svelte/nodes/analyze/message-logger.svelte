@@ -20,37 +20,43 @@
 -->
 <script lang="ts">
     import { createEmitter } from "src/ts/util/NodeUtil";
-    import Knob from "../widgets/input/Knob.svelte";
-    import NodeUi from "../widgets/NodeUI.svelte";
-    import Title from "../widgets/info/Title.svelte";
-    import { messageTypes } from "./filter.svelte";
+    import Button from "../../widgets/input/Button.svelte";
+    import HorizontalLayout from "../../widgets/layout/HorizontalLayout.svelte";
+    import NodeUi from "../../widgets/NodeUI.svelte";
+    import Table from "../../widgets/data/Table.svelte";
+    import Title from "../../widgets/info/Title.svelte";
     export let id: string;
     export const inputs: NodeInputs = {
         MIDI: (status, data1, data2) => {
-            if (messageTypes["Note On / Off"](status)) {
-                const scaledLevel = Math.floor(data2 * state.level) / 100;
-                emit("MIDI", status, data1, scaledLevel);
-            } else {
-                emit("MIDI", status, data1, data2);
-            }
+            messageArray.unshift([status, data1, data2]);
+            messageArray = messageArray;
+            emit("MIDI", status, data1, data2);
         },
     };
     export const outputs: NodeOutputs = {
         MIDI: new Set(),
     };
-    export let state = {
-        level: 100,
-    };
     const emit = createEmitter(id, outputs);
+
+    let messageArray: [number, number, number][] = [];
+
+    function copyToClipboard() {
+        const text = messageArray.map((message) => message.join(",")).join("\n");
+        navigator.clipboard.writeText(text);
+    }
 </script>
 
-<NodeUi>
-    <Title>Scale</Title>
-    <div><Knob bind:percent={state.level} size={120} onReset={() => 100} /></div>
+<NodeUi width={300}>
+    <Title>Message Logs</Title>
+    <HorizontalLayout>
+        <Button
+            on:click={() => {
+                messageArray = [];
+            }}>Clear All</Button
+        >
+        <Button on:click={copyToClipboard}>Copy</Button>
+    </HorizontalLayout>
 </NodeUi>
-
-<style>
-    div {
-        padding: 0px 16px 8px 16px;
-    }
-</style>
+<NodeUi>
+    <Table tableData={messageArray} tableHeaders={["Status", "Data 1", "Data 2"]} />
+</NodeUi>

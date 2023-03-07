@@ -20,43 +20,43 @@
 -->
 <script lang="ts">
     import { createEmitter } from "src/ts/util/NodeUtil";
-    import Button from "../widgets/input/Button.svelte";
-    import HorizontalLayout from "../widgets/layout/HorizontalLayout.svelte";
-    import NodeUi from "../widgets/NodeUI.svelte";
-    import Table from "../widgets/data/Table.svelte";
-    import Title from "../widgets/info/Title.svelte";
+    import NodeUi from "../../widgets/NodeUI.svelte";
+    import NumericInput from "../../widgets/input/NumericInput.svelte";
+    import Title from "../../widgets/info/Title.svelte";
+    import { isNoteOn } from "../filter/note-splitter.svelte";
     export let id: string;
     export const inputs: NodeInputs = {
         MIDI: (status, data1, data2) => {
-            messageArray.unshift([status, data1, data2]);
-            messageArray = messageArray;
-            emit("MIDI", status, data1, data2);
+            if (isNoteOn(status, data1, data2)) {
+                targetValue = data2;
+            }
         },
     };
     export const outputs: NodeOutputs = {
         MIDI: new Set(),
     };
+    export let state = {
+        cc: 0,
+    };
     const emit = createEmitter(id, outputs);
 
-    let messageArray: [number, number, number][] = [];
+    let weight = 0.2; // affects how slowly the value changes
 
-    function copyToClipboard() {
-        const text = messageArray.map((message) => message.join(",")).join("\n");
-        navigator.clipboard.writeText(text);
+    let targetValue = 0,
+        value = 0;
+
+    function sendMessage() {
+        if (Math.round(value) !== targetValue) {
+            value += (targetValue - value) / (weight * 50);
+            emit("MIDI", 0xb0, state.cc, value);
+        }
+        setTimeout(sendMessage, 1000 / 50);
     }
+
+    sendMessage();
 </script>
 
-<NodeUi width={300}>
-    <Title>Message Logs</Title>
-    <HorizontalLayout>
-        <Button
-            on:click={() => {
-                messageArray = [];
-            }}>Clear All</Button
-        >
-        <Button on:click={copyToClipboard}>Copy</Button>
-    </HorizontalLayout>
-</NodeUi>
 <NodeUi>
-    <Table tableData={messageArray} tableHeaders={["Status", "Data 1", "Data 2"]} />
+    <Title>Velocity to CC</Title>
+    <NumericInput bind:value={state.cc} />
 </NodeUi>

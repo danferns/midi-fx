@@ -20,43 +20,29 @@
 -->
 <script lang="ts">
     import { createEmitter } from "src/ts/util/NodeUtil";
-    import NodeUi from "../widgets/NodeUI.svelte";
-    import NumericInput from "../widgets/input/NumericInput.svelte";
-    import Title from "../widgets/info/Title.svelte";
-    import { isNoteOn } from "./note-splitter.svelte";
     export let id: string;
     export const inputs: NodeInputs = {
         MIDI: (status, data1, data2) => {
-            if (isNoteOn(status, data1, data2)) {
-                targetValue = data2;
-            }
+            setTimeout(() => {
+                emit("MIDI", status, data1, data2);
+            }, state.millis);
         },
     };
     export const outputs: NodeOutputs = {
         MIDI: new Set(),
     };
     export let state = {
-        cc: 0,
+        millis: 1000,
     };
+
     const emit = createEmitter(id, outputs);
 
-    let weight = 0.2; // affects how slowly the value changes
-
-    let targetValue = 0,
-        value = 0;
-
-    function sendMessage() {
-        if (Math.round(value) !== targetValue) {
-            value += (targetValue - value) / (weight * 50);
-            emit("MIDI", 0xb0, state.cc, value);
-        }
-        setTimeout(sendMessage, 1000 / 50);
-    }
-
-    sendMessage();
+    import NodeUI from "../../widgets/NodeUI.svelte";
+    import Title from "../../widgets/info/Title.svelte";
+    import NumericInput from "../../widgets/input/NumericInput.svelte";
 </script>
 
-<NodeUi>
-    <Title>Velocity to CC</Title>
-    <NumericInput bind:value={state.cc} />
-</NodeUi>
+<NodeUI width="150">
+    <Title>Delay (ms)</Title>
+    <NumericInput bind:value={state.millis} />
+</NodeUI>

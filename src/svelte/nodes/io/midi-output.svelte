@@ -29,9 +29,9 @@
         },
     };
 
-    import NodeUI from "../widgets/NodeUI.svelte";
-    import Title from "../widgets/info/Title.svelte";
-    import DropDown from "../widgets/input/DropDown.svelte";
+    import NodeUI from "../../widgets/NodeUI.svelte";
+    import Title from "../../widgets/info/Title.svelte";
+    import DropDown from "../../widgets/input/DropDown.svelte";
 
     import { storage } from "src/ts/storage";
     import { onMount, tick, createEventDispatcher } from "svelte";

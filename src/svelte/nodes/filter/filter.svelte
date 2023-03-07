@@ -74,8 +74,8 @@
 
     const emit = createEmitter(id, outputs);
 
-    import NodeUI from "../widgets/NodeUI.svelte";
-    import LabelledCheckBox from "../widgets/input/LabelledCheckBox.svelte";
+    import NodeUI from "../../widgets/NodeUI.svelte";
+    import LabelledCheckBox from "../../widgets/input/LabelledCheckBox.svelte";
 </script>
 
 <NodeUI>

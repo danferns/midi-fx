@@ -27,33 +27,9 @@
         saveEditorStateAsFile,
     } from "src/ts/editor/save";
 
-    import MenuItem, { menuItem } from "./MenuItem.svelte";
+    import { NODES } from "src/ts/nodes/nodes";
 
-    const nodes = {
-        "Input / Output": {
-            "External Input": "midi-input",
-            "External Output": "midi-output",
-            "Typing Keyboard": "typing-keyboard",
-            "Serial Input": "serial-input",
-            "Virtual Piano": "virtual-piano",
-        },
-        Filter: {
-            Filter: "filter",
-            "Note Splitter": "note-splitter",
-        },
-        Transform: {
-            Delay: "delay",
-            Transpose: "transpose",
-            Scale: "scale",
-            "Channel Mapper": "channel-mapper",
-            "Velocity to CC": "velocity-to-cc",
-        },
-        Analysis: {
-            "Chord Explorer": "chord-explorer",
-            "CC Visualizer": "cc-visualizer",
-            "Message Logger": "message-logger",
-        },
-    };
+    import MenuItem, { menuItem } from "./MenuItem.svelte";
 
     let menu: {
         [key: string]: menuItem;
@@ -75,10 +51,10 @@
         Add: {},
     };
 
-    for (const [category, nodeList] of Object.entries(nodes)) {
+    for (const [category, nodeList] of Object.entries(NODES)) {
         menu.Add[category] = {} as menuItem;
 
-        for (const [name, node] of Object.entries(nodeList)) {
+        for (const [node, name] of Object.entries(nodeList)) {
             menu.Add[category][name] = () => {
                 addNode(node);
             };

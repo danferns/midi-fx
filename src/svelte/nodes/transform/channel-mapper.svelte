@@ -42,8 +42,8 @@
 <script lang="ts">
     import { createEmitter } from "src/ts/util/NodeUtil";
     import { tick } from "svelte";
-    import Matrix from "../widgets/matrix/Matrix.svelte";
-    import NodeUi from "../widgets/NodeUI.svelte";
+    import Matrix from "../../widgets/matrix/Matrix.svelte";
+    import NodeUi from "../../widgets/NodeUI.svelte";
     export let id: string;
     export const inputs: NodeInputs = {
         MIDI: (status, data1, data2) => {

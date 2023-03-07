@@ -18,31 +18,38 @@
     along with MIDI-FX. If not, see <https://www.gnu.org/licenses/>.
 
 -->
+<script lang="ts" context="module">
+    export function isNoteOn(status: number, data1: number, data2: number) {
+        if (status >= 144 && status < 160 && data2 !== 0) return true;
+        else return false;
+    }
+
+    export function isNoteOff(status: number, data1: number, data2: number) {
+        if (status >= 128 && status < 144) return true;
+        else if (status >= 144 && status <= 159 && data2 === 0) return true;
+        else return false;
+    }
+</script>
+
 <script lang="ts">
     import { createEmitter } from "src/ts/util/NodeUtil";
+    import NodeUi from "../../widgets/NodeUI.svelte";
+    import Title from "../../widgets/info/Title.svelte";
     export let id: string;
     export const inputs: NodeInputs = {
         MIDI: (status, data1, data2) => {
-            setTimeout(() => {
-                emit("MIDI", status, data1, data2);
-            }, state.millis);
+            if (isNoteOn(status, data1, data2)) {
+                emit("Note On", status, data1, data2);
+            } else if (isNoteOff(status, data1, data2)) {
+                emit("Note Off", status, data1, data2);
+            }
         },
     };
     export const outputs: NodeOutputs = {
-        MIDI: new Set(),
+        "Note On": new Set(),
+        "Note Off": new Set(),
     };
-    export let state = {
-        millis: 1000,
-    };
-
     const emit = createEmitter(id, outputs);
-
-    import NodeUI from "../widgets/NodeUI.svelte";
-    import Title from "../widgets/info/Title.svelte";
-    import NumericInput from "../widgets/input/NumericInput.svelte";
 </script>
 
-<NodeUI width="150">
-    <Title>Delay (ms)</Title>
-    <NumericInput bind:value={state.millis} />
-</NodeUI>
+<NodeUi><Title>Splitter</Title></NodeUi>

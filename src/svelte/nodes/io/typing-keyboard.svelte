@@ -27,9 +27,9 @@
 
 <script lang="ts">
     import { createEmitter } from "src/ts/util/NodeUtil";
-    import DropDown from "../widgets/input/DropDown.svelte";
-    import NodeUi from "../widgets/NodeUI.svelte";
-    import Title from "../widgets/info/Title.svelte";
+    import DropDown from "../../widgets/input/DropDown.svelte";
+    import NodeUi from "../../widgets/NodeUI.svelte";
+    import Title from "../../widgets/info/Title.svelte";
     import { boundValue } from "src/ts/util/MathUtil";
 
     export let id: string;

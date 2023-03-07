@@ -42,11 +42,11 @@
 
     const emit = createEmitter(id, outputs);
 
-    import NodeUI from "../widgets/NodeUI.svelte";
-    import Title from "../widgets/info/Title.svelte";
-    import NumericInput from "../widgets/input/NumericInput.svelte";
+    import NodeUI from "../../widgets/NodeUI.svelte";
+    import Title from "../../widgets/info/Title.svelte";
+    import NumericInput from "../../widgets/input/NumericInput.svelte";
 
-    import { messageTypes } from "./filter.svelte";
+    import { messageTypes } from "../filter/filter.svelte";
 </script>
 
 <NodeUI width="150">

@@ -21,10 +21,10 @@
 <script lang="ts">
     import { onMount } from "svelte";
     import { createEmitter } from "src/ts/util/NodeUtil";
-    import Button from "../widgets/input/Button.svelte";
-    import NodeUi from "../widgets/NodeUI.svelte";
-    import Title from "../widgets/info/Title.svelte";
-    import DropDown from "../widgets/input/DropDown.svelte";
+    import Button from "../../widgets/input/Button.svelte";
+    import NodeUi from "../../widgets/NodeUI.svelte";
+    import Title from "../../widgets/info/Title.svelte";
+    import DropDown from "../../widgets/input/DropDown.svelte";
     export let id: string;
     export const inputs: NodeInputs = {};
     export const outputs: NodeOutputs = {

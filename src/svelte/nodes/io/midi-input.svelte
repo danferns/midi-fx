@@ -27,9 +27,9 @@
 
     const emit = createEmitter(id, outputs);
 
-    import NodeUI from "../widgets/NodeUI.svelte";
-    import DropDown from "../widgets/input/DropDown.svelte";
-    import Title from "../widgets/info/Title.svelte";
+    import NodeUI from "../../widgets/NodeUI.svelte";
+    import DropDown from "../../widgets/input/DropDown.svelte";
+    import Title from "../../widgets/info/Title.svelte";
 
     import { storage } from "src/ts/storage";
     import { onMount, createEventDispatcher, tick } from "svelte";
