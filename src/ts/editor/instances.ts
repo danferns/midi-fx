@@ -18,7 +18,7 @@
  */
 
 import { writable } from "svelte/store";
-import { getNodeComponentFilepath } from "../nodes/nodes";
+import { importNodeComponent } from "../nodes/nodes";
 
 let localInstances: LiveInstances = {};
 export const instances = writable();
@@ -35,7 +35,7 @@ export async function createNode(
     position: [number, number],
     state: { [key: string]: unknown } | undefined = undefined
 ) {
-    const componentModule = await import(getNodeComponentFilepath(type));
+    const componentModule = await importNodeComponent(type);
 
     instances.update((insts: LiveInstances) => {
         insts[id] = {

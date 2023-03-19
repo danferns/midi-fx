@@ -45,10 +45,10 @@ export const NODES = {
     },
 };
 
-export function getNodeComponentFilepath(type: string) {
+export async function importNodeComponent(type: string) {
     for (const category of Object.keys(NODES)) {
         if (Object.keys(NODES[category]).includes(type)) {
-            return `../../svelte/nodes/${category}/${type}.svelte`;
+            return await import(`../../svelte/nodes/${category}/${type}.svelte`);
         }
     }
     throw `Node '${type}' not found.`;
