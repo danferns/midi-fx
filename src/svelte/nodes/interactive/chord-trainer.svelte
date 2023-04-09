@@ -1,6 +1,6 @@
 <!--
 
-    Copyright (C) 2022 Daniel Fernandes
+    Copyright (C) 2023 Daniel Fernandes
 
     This file is part of MIDI-FX.
 
