@@ -43,6 +43,9 @@ export const NODES = {
         "cc-visualizer": "CC Visualizer",
         "message-logger": "Message Logger",
     },
+    interactive: {
+        "chord-trainer": "Chord Trainer",
+    }
 };
 
 export async function importNodeComponent(type: string) {

@@ -23,6 +23,7 @@
 
     export let tableData: unknown[][] = [];
     export let tableHeaders: string[] = [];
+    export let height: number = 200;
 </script>
 
 <div class="table">
@@ -33,7 +34,7 @@
             </div>
         {/each}
     </div>
-    <VerticalScrollLayout height={200}>
+    <VerticalScrollLayout height={height}>
         <div class="table-body">
             {#each tableData as row}
                 <div class="table-row">

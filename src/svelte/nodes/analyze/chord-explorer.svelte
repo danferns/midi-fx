@@ -19,7 +19,7 @@
 
 -->
 <script lang="ts" context="module">
-    const chordShapes: { [key: string]: number[] } = {
+    export const chordShapes: { [key: string]: number[] } = {
         M: [0, 4, 7],
         "(9)": [0, 2, 4, 7],
         "6": [0, 4, 7, 9],
