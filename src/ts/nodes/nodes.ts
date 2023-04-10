@@ -26,6 +26,7 @@ export const NODES = {
         "typing-keyboard": "Typing Keyboard",
         "serial-input": "Serial Input",
         "virtual-piano": "Virtual Piano",
+        "webrtc-host": "WebRTC Host",
     },
     filter: {
         filter: "Filter",
@@ -45,7 +46,7 @@ export const NODES = {
     },
     interactive: {
         "chord-trainer": "Chord Trainer",
-    }
+    },
 };
 
 export async function importNodeComponent(type: string) {
