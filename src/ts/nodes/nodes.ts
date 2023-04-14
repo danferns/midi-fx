@@ -26,7 +26,7 @@ export const NODES = {
         "typing-keyboard": "Typing Keyboard",
         "serial-input": "Serial Input",
         "virtual-piano": "Virtual Piano",
-        "webrtc-host": "WebRTC Host",
+        "p2p-webrtc": "Peer To Peer",
     },
     filter: {
         filter: "Filter",
