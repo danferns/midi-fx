@@ -30,11 +30,14 @@
   },
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^6.2.0",
+    "@mediapipe/hands": "^0.4.1675469240",
+    "@tensorflow-models/hand-pose-detection": "^2.0.0",
     "@types/w3c-web-serial": "^1.0.2",
     "colord": "^2.9.3",
     "interactjs": "^1.10.17",
     "peerjs": "^1.4.7",
     "svelte-fa": "^3.0.3",
+    "vec3": "^0.1.8",
     "webgl-plot": "^0.7.0",
     "webmidi": "^3.0.11"
   }

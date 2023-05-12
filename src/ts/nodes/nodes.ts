@@ -27,6 +27,7 @@ export const NODES = {
         "serial-input": "Serial Input",
         "virtual-piano": "Virtual Piano",
         "p2p-webrtc": "Peer To Peer",
+        "hand-tracker": "Hand Tracker",
     },
     filter: {
         filter: "Filter",
