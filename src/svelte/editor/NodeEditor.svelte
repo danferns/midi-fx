@@ -89,6 +89,7 @@
         {#each Object.entries(localInstances) as [key, instance]}
             <Node
                 id={key}
+                type={instance.type}
                 x={instance.x}
                 y={instance.y}
                 gui={instance.component}

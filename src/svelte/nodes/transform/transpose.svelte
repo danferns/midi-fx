@@ -50,13 +50,11 @@
     const emit = createEmitter(id, outputs);
 
     import NodeUI from "../../widgets/NodeUI.svelte";
-    import Title from "../../widgets/info/Title.svelte";
     import NumericInput from "../../widgets/input/NumericInput.svelte";
 
     import { messageTypes } from "../filter/filter.svelte";
 </script>
 
 <NodeUI width="150">
-    <Title>Transpose</Title>
     <NumericInput bind:value={state.transpose} />
 </NodeUI>

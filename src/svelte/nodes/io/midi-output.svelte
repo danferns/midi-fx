@@ -36,7 +36,6 @@
     };
 
     import NodeUI from "../../widgets/NodeUI.svelte";
-    import Title from "../../widgets/info/Title.svelte";
     import DropDown from "../../widgets/input/DropDown.svelte";
 
     import { storage } from "src/ts/storage";
@@ -92,6 +91,5 @@
 </script>
 
 <NodeUI>
-    <Title>Output Device</Title>
     <DropDown bind:value={activeOutputName} on:change={onOutputChange} options={outputNames} />
 </NodeUI>

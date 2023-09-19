@@ -28,7 +28,6 @@
 </script>
 
 <script lang="ts">
-    import Title from "src/svelte/widgets/info/Title.svelte";
     import NodeUi from "src/svelte/widgets/NodeUI.svelte";
     import Table from "src/svelte/widgets/data/Table.svelte";
     import { createEmitter } from "src/ts/util/NodeUtil";
@@ -136,8 +135,6 @@
 </script>
 
 <NodeUi>
-    <Title>Chord Trainer</Title>
-
     <div class="bigtext" class:success>{chordToString(chordList[0])}</div>
 
     <Table

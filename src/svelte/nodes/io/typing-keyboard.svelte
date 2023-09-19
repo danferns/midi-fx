@@ -125,7 +125,6 @@
 </script>
 
 <NodeUi width="200">
-    <Title on:dblclick={openMappingFile}>Typing Keyboard</Title>
     <DropDown bind:value={state.mapping} options={Object.keys(keymaps)} />
     {#await setMapping(keymaps[activeMapping])}
         <Title>loading...</Title>

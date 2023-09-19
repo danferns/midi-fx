@@ -58,3 +58,12 @@ export async function importNodeComponent(type: string) {
     }
     throw `Node '${type}' not found.`;
 }
+
+export function getNodeTitle(type: string) {
+    for (const category of Object.keys(NODES)) {
+        if (Object.keys(NODES[category]).includes(type)) {
+            return NODES[category][type];
+        }
+    }
+    throw `Node '${type}' not found.`;
+}

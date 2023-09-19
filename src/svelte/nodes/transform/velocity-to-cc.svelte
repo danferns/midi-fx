@@ -30,7 +30,6 @@
     import { createEmitter } from "src/ts/util/NodeUtil";
     import NodeUi from "../../widgets/NodeUI.svelte";
     import NumericInput from "../../widgets/input/NumericInput.svelte";
-    import Title from "../../widgets/info/Title.svelte";
     import { isNoteOn } from "../filter/note-splitter.svelte";
     export let id: string;
     export const inputs: NodeInputs = {
@@ -65,6 +64,5 @@
 </script>
 
 <NodeUi>
-    <Title>Velocity to CC</Title>
     <NumericInput bind:value={state.cc} />
 </NodeUi>

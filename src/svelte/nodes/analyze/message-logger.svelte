@@ -28,7 +28,6 @@
     import HorizontalLayout from "../../widgets/layout/HorizontalLayout.svelte";
     import NodeUi from "../../widgets/NodeUI.svelte";
     import Table from "../../widgets/data/Table.svelte";
-    import Title from "../../widgets/info/Title.svelte";
     export let id: string;
     export const inputs: NodeInputs = {
         MIDI: (status, data1, data2) => {
@@ -51,7 +50,6 @@
 </script>
 
 <NodeUi width={300}>
-    <Title>Message Logs</Title>
     <HorizontalLayout>
         <Button
             on:click={() => {

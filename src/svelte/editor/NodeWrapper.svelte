@@ -19,6 +19,8 @@
 
 -->
 <script lang="ts" context="module">
+    import { getNodeTitle } from "src/ts/nodes/nodes";
+
     export function isClassinEventPath(e: Event, className: string) {
         for (const elm of e.composedPath()) {
             if (
@@ -57,6 +59,7 @@
     import interact from "interactjs";
 
     export let id: string;
+    export let type: string;
 
     export let x = 0;
     export let y = 0;
@@ -246,42 +249,54 @@
     style="--x: {x}px; --y: {y}px;"
     bind:this={node}
 >
-    {#each Object.entries(liveInputs) as [name]}
-        <div class="input">
-            <span>{name}</span>
-            <div
-                class={name}
-                bind:this={inputElements[name]}
-                on:pointerup={(e) => {
-                    onInputPointerup(e, name);
-                }}
-                on:pointerdown|stopPropagation={(e) => onInputPointerdown(e, name)}
-            />
-        </div>
-    {/each}
-    <svelte:component
-        this={gui}
-        on:resize={async () => {
-            await tick();
-            updateCoords();
-        }}
-        {id}
-        bind:state
-        bind:inputs={nodeInputs}
-        bind:outputs={nodeOutputs}
-    />
-    {#each Object.entries(liveOutputs) as [name]}
-        <div class="output">
-            <span>{name}</span>
-            <div
-                class={name}
-                bind:this={outputElements[name]}
-                on:pointerdown={(e) => {
-                    onOutputPointerdown(e, name);
-                }}
-            />
-        </div>
-    {/each}
+    <div class="inputs">
+        {#each Object.entries(liveInputs) as [name]}
+            <div class="input">
+                <div
+                    class={name}
+                    bind:this={inputElements[name]}
+                    on:pointerup={(e) => {
+                        onInputPointerup(e, name);
+                    }}
+                    on:pointerdown|stopPropagation={(e) => onInputPointerdown(e, name)}
+                >
+                    <span>{name}</span>
+                </div>
+            </div>
+        {/each}
+    </div>
+
+    <div class="body">
+        <h1>{getNodeTitle(type)}</h1>
+
+        <svelte:component
+            this={gui}
+            on:resize={async () => {
+                await tick();
+                updateCoords();
+            }}
+            {id}
+            bind:state
+            bind:inputs={nodeInputs}
+            bind:outputs={nodeOutputs}
+        />
+    </div>
+
+    <div class="outputs">
+        {#each Object.entries(liveOutputs) as [name]}
+            <div class="output">
+                <div
+                    class={name}
+                    bind:this={outputElements[name]}
+                    on:pointerdown={(e) => {
+                        onOutputPointerdown(e, name);
+                    }}
+                >
+                    <span>{name}</span>
+                </div>
+            </div>
+        {/each}
+    </div>
 </div>
 
 <style>
@@ -290,55 +305,67 @@
         top: calc(50% + var(--y, 0));
         left: calc(50% + var(--x, 0));
         transform: translate(-50%, -50%);
-        min-width: max-content;
-        background: hsl(0 0% 0% / 85%);
-        border-radius: 16px;
-        outline: hsl(0 0% 20%) solid 2px;
-        user-select: none;
         z-index: 2;
+        user-select: none;
+
+        display: flex;
+    }
+
+    div.body {
+        min-width: max-content;
+        background: hsl(0 0% 6%);
+        border-radius: 16px;
+    }
+
+    :is(div.inputs, div.outputs) {
+        width: 24px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+
+    /* title */
+
+    h1 {
+        font-size: 16px;
+        height: fit-content;
+        font-weight: 400;
+        text-align: center;
+        padding: 4px 12px;
     }
 
     /* text */
 
     :is(div.output, div.input) {
-        padding: 8px;
-        margin: 8px;
-    }
-
-    div.output > span {
-        position: fixed;
-        right: 16px;
-    }
-
-    div.input > span {
-        position: fixed;
-        left: 16px;
+        writing-mode: vertical-lr;
+        color: black;
+        font-size: 12px;
+        margin: 4px 0px;
+        padding: 0px;
+        width: 24px;
     }
 
     /* socket */
 
     :is(div.output, div.input) > div {
-        height: 14px;
-        width: 14px;
-        border-radius: 50%;
+        padding: 6px 4px;
         background: white;
-        border: 2px solid black;
     }
 
     div.input > div {
-        position: relative;
-        left: calc(0% - 26px);
+        border-radius: 6px 0 0 6px;
     }
 
     div.output > div {
-        position: relative;
-        left: calc(100% + 8px);
+        border-radius: 0 6px 6px 0;
     }
 
     /* hover effect */
 
     :is(div.input, div.output) > div:hover {
-        border: 2px solid hsl(0 0% 100%);
+        background: hsl(0 0% 10%) !important;
+        color: white;
     }
 
     /* special colors */

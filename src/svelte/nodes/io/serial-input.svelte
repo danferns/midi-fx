@@ -103,7 +103,6 @@
 
 {#if isSerialSupported}
     <NodeUi>
-        <Title>Serial Connection</Title>
         <Button
             on:click={async () => {
                 if (state.connected) {

@@ -23,11 +23,11 @@
     Scales the velocity of note on / off MIDI messages.
     `;
 </script>
+
 <script lang="ts">
     import { createEmitter } from "src/ts/util/NodeUtil";
     import Knob from "../../widgets/input/Knob.svelte";
     import NodeUi from "../../widgets/NodeUI.svelte";
-    import Title from "../../widgets/info/Title.svelte";
     import { messageTypes } from "../filter/filter.svelte";
     export let id: string;
     export const inputs: NodeInputs = {
@@ -49,13 +49,12 @@
     const emit = createEmitter(id, outputs);
 </script>
 
-<NodeUi>
-    <Title>Scale</Title>
-    <div><Knob bind:percent={state.level} size={120} onReset={() => 100} /></div>
-</NodeUi>
+<div>
+    <Knob bind:percent={state.level} size={120} onReset={() => 100} />
+</div>
 
 <style>
     div {
-        padding: 0px 16px 8px 16px;
+        padding: 16px;
     }
 </style>

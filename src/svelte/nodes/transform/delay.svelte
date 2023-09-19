@@ -49,6 +49,6 @@
 </script>
 
 <NodeUI width="150">
-    <Title>Delay (ms)</Title>
+    <Title>milliseconds</Title>
     <NumericInput bind:value={state.millis} />
 </NodeUI>

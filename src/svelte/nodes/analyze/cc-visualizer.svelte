@@ -29,7 +29,6 @@
 <script lang="ts">
     import NodeUi from "../../widgets/NodeUI.svelte";
     import { createEmitter } from "src/ts/util/NodeUtil";
-    import Title from "../../widgets/info/Title.svelte";
     import NumericInput from "../../widgets/input/NumericInput.svelte";
     import TimeSeries from "../../widgets/data/TimeSeries.svelte";
     export let id: string;
@@ -57,7 +56,6 @@
 </script>
 
 <NodeUi>
-    <Title>CC Visualizer</Title>
     <NumericInput bind:value={state.cc} />
     <TimeSeries height={200} width={400} bind:lastValue />
 </NodeUi>

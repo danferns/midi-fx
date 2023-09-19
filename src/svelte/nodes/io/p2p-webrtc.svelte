@@ -127,7 +127,6 @@
 </script>
 
 <NodeUi>
-    <Title>Peer to Peer</Title>
     {#if peer === undefined}
         <HorizontalLayout>
             <TextInput bind:value={state.localId} hint="Enter your ID..." />
@@ -136,6 +135,8 @@
     {:else}
         <Title>You are <b>{state.localId}</b></Title>
     {/if}
+
+    <div></div>
 
     {#if !connected}
         <HorizontalLayout>
@@ -147,3 +148,9 @@
         <Button on:click={() => disconnect()}>Disconnect</Button>
     {/if}
 </NodeUi>
+
+<style>
+    div {
+        height: 4px;
+    }
+</style>
