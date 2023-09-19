@@ -19,7 +19,7 @@
 
 -->
 <script lang="ts">
-    import Node, { isClassinEventPath } from "./Node.svelte";
+    import Node, { isClassinEventPath } from "./NodeWrapper.svelte";
     import Path from "./Path.svelte";
     import { instances } from "src/ts/editor/instances";
     import { translateX, translateY, scale, scaleAtPoint } from "src/ts/editor/transform";
