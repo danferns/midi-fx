@@ -18,6 +18,12 @@
     along with MIDI-FX. If not, see <https://www.gnu.org/licenses/>.
 
 -->
+<script lang="ts" context="module">
+    export const doc: string = `
+    Forwards all MIDI messages after a specified duration in milliseconds.
+    `;
+</script>
+
 <script lang="ts">
     import { createEmitter } from "src/ts/util/NodeUtil";
     export let id: string;

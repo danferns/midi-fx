@@ -18,6 +18,14 @@
     along with MIDI-FX. If not, see <https://www.gnu.org/licenses/>.
 
 -->
+
+<script lang="ts" context="module">
+    export const doc: string = `
+    Visualizes the value of a Control Change message.
+    You can set the CC number you want to visualize, or leave it at \`-1\`
+    and it will auto detect the number from the first CC message it receives.`;
+</script>
+
 <script lang="ts">
     import NodeUi from "../../widgets/NodeUI.svelte";
     import { createEmitter } from "src/ts/util/NodeUtil";

@@ -18,6 +18,12 @@
     along with MIDI-FX. If not, see <https://www.gnu.org/licenses/>.
 
 -->
+<script lang="ts" context="module">
+    export const doc: string = `
+    Sends MIDI messages to an external MIDI device.
+    `;
+</script>
+
 <script lang="ts">
     export const inputs: NodeInputs = {
         MIDI: (status, data1, data2) => {

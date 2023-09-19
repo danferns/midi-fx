@@ -19,6 +19,9 @@
 
 -->
 <script lang="ts" context="module">
+    export const doc: string = `Displays which chords are being played at its input.
+    It recognizes chords based on patterns defined in its built-in dictionary.`;
+
     export const chordShapes: { [key: string]: number[] } = {
         M: [0, 4, 7],
         "(9)": [0, 2, 4, 7],

@@ -18,7 +18,12 @@
     along with MIDI-FX. If not, see <https://www.gnu.org/licenses/>.
 
 -->
-
+<script lang="ts" context="module">
+    export const doc: string = `
+    Sends MIDI messages to other devices running MIDI-FX over the internet.
+    It uses WebRTC to establish a peer-to-peer connection between the devices.
+    `;
+</script>
 <script lang="ts">
     import NodeUi from "src/svelte/widgets/NodeUI.svelte";
     import Title from "src/svelte/widgets/info/Title.svelte";

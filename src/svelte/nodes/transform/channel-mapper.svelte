@@ -21,6 +21,13 @@
 <script lang="ts" context="module">
     import { channelColors } from "src/ts/util/ColorUtil";
 
+    export const doc: string = `
+    Mapps MIDI messages from one channel, to any channel(s).
+    The X-Axis of the channel matrix represents the input channels,
+    and the Y-Axis represents the output channels. The channel numbers
+    will highlight when messages are being transferred.
+    `;
+
     const channels = Array(16)
         .fill(0)
         .map((_, i) => {

@@ -18,6 +18,11 @@
     along with MIDI-FX. If not, see <https://www.gnu.org/licenses/>.
 
 -->
+<script lang="ts" context="module">
+    export const doc: string = `
+    Scales the velocity of note on / off MIDI messages.
+    `;
+</script>
 <script lang="ts">
     import { createEmitter } from "src/ts/util/NodeUtil";
     import Knob from "../../widgets/input/Knob.svelte";

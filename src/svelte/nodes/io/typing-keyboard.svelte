@@ -19,6 +19,11 @@
 
 -->
 <script lang="ts" context="module">
+    export const doc: string = `
+    Turns your typing keyboard into a MIDI input device. You can choose between multiple key mappings.
+    Double-click on "Typing Keyboard" to view the active mapping file.
+    `;
+
     const keymaps = {
         Default: "default",
         Chromatic: "chromatic",

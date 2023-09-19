@@ -18,10 +18,11 @@
     along with MIDI-FX. If not, see <https://www.gnu.org/licenses/>.
 
 -->
+
 <script lang="ts" context="module">
     import { instances } from "src/ts/editor/instances";
-    import Info from "src/res/info";
     import { writable } from "svelte/store";
+    import { importNodeComponent } from "src/ts/nodes/nodes";
 
     let insts: LiveInstances = {};
 
@@ -31,9 +32,10 @@
 
     let info = writable("");
     let type = writable("");
-    export function showInfo(id: string) {
+    export async function showInfo(id: string) {
         type.set(insts[id].type);
-        info.set(Info[insts[id].type] || "No information available.");
+        const mod = await importNodeComponent(insts[id].type);
+        info.set(mod.doc || "No documentation available for this node.");
     }
 </script>
 

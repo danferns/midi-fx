@@ -18,6 +18,14 @@
     along with MIDI-FX. If not, see <https://www.gnu.org/licenses/>.
 
 -->
+
+<script lang="ts" context="module">
+    export const doc: string = `
+    Emits Control Change (CC) messages based on the velocity of incoming node on messages.
+    Some smoothing is applied to the output to avoid sudden jumps in the CC value.
+    `;
+</script>
+
 <script lang="ts">
     import { createEmitter } from "src/ts/util/NodeUtil";
     import NodeUi from "../../widgets/NodeUI.svelte";

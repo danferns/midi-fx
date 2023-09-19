@@ -19,6 +19,9 @@
 
 -->
 <script lang="ts" context="module">
+    export const doc = `Splits "note on" and "note off" events into separate outputs.
+    Other MIDI messages do not pass through this node.`;
+
     export function isNoteOn(status: number, data1: number, data2: number) {
         if (status >= 144 && status < 160 && data2 !== 0) return true;
         else return false;

@@ -18,6 +18,15 @@
     along with MIDI-FX. If not, see <https://www.gnu.org/licenses/>.
 
 -->
+
+<script lang="ts" context="module">
+    export const doc: string = `
+        Displays a chord and waits for the user to play it.
+        If the chord is played correctly, it will be played through the "Success" output, 
+        and a new chord will be displayed.
+    `;
+</script>
+
 <script lang="ts">
     import Title from "src/svelte/widgets/info/Title.svelte";
     import NodeUi from "src/svelte/widgets/NodeUI.svelte";

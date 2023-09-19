@@ -18,6 +18,13 @@
     along with MIDI-FX. If not, see <https://www.gnu.org/licenses/>.
 
 -->
+
+<script lang="ts" context="module">
+    export const doc: string = `
+    Transposes all note on / off MIDI messages by a specified number of semitones.
+    `;
+</script>
+
 <script lang="ts">
     import { createEmitter } from "src/ts/util/NodeUtil";
     export let id: string;

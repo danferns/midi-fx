@@ -18,6 +18,13 @@
     along with MIDI-FX. If not, see <https://www.gnu.org/licenses/>.
 
 -->
+<script lang="ts" context="module">
+    export const doc: string = `
+    Detects hand gestures from the camera feed. You can control two CC parameters
+    by opening and closing your hands.
+    `;
+</script>
+
 <script lang="ts">
     import NodeUi from "src/svelte/widgets/NodeUI.svelte";
     import { createEmitter } from "src/ts/util/NodeUtil";

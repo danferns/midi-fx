@@ -19,6 +19,8 @@
 
 -->
 <script lang="ts" context="module">
+    export const doc: string = `Only allows selected types of MIDI messages to pass through.`;
+
     export const messageTypes = {
         "Note On / Off": (status) => {
             if (status >= 128 && status <= 159) return true;

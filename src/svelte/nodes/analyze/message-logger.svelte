@@ -18,6 +18,10 @@
     along with MIDI-FX. If not, see <https://www.gnu.org/licenses/>.
 
 -->
+<script lang="ts" context="module">
+    export const doc: string = `Logs all MIDI messages received at its input.`;
+</script>
+
 <script lang="ts">
     import { createEmitter } from "src/ts/util/NodeUtil";
     import Button from "../../widgets/input/Button.svelte";

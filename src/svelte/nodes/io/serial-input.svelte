@@ -18,6 +18,13 @@
     along with MIDI-FX. If not, see <https://www.gnu.org/licenses/>.
 
 -->
+<script lang="ts" context="module">
+    export const doc: string = `
+    Receives MIDI messages from a Serial input, and forwards them.
+    This makes it possible to use microcontrollers (like Arduinos) as MIDI inputs.
+    On the Arduino, simply use \`Serial.write()\` to send the MIDI message bytes.
+    `;
+</script>
 <script lang="ts">
     import { onMount } from "svelte";
     import { createEmitter } from "src/ts/util/NodeUtil";
