@@ -56,3 +56,9 @@
 </script>
 
 <canvas {height} {width} bind:this={canvas} />
+
+<style>
+    canvas {
+        border-radius: 8px;
+    }
+</style>
