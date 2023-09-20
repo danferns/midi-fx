@@ -42,9 +42,8 @@
     {#each Object.entries(items) as [item, onClick]}
         <div
             class="item"
-            on:pointerup={() => {
+            on:click={() => {
                 onClick();
-                document.removeEventListener("pointerdown", onPointerDown, true);
                 dispatch("close");
             }}
         >
