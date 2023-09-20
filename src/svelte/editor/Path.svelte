@@ -55,6 +55,7 @@
     <path
         stroke="hsl(0 0% {brightness * 100}%)"
         stroke-width="4px"
+        stroke-linecap="round"
         fill="transparent"
         d="M {x1} {y1} C {x1 + Math.abs(x1 - x2) / 4} {y1}, {(x1 + x2) / 2} {(y1 + y2) / 2}, {(x1 +
             x2) /
