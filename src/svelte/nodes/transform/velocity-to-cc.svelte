@@ -63,6 +63,6 @@
     sendMessage();
 </script>
 
-<NodeUi>
-    <NumericInput bind:value={state.cc} />
+<NodeUi width={200}>
+    <NumericInput bind:value={state.cc}/>
 </NodeUi>
