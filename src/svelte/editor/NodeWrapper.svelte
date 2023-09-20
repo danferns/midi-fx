@@ -315,6 +315,7 @@
         min-width: max-content;
         background: hsl(0 0% 6%);
         border-radius: 16px;
+        border: 1px solid hsl(0 0% 12%);
     }
 
     :is(div.inputs, div.outputs) {
