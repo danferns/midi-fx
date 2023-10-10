@@ -17,8 +17,10 @@
  * along with MIDI-FX. If not, see <https://www.gnu.org/licenses/>.
  */
 
-// Defined as per folder structure.
+import type { SvelteComponent } from "svelte";
 
+// A mapping from node-types to their Titles.
+// Defined as per folder structure.
 export const NODES = {
     io: {
         "midi-input": "External Input",
@@ -50,20 +52,30 @@ export const NODES = {
     },
 };
 
-export async function importNodeComponent(type: string) {
+/**
+ * Import the Svelte component of a given node.
+ * @param nodeType the type of node to import. eg. `midi-input`.
+ * @returns Promise of Svelte component of the node.
+ */
+export async function importNodeComponent(nodeType: string): Promise<SvelteComponent> {
     for (const category of Object.keys(NODES)) {
-        if (Object.keys(NODES[category]).includes(type)) {
-            return await import(`../../svelte/nodes/${category}/${type}.svelte`);
+        if (Object.keys(NODES[category]).includes(nodeType)) {
+            return await import(`../../svelte/nodes/${category}/${nodeType}.svelte`);
         }
     }
-    throw `Node '${type}' not found.`;
+    throw `Node '${nodeType}' not found.`;
 }
 
-export function getNodeTitle(type: string) {
+/**
+ * Get the display title string of a node.
+ * @param nodeType the type of the node. eg. `midi-input`.
+ * @returns Title of the node
+ */
+export function getNodeTitle(nodeType: string): string {
     for (const category of Object.keys(NODES)) {
-        if (Object.keys(NODES[category]).includes(type)) {
-            return NODES[category][type];
+        if (Object.keys(NODES[category]).includes(nodeType)) {
+            return NODES[category][nodeType];
         }
     }
-    throw `Node '${type}' not found.`;
+    throw `Node '${nodeType}' not found.`;
 }
