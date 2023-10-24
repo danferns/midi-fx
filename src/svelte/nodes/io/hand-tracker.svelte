@@ -20,8 +20,10 @@
 -->
 <script lang="ts" context="module">
     export const doc: string = `
-    Detects hand gestures from the camera feed. You can control two CC parameters
-    by opening and closing your hands.
+    Detects hand gestures from the camera feed.
+
+    The left and right hands map to different controls. Each hand can control one parameter 
+    by opening / closing itself, and the other by facing the palm towards or away from the camera. 
     `;
 </script>
 
@@ -32,7 +34,7 @@
     import * as mpHands from "@mediapipe/hands";
     import * as handdetection from "@tensorflow-models/hand-pose-detection";
     import { Camera, fingerLookupIndices } from "./hand-tracker/camera";
-    import vec3 from "vec3";
+    import vec3, { Vec3 } from "vec3";
 
     import { onMount } from "svelte";
     import { boundValue } from "src/ts/util/MathUtil";
@@ -67,30 +69,91 @@
                 : null;
 
         if (leftHand != null) {
-            const leftHandOpened = leftHand ? getHandOpenedValue(leftHand) : 0;
-            // emit CC message
-            const value = Math.round(Math.pow(leftHandOpened, 2) * 35 * 127) - 20;
-            emit("MIDI", 0xb0, 0, boundValue(value, 0, 127));
+            const handOpenValue = processHandOpenGesture(leftHand, "left");
+            emit("MIDI", 0xb0, 0, handOpenValue);
+
+            const handDirectionValue = processHandDirectionGesture(leftHand, "left");
+            emit("MIDI", 0xb0, 1, handDirectionValue);
         }
         if (rightHand != null) {
-            const rightHandOpened = rightHand ? getHandOpenedValue(rightHand) : 0;
-            // emit CC message
-            const value = Math.round(Math.pow(rightHandOpened, 2) * 35 * 127) - 20;
-            emit("MIDI", 0xb0, 2, boundValue(value, 0, 127));
+            const handOpenValue = processHandOpenGesture(rightHand, "right");
+            emit("MIDI", 0xb0, 2, handOpenValue);
+
+            const handDirectionValue = processHandDirectionGesture(rightHand, "right");
+            emit("MIDI", 0xb0, 3, handDirectionValue);
         }
+    }
+    
+    function processHandDirectionGesture(hand:handdetection.Hand, side: string): number {
+        const direction = getHandDirectionValue(hand);
+        let value = direction * 0.5 + 0.5;
+        if (side === "right") {
+            value = 1 - value;
+        }
+        return Math.round(boundValue(value * 127, 0, 127));
+    }
+
+    function getHandDirectionValue(hand: handdetection.Hand) {
+        const points = hand.keypoints3D;
+        const wrist = getVec3ForIndex(points, 0);
+        const indexBase = getVec3ForIndex(points, fingerLookupIndices.indexFinger[1]);
+        const pinkyBase = getVec3ForIndex(points, fingerLookupIndices.pinky[1]);
+
+        const wristIndex = indexBase.minus(wrist).normalize();
+        const wristPinky = pinkyBase.minus(wrist).normalize();
+        
+        const palmVector = wristIndex.cross(wristPinky);
+        return palmVector.normalize().dot(new Vec3(0, 0, 1));
+    }
+    let prevValues = {
+        left: 0,
+        right: 0,
+    };
+
+    function processHandOpenGesture(hand: handdetection.Hand, side: string): number {
+        const score = hand.score;
+        let handOpened = hand ? getHandOpenedValue(hand) : 0;
+        handOpened = score * handOpened + (1 - score) * prevValues[side];
+        prevValues[side] = handOpened;
+        // emit CC message
+        const value = Math.pow(handOpened, 2) * 127 * 1.1;
+        return Math.round(boundValue(value, 0, 127));
+    }
+
+    function getVec3ForIndex(points: handdetection.Keypoint[], index: number) {
+        return vec3({ z: 0, ...points[index] });
     }
 
     function getHandOpenedValue(hand: handdetection.Hand) {
-        let avgdist = 0;
-        const wrist = { z: 0, ...hand.keypoints3D[0] };
+        let avgDotProductHand = 0;
+        const points = hand.keypoints3D;
+        const wrist = getVec3ForIndex(points, 0);
         for (const [finger, indices] of Object.entries(fingerLookupIndices)) {
             if (finger === "thumb") continue;
-            const tip = { z: 0, ...hand.keypoints3D[indices[indices.length - 1]] };
-            const dist = vec3(wrist).distanceTo(vec3(tip));
-            avgdist += dist;
+            const fingerBase = getVec3ForIndex(points, indices[1]);
+            const knuckleInner = getVec3ForIndex(points, indices[2]);
+            const knuckleOuter = getVec3ForIndex(points, indices[3]);
+            const tip = getVec3ForIndex(points, indices[4]);
+
+            const bones = [
+                vec3(wrist).minus(vec3(fingerBase)).normalize(),
+                vec3(fingerBase).minus(vec3(knuckleInner)).normalize(),
+                vec3(knuckleInner).minus(vec3(knuckleOuter)).normalize(),
+                vec3(knuckleOuter).minus(vec3(tip)).normalize(),
+            ];
+
+            let avgDotProdFinger = 0;
+
+            for (let i = 0; i < bones.length - 1; i++) {
+                const dotProduct = bones[i].innerProduct(bones[i + 1]);
+                avgDotProdFinger += dotProduct;
+            }
+
+            avgDotProdFinger /= bones.length - 1;
+            avgDotProductHand += avgDotProdFinger;
         }
-        avgdist /= 4;
-        return avgdist;
+        avgDotProductHand /= 4;
+        return avgDotProductHand;
     }
 
     onMount(async () => {
@@ -128,7 +191,10 @@
             // Detectors can throw errors, for example when using custom URLs that
             // contain a model that doesn't provide the expected output.
             try {
-                hands = await detector.estimateHands(camera.video, { flipHorizontal: false });
+                hands = await detector.estimateHands(camera.video, {
+                    flipHorizontal: false,
+                    staticImageMode: false,
+                });
             } catch (error) {
                 detector.dispose();
                 detector = null;
@@ -142,8 +208,9 @@
         // different model. If during model change, the result is from an old model,
         // which shouldn't be rendered.
         if (hands && hands.length > 0) {
-            camera.drawResults(hands);
+            camera.preprocessHands(hands);
             processHands(hands);
+            camera.drawResults(hands);
         }
     }
 

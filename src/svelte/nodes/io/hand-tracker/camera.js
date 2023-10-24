@@ -129,10 +129,10 @@ export class Camera {
     }
 
     /**
-     * Draw the keypoints on the video.
-     * @param hands A list of hands to render.
+     * Sort hands list and pad empty hands
+     * @param hands A list of hands
      */
-    drawResults(hands) {
+    preprocessHands(hands) {
         // Sort by right to left hands.
         hands.sort((hand1, hand2) => {
             if (hand1.handedness < hand2.handedness) return 1;
@@ -142,7 +142,13 @@ export class Camera {
 
         // Pad hands to clear empty scatter GL plots.
         while (hands.length < 2) hands.push({});
+    }
 
+    /**
+     * Draw the keypoints on the video.
+     * @param hands A list of hands to render.
+     */
+    drawResults(hands) {
         for (let i = 0; i < hands.length; ++i) {
             // Third hand and onwards scatterGL context is set to null since we
             // don't render them.
