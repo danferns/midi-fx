@@ -30,7 +30,12 @@
             const message = [status ? status : runningStatus];
             if (typeof data1 === "number") message.push(data1);
             if (typeof data1 === "number" && typeof data2 === "number") message.push(data2);
-            activeOutput?.send(message);
+            try {
+                activeOutput?.send(message);
+            } catch (e) {
+                console.error("Error sending to Web MIDI Output.");
+                console.error(e);
+            }
             runningStatus = status ? status : runningStatus;
         },
     };
