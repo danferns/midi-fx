@@ -83,8 +83,8 @@
             emit("MIDI", 0xb0, 3, handDirectionValue);
         }
     }
-    
-    function processHandDirectionGesture(hand:handdetection.Hand, side: string): number {
+
+    function processHandDirectionGesture(hand: handdetection.Hand, side: string): number {
         const direction = getHandDirectionValue(hand);
         let value = direction * 0.5 + 0.5;
         if (side === "right") {
@@ -101,7 +101,7 @@
 
         const wristIndex = indexBase.minus(wrist).normalize();
         const wristPinky = pinkyBase.minus(wrist).normalize();
-        
+
         const palmVector = wristIndex.cross(wristPinky);
         return palmVector.normalize().dot(new Vec3(0, 0, 1));
     }
@@ -215,7 +215,11 @@
     }
 
     async function renderPrediction() {
-        await renderResult();
+        try {
+            await renderResult();
+        } catch (e) {
+            console.error(e);
+        }
 
         requestAnimationFrame(renderPrediction);
     }
