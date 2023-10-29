@@ -22,7 +22,6 @@
     import { writable } from "svelte/store";
     export const pseudoConnection = writable({
         from: undefined,
-        to: undefined,
     });
 </script>
 
@@ -38,7 +37,6 @@
 
     let connection: {
         from: [string, string] | undefined;
-        to: [string, string] | undefined;
     };
 
     pseudoConnection.subscribe((conn) => {
@@ -49,7 +47,7 @@
     let mouseY: number;
 
     function handleMouseUp() {
-        if (connection.from && !connection.to) {
+        if (connection.from) {
             // cancel connection
             pseudoConnection.update((conn) => {
                 conn.from = undefined;
@@ -68,7 +66,7 @@
     on:blur={handleMouseUp}
 />
 
-{#if connection.from && !connection.to}
+{#if connection.from}
     <Path
         x1={insts[connection.from[0]].outputs[connection.from[1]].x}
         y1={insts[connection.from[0]].outputs[connection.from[1]].y}
