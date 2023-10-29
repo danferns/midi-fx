@@ -19,11 +19,11 @@
 
 -->
 <script lang="ts">
-    export let options;
-    export let value;
+    export let options: string[];
+    export let value: string;
 </script>
 
-<select on:change bind:value>
+<select on:change bind:value class="mousedrag">
     {#each options as option}
         <option>{option}</option>
     {/each}
