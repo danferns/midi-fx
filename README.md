@@ -7,7 +7,7 @@ MIDI FX is a Free and Open Source MIDI Effects Processor. It uses a node graph a
 ### Things you can do with it
 
 - Change the note number, velocity, or channel of MIDI messages
-- Convert Note Velocities into Continuous Change (MIDI CC) messages
+- Generate Control Change (CC) messages using note velocity
 - See the name of the chord you're playing
 - See the value of a CC control as it changes
 - Practice playing chords on your MIDI keyboard
