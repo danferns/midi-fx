@@ -1,17 +1,23 @@
 # MIDI-FX
 
-MIDI-FX is a powerful tool for transforming and analyzing MIDI messages in creative ways. Its node graph architecture offers a high degree of flexibility, making it a valuable tool for enhancing musical performances.
+MIDI FX is a Free and Open Source MIDI Effects Processor. It uses a node graph architecture to let you build your own effects by freely connecting nodes together. 
 
 ![Screenshot](/Screenshot.png)
 
-### Highlights
+### Things you can do with it
 
--   Installable Web App (cross-platform + offline support)
--   Transform MIDI (e.g. transpose, delay notes, convert velocity to CC)
--   Analyze MIDI (e.g. visualize CC changes, identify chords)
--   Web Serial API support (so you can receive MIDI from an Arduino)
+- Change the note number, velocity, or channel of MIDI messages
+- Convert Note Velocities into Continuous Change (MIDI CC) messages
+- See the name of the chord you're playing
+- See the value of a CC control as it changes
+- Practice playing chords on your MIDI keyboard
+- Wirelessly send MIDI messages between your devices via WebRTC
+- Convert an Arduino's Serial output to MIDI messages
+- ... and much more!
 
-## How to use
+> This project is in it's early stages. I'm interested in learning how it can evolve, so testing and feedback is very much appreciated. 
+
+## Setup
 
 Simply head to the deployed version at [danferns.github.io/midi-fx](https://danferns.github.io/midi-fx/).
 
@@ -21,29 +27,23 @@ Most Chromium based browsers will work well. Firefox does not support the Serial
 
 You will need to set up a virtual loopback device to forward the messages from MIDI-FX to your DAW and vice-versa. On Windows, you can accomplish this with [loopMIDI](https://www.tobias-erichsen.de/software/loopmidi.html).
 
-## How it works
+Create a port in loopMIDI. In your DAW, make sure to enable this port.
 
-All nodes are implemented as their own Svelte components. This means that nodes can also access native Web APIs and customize their UI as needed.
+## How to use
 
-Nodes can have multiple inputs and outputs. Each input is actually a function that is called for every MIDI message sent to it. Here's an input that simply logs the messages it receives:
-
-```ts
-(status: number, data1: number, data2: number) => {
-    console.log(`Status: ${status} Data 1: ${data1} Data 2: ${data2}`);
-};
-```
-
-An output is a `Set` of inputs (the functions). When an input is connected to an output, it is added to the `Set` that the output represents.
-
-Under the hood, when a message is emitted through an output, all the inputs (the functions) in its `Set` are called, with the outgoing message bytes as their arguments.
+MIDI FX will generally lie *between* your MIDI input device and your DAW or hardware synth, etc. Start by adding the `External Input` and `External Output` nodes. Connect them together to check that the MIDI messages pass through transparently. Next, try adding some node between them like the Delay or Transpose, to see how MIDI-FX transforms the messages.
 
 ## Contributing
 
-Thank you for your interest in contributing to MIDI-FX! To make development a better experience for all of us, this project is undergoing a major refactor, due to which I'm currently not accepting contributions. Please check back in a few weeks for any updates!
+Thank you for your interest in contributing to MIDI-FX! Contributions are very welcome. Here are some ways you can do it:
+
+- Share MIDI FX presets or tips and tricks with the [Community](https://github.com/danferns/midi-fx/discussions/categories/show-and-tell).
+- Provide feedback, feature requests or bug reports in the GitHub Issues
+- Create a PR when there is a clear solution to the Issue
 
 ## License
 
-Copyright (C) 2022 Daniel Fernandes
+Copyright (C) 2022-2024 Daniel Fernandes
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
