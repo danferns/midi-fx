@@ -45,18 +45,16 @@
     import { onMount, tick } from "svelte";
 
     import {
-        createConnection,
-        destroyConnection,
         destroyNode,
-        instances,
+        instances
     } from "src/ts/editor/instances";
-    import PseudoPath, { pseudoConnection } from "./PseudoPath.svelte";
+    import PseudoPath from "./PseudoPath.svelte";
 
-    import { scale, displayToEditorCoords } from "src/ts/editor/transform";
+    import { displayToEditorCoords, scale } from "src/ts/editor/transform";
 
+    import interact from "interactjs";
     import ContextMenu from "./ContextMenu.svelte";
     import { showInfo } from "./InfoModal.svelte";
-    import interact from "interactjs";
     import NodeInputsUI from "./NodeInputs.svelte";
     import NodeOutputsUI from "./NodeOutputs.svelte";
 
