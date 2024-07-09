@@ -57,6 +57,8 @@
     import ContextMenu from "./ContextMenu.svelte";
     import { showInfo } from "./InfoModal.svelte";
     import interact from "interactjs";
+    import NodeInputsUI from "./NodeInputs.svelte";
+    import NodeOutputsUI from "./NodeOutputs.svelte";
 
     export let id: string;
     export let type: string;
@@ -108,6 +110,7 @@
 
     function updateIOCoords(elements: IOElements, io: { [key: string]: LiveIO }) {
         for (const [name, elm] of Object.entries(elements)) {
+            console.log(name)
             const displayCoords = getCenterCoords(elm);
             const { x, y } = displayToEditorCoords(displayCoords);
             io[name].x = x;
@@ -144,66 +147,6 @@
         await tick();
         updateCoords();
     });
-
-    function onOutputPointerdown(e: PointerEvent, name: string) {
-        if (e.pointerType !== "mouse" || e.buttons === 1) {
-            e.stopPropagation();
-
-            pseudoConnection.update((val) => {
-                val.from = [id, name];
-                return val;
-            });
-        }
-    }
-
-    function onInputPointerup(e: Event, name: string) {
-        pseudoConnection.update((val) => {
-            if (val.from) {
-                createConnection(val.from[0], val.from[1], [id, name]);
-                val.from = undefined;
-            }
-            return val;
-        });
-    }
-
-    function onInputPointerdown(e: PointerEvent, name: string) {
-        if (e.pointerType !== "mouse" || e.buttons === 1) {
-            e.stopPropagation();
-
-            function onInputPointerleave(e: PointerEvent) {
-                if (e.pointerType !== "mouse" || e.buttons === 1) {
-                    e.stopPropagation();
-                    let outputNode, outputName;
-                    instances.update((val: LiveInstances) => {
-                        for (const node of Object.entries(val)) {
-                            for (const output of Object.entries(node[1].outputs)) {
-                                for (const connection of output[1].connections) {
-                                    if (connection[0] === id && connection[1] === name) {
-                                        outputNode = node[0];
-                                        outputName = output[0];
-                                    }
-                                }
-                            }
-                        }
-                        return val;
-                    });
-                    if (outputNode) {
-                        destroyConnection(outputNode, outputName, [id, name]);
-                        pseudoConnection.update((val) => {
-                            val.from = [outputNode, outputName];
-                            return val;
-                        });
-                    }
-                }
-            }
-
-            e.target.addEventListener("pointerleave", onInputPointerleave);
-
-            window.addEventListener("pointerup", () => {
-                e.target.removeEventListener("pointerleave", onInputPointerleave);
-            });
-        }
-    }
 
     let showContextMenu: boolean = false;
     let contextMenuCoords: Point;
@@ -250,20 +193,7 @@
     bind:this={node}
 >
     <div class="inputs">
-        {#each Object.entries(liveInputs) as [name]}
-            <div class="input">
-                <div
-                    class={name}
-                    bind:this={inputElements[name]}
-                    on:pointerup={(e) => {
-                        onInputPointerup(e, name);
-                    }}
-                    on:pointerdown|stopPropagation={(e) => onInputPointerdown(e, name)}
-                >
-                    <span>{name}</span>
-                </div>
-            </div>
-        {/each}
+        <NodeInputsUI {id} inputs={Object.keys(liveInputs)} bind:handles={inputElements}/>
     </div>
 
     <div class="body">
@@ -283,19 +213,7 @@
     </div>
 
     <div class="outputs">
-        {#each Object.entries(liveOutputs) as [name]}
-            <div class="output">
-                <div
-                    class={name}
-                    bind:this={outputElements[name]}
-                    on:pointerdown={(e) => {
-                        onOutputPointerdown(e, name);
-                    }}
-                >
-                    <span>{name}</span>
-                </div>
-            </div>
-        {/each}
+        <NodeOutputsUI {id} inputs={Object.keys(liveOutputs)} bind:handles={outputElements}/>
     </div>
 </div>
 
@@ -336,42 +254,4 @@
         padding: 4px 12px;
     }
 
-    /* text */
-
-    :is(div.output, div.input) {
-        writing-mode: vertical-lr;
-        color: black;
-        font-size: 12px;
-        margin: 4px 0px;
-        padding: 0px;
-        width: 24px;
-    }
-
-    /* socket */
-
-    :is(div.output, div.input) > div {
-        padding: 6px 4px;
-        background: white;
-    }
-
-    div.input > div {
-        border-radius: 6px 0 0 6px;
-    }
-
-    div.output > div {
-        border-radius: 0 6px 6px 0;
-    }
-
-    /* hover effect */
-
-    :is(div.input, div.output) > div:hover {
-        background: hsl(0 0% 10%) !important;
-        color: white;
-    }
-
-    /* special colors */
-
-    :is(div.output, div.input) > div.MIDI {
-        background: hsl(160 90% 60%);
-    }
 </style>
