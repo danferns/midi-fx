@@ -25,13 +25,13 @@ Most Chromium based browsers will work well. Firefox does not support the Serial
 
 ### To use MIDI-FX with your DAW
 
-You will need to set up a virtual loopback device to forward the messages from MIDI-FX to your DAW and vice-versa. On Windows, you can accomplish this with [loopMIDI](https://www.tobias-erichsen.de/software/loopmidi.html).
+If you're on Windows, you can use [loopMIDI](https://www.tobias-erichsen.de/software/loopmidi.html) to create a *virtual loopback MIDI port* to send MIDI messages to your DAW. It is also possible to send data from the DAW back to MIDI FX by creating a second port. Make sure to enable the new port in your DAW.
 
-Create a port in loopMIDI. In your DAW, make sure to enable this port.
+For Linux and MacOS, I believe something like this is available built-in, but I don't have the intructions. If you know how to do it, a PR would be much appreciated!
 
 ## How to use
 
-MIDI FX will generally lie *between* your MIDI input device and your DAW or hardware synth, etc. Start by adding the `External Input` and `External Output` nodes. Connect them together to check that the MIDI messages pass through transparently. Next, try adding some node between them like the Delay or Transpose, to see how MIDI-FX transforms the messages.
+MIDI FX will generally lie *between* your MIDI input device and your DAW or hardware synth, etc. Start by adding the `External Input` and `External Output` nodes and select your MIDI input device and the virual port for your DAW respectively. Connect the nodes together to check that the MIDI messages pass through transparently. Next, try adding some node between them like the Delay or Transpose, to see how MIDI-FX transforms the messages.
 
 ## Contributing
 
