@@ -74,8 +74,7 @@
     div {
         position: absolute;
         background: var(--background);
-        height: 32px;
-        width: 100%;
+        height: 40px;
         z-index: 3;
         display: flex;
 

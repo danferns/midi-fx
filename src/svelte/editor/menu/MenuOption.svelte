@@ -28,9 +28,9 @@
 <style>
     div {
         border-radius: 2px;
-        padding: 4px;
+        padding: 12px;
         box-sizing: border-box;
-        height: 26px;
+        height: 40px;
         background: var(--background);
     }
 

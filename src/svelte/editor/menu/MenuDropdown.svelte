@@ -26,7 +26,7 @@
 </script>
 
 <div class="option">
-    <div class="name">&nbsp;&nbsp;{name}&nbsp;&nbsp;&gt;&nbsp;&nbsp;</div>
+    <div class="name">&nbsp;&nbsp;{name}&nbsp;&nbsp; 〉&nbsp;&nbsp;</div>
     <div class="submenu">
         {#each Object.entries(options) as [name, option]}
             {#if typeof option === "function"}
@@ -40,13 +40,13 @@
 
 <style>
     .option {
-        height: 26px;
+        height: 40px;
         box-sizing: border-box;
     }
     .name {
         border-radius: 2px;
-        padding: 4px;
-        height: 26px;
+        padding: 8px;
+        height: 40px;
         box-sizing: border-box;
         width: 100%;
     }
@@ -59,7 +59,12 @@
         display: none;
         position: relative;
         left: 100%;
-        top: -24px;
+        top: -42px;
+
+        background: var(--background);
+        width: 200px;
+        border-radius: 4px;
+        padding: 2px;
     }
 
     div:is(:hover, :active) > div.submenu {

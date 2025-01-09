@@ -48,17 +48,16 @@
 
 <style>
     div.menuitem {
-        height: 32px;
+        height: 100%;
     }
 
     div.button {
-        height: 24px;
-        padding: 8px 4px 0px 4px;
+        height: calc(100% - 8px);
+        box-sizing: border-box;
         width: max-content;
 
-        padding: 4px;
-        height: 18px;
-        margin: 3px;
+        padding: 8px;
+        margin: 4px;
         border-radius: 2px;
     }
 
@@ -72,7 +71,7 @@
         position: sticky;
 
         background: var(--background);
-        width: max-content;
+        width: 200px;
         border-radius: 4px;
         padding: 2px;
     }
