@@ -10,7 +10,7 @@ export async function setupLandmarker() {
 
     handLandmarker = await HandLandmarker.createFromOptions(vision, {
         baseOptions: {
-            modelAssetPath: "/nodes/hand_landmarker.task",
+            modelAssetPath: "./nodes/hand_landmarker.task",
             delegate: "GPU",
         },
         numHands: 2,
