@@ -17,8 +17,6 @@
 
 // Modified by Daniel Fernandes
 
-import * as params from "./params";
-
 // These anchor points allow the hand pointcloud to resize according to its
 // position in the input.
 export const ANCHOR_POINTS = [
@@ -70,23 +68,19 @@ export class Camera {
      * Initiate a Camera instance and wait for the camera stream to be ready.
      * @param cameraParam From app `STATE.camera`.
      */
-    static async setupCamera(cameraParam, video, canvas) {
+    static async setupCamera(video, canvas) {
         if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
             throw new Error("Browser API navigator.mediaDevices.getUserMedia not available");
         }
 
-        const { targetFPS, sizeOption } = cameraParam;
-        const $size = params.VIDEO_SIZE[sizeOption];
         const videoConfig = {
             audio: false,
             video: {
                 facingMode: "user",
-                // Only setting the video to a specified size for large screen, on
-                // mobile devices accept the default size.
-                width: $size.width,
-                height: $size.height,
+                width: 360,
+                height: 270,
                 frameRate: {
-                    ideal: targetFPS,
+                    ideal: 60,
                 },
             },
         };
@@ -129,75 +123,37 @@ export class Camera {
     }
 
     /**
-     * Sort hands list and pad empty hands
-     * @param hands A list of hands
-     */
-    preprocessHands(hands) {
-        // Sort by right to left hands.
-        hands.sort((hand1, hand2) => {
-            if (hand1.handedness < hand2.handedness) return 1;
-            if (hand1.handedness > hand2.handedness) return -1;
-            return 0;
-        });
-
-        // Pad hands to clear empty scatter GL plots.
-        while (hands.length < 2) hands.push({});
-    }
-
-    /**
-     * Draw the keypoints on the video.
-     * @param hands A list of hands to render.
-     */
-    drawResults(hands) {
-        for (let i = 0; i < hands.length; ++i) {
-            // Third hand and onwards scatterGL context is set to null since we
-            // don't render them.
-            this.drawResult(hands[i]);
-        }
-    }
-
-    /**
      * Draw the keypoints on the video.
      * @param hand A hand with keypoints to render.
      * @param ctxt Scatter GL context to render 3D keypoints to.
      */
-    drawResult(hand) {
-        if (hand.keypoints != null) {
-            this.drawKeypoints(hand.keypoints, hand.handedness);
-        }
-    }
-
-    /**
-     * Draw the keypoints on the video.
-     * @param keypoints A list of keypoints.
-     * @param handedness Label of hand (either Left or Right).
-     */
-    drawKeypoints(keypoints, handedness) {
-        const keypointsArray = keypoints;
-        this.ctx.fillStyle = handedness === "Left" ? "Red" : "Blue";
+    drawHand(landmarks, isLeftHand) {
+        this.ctx.fillStyle = isLeftHand ? "Red" : "Blue";
         this.ctx.strokeStyle = "White";
-        this.ctx.lineWidth = params.DEFAULT_LINE_WIDTH;
+        this.ctx.lineWidth = 2;
 
-        for (let i = 0; i < keypointsArray.length; i++) {
-            const y = keypointsArray[i].x;
-            const x = keypointsArray[i].y;
-            this.drawPoint(x - 2, y - 2, 3);
-        }
-
+        // draw the lines connecting the joints
         const fingers = Object.keys(fingerLookupIndices);
         for (let i = 0; i < fingers.length; i++) {
             const finger = fingers[i];
-            const points = fingerLookupIndices[finger].map((idx) => keypoints[idx]);
+            const points = fingerLookupIndices[finger].map((idx) => landmarks[idx]);
             this.drawPath(points, false);
+        }
+
+        // draw the circles for every joint
+        for (let i = 0; i < landmarks.length; i++) {
+            const y = landmarks[i].x * this.video.width;
+            const x = landmarks[i].y * this.video.height;
+            this.drawPoint(x, y, 4);
         }
     }
 
     drawPath(points, closePath) {
         const region = new Path2D();
-        region.moveTo(points[0].x, points[0].y);
+        region.moveTo(points[0].x * this.video.width, points[0].y * this.video.height);
         for (let i = 1; i < points.length; i++) {
             const point = points[i];
-            region.lineTo(point.x, point.y);
+            region.lineTo(point.x * this.video.width, point.y * this.video.height);
         }
 
         if (closePath) {
@@ -210,5 +166,6 @@ export class Camera {
         this.ctx.beginPath();
         this.ctx.arc(x, y, r, 0, 2 * Math.PI);
         this.ctx.fill();
+        this.ctx.closePath();
     }
 }
