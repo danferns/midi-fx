@@ -48,7 +48,7 @@ Thank you for your interest in contributing to MIDI-FX! Contributions are very w
 
 ## License
 
-Copyright (C) 2022-2024 Daniel Fernandes
+Copyright (C) 2022-Present Daniel Fernandes
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
