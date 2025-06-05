@@ -17,6 +17,11 @@ MIDI FX is a Free and Open Source MIDI Effects Processor. It uses a node graph a
 
 > This project is in it's early stages. I'm interested in learning how it can evolve, so testing and feedback is very much appreciated. 
 
+### MIDI FX at the Audio Developer Conference
+
+I presented MIDI FX at ADCx India 2025! You can find the full talk on [YouTube](https://www.youtube.com/watch?v=jQIquVLGTOA).
+It includes a few demos and is a great way to see the capabilities of the project.
+
 ## Setup
 
 Simply head to the deployed version at [danferns.github.io/midi-fx](https://danferns.github.io/midi-fx/).
