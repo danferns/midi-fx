@@ -40,11 +40,10 @@ MIDI FX will generally lie *between* your MIDI input device and your DAW or hard
 
 ## Contributing
 
-Thank you for your interest in contributing to MIDI-FX! Contributions are very welcome. Here are some ways you can do it:
+Thank you for your interest in contributing to MIDI-FX! Contributions are very welcome. 
+There is now a [Contributor's Guidebook](./CONTRIBUTING.md).
 
-- Share MIDI FX presets or tips and tricks with the [Community](https://github.com/danferns/midi-fx/discussions/categories/show-and-tell).
-- Provide feedback, feature requests or bug reports in the GitHub Issues
-- Create a PR when there is a clear solution to the Issue
+You are also welcome to share presets or tips and tricks with the [Community](https://github.com/danferns/midi-fx/discussions/categories/show-and-tell).
 
 ## License
 
