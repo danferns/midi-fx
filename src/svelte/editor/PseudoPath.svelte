@@ -30,7 +30,7 @@
     import { instances } from "src/ts/editor/instances";
     import { translateX, translateY, scale } from "src/ts/editor/transform";
 
-    let insts : LiveInstances;
+    let insts: LiveInstances;
     instances.subscribe((val: LiveInstances) => {
         insts = val;
     });

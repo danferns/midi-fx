@@ -44,10 +44,7 @@
 <script lang="ts">
     import { onMount, tick } from "svelte";
 
-    import {
-        destroyNode,
-        instances
-    } from "src/ts/editor/instances";
+    import { destroyNode, instances } from "src/ts/editor/instances";
     import PseudoPath from "./PseudoPath.svelte";
 
     import { displayToEditorCoords, scale } from "src/ts/editor/transform";
@@ -108,7 +105,7 @@
 
     function updateIOCoords(elements: IOElements, io: { [key: string]: LiveIO }) {
         for (const [name, elm] of Object.entries(elements)) {
-            console.log(name)
+            console.log(name);
             const displayCoords = getCenterCoords(elm);
             const { x, y } = displayToEditorCoords(displayCoords);
             io[name].x = x;
@@ -191,7 +188,7 @@
     bind:this={node}
 >
     <div class="inputs">
-        <NodeInputsUI {id} inputs={Object.keys(liveInputs)} bind:handles={inputElements}/>
+        <NodeInputsUI {id} inputs={Object.keys(liveInputs)} bind:handles={inputElements} />
     </div>
 
     <div class="body">
@@ -211,7 +208,7 @@
     </div>
 
     <div class="outputs">
-        <NodeOutputsUI {id} inputs={Object.keys(liveOutputs)} bind:handles={outputElements}/>
+        <NodeOutputsUI {id} inputs={Object.keys(liveOutputs)} bind:handles={outputElements} />
     </div>
 </div>
 
@@ -251,5 +248,4 @@
         text-align: center;
         padding: 4px 12px;
     }
-
 </style>

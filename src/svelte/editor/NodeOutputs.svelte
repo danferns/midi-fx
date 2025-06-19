@@ -28,7 +28,7 @@
 
 <div class="node-outputs">
     {#each inputs as name}
-        <Port type={PortType.Output} {name} {id} bind:handle={handles[name]}/>
+        <Port type={PortType.Output} {name} {id} bind:handle={handles[name]} />
     {/each}
 </div>
 

@@ -19,8 +19,8 @@
 
 -->
 <script lang="ts">
-   export let name: string;
-   export let option: (any) => (any);
+    export let name: string;
+    export let option: (any) => any;
 </script>
 
 <div on:click={option}>&nbsp;&nbsp;{name}&nbsp;&nbsp;&nbsp;&nbsp;</div>

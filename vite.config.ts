@@ -24,9 +24,9 @@ export default defineConfig({
                         src: "favicon-192px.png",
                         sizes: "192x192",
                         type: "image/png",
-                    }
-                ]
-            }
+                    },
+                ],
+            },
         }),
     ],
     resolve: {

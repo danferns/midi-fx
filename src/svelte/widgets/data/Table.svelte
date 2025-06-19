@@ -34,7 +34,7 @@
             </div>
         {/each}
     </div>
-    <VerticalScrollLayout height={height}>
+    <VerticalScrollLayout {height}>
         <div class="table-body">
             {#each tableData as row}
                 <div class="table-row">

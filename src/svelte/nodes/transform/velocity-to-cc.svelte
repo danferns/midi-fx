@@ -64,5 +64,5 @@
 </script>
 
 <NodeUi width={200}>
-    <NumericInput bind:value={state.cc}/>
+    <NumericInput bind:value={state.cc} />
 </NodeUi>

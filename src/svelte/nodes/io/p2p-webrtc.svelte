@@ -24,6 +24,7 @@
     It uses WebRTC to establish a peer-to-peer connection between the devices.
     `;
 </script>
+
 <script lang="ts">
     import NodeUi from "src/svelte/widgets/NodeUI.svelte";
     import Title from "src/svelte/widgets/info/Title.svelte";
@@ -136,7 +137,7 @@
         <Title>You are <b>{state.localId}</b></Title>
     {/if}
 
-    <div></div>
+    <div />
 
     {#if !connected}
         <HorizontalLayout>

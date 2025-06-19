@@ -52,4 +52,3 @@
     };
     const emit = createEmitter(id, outputs);
 </script>
-

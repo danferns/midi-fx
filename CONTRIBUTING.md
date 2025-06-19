@@ -1,6 +1,6 @@
 # Contributors Guidebook
 
-Thank you for wanting to contribute to MIDI FX! 
+Thank you for wanting to contribute to MIDI FX!
 
 ## Submitting bug reports, feature requests, etc.
 
@@ -12,7 +12,7 @@ You may [open a GitHub Issue](https://github.com/danferns/midi-fx/issues) to sta
 
 We will use Git and NodeJS.
 
-### Setup 
+### Setup
 
 [Fork the project](https://github.com/danferns/midi-fx/fork) so that you have your own version of it.
 
@@ -89,7 +89,7 @@ git push
 ### Creating a PR
 
 To have your changes merged to MIDI FX, you will need to [create a pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request#creating-the-pull-request). These offer useful features for code review and discussions, so feel welcomed to open a draft PR early if you prefer!
+
 ## Adding new nodes
 
 Check out [`nodes/README`](./src/svelte/nodes/README.md).
-

@@ -32,13 +32,15 @@
     let knob;
 
     onMount(() => {
-        interact(knob).styleCursor(false).draggable({
-            listeners: {
-                move: (e) => {
-                    percent = boundValue(percent - (25 * e.dy) / radius, 0, 100);
+        interact(knob)
+            .styleCursor(false)
+            .draggable({
+                listeners: {
+                    move: (e) => {
+                        percent = boundValue(percent - (25 * e.dy) / radius, 0, 100);
+                    },
                 },
-            },
-        });
+            });
     });
 
     let radius = size / 2.4;

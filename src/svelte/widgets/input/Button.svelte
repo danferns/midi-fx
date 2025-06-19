@@ -22,7 +22,7 @@
     export let padding: number = 16;
 </script>
 
-<button on:click class="mousedrag" style:padding={padding}px ><slot /></button>
+<button on:click class="mousedrag" style:padding="{padding}px"><slot /></button>
 
 <style>
     button {

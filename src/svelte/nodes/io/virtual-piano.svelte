@@ -24,6 +24,7 @@
     It will also highlight any notes played it its MIDI input.
     `;
 </script>
+
 <script lang="ts">
     import { createEmitter } from "src/ts/util/NodeUtil";
     import { createEventDispatcher } from "svelte";

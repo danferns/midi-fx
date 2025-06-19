@@ -1,21 +1,21 @@
 # MIDI-FX
 
-MIDI FX is a Free and Open Source MIDI Effects Processor. It uses a node graph architecture to let you build your own effects by freely connecting nodes together. 
+MIDI FX is a Free and Open Source MIDI Effects Processor. It uses a node graph architecture to let you build your own effects by freely connecting nodes together.
 
 ![Screenshot](/Screenshot.png)
 
 ### Things you can do with it
 
-- Change the note number, velocity, or channel of MIDI messages
-- Generate Control Change (CC) messages using note velocity
-- See the name of the chord you're playing
-- See the value of a CC control as it changes
-- Practice playing chords on your MIDI keyboard
-- Wirelessly send MIDI messages between your devices via WebRTC
-- Convert an Arduino's Serial output to MIDI messages
-- ... and much more!
+-   Change the note number, velocity, or channel of MIDI messages
+-   Generate Control Change (CC) messages using note velocity
+-   See the name of the chord you're playing
+-   See the value of a CC control as it changes
+-   Practice playing chords on your MIDI keyboard
+-   Wirelessly send MIDI messages between your devices via WebRTC
+-   Convert an Arduino's Serial output to MIDI messages
+-   ... and much more!
 
-> This project is in it's early stages. I'm interested in learning how it can evolve, so testing and feedback is very much appreciated. 
+> This project is in it's early stages. I'm interested in learning how it can evolve, so testing and feedback is very much appreciated.
 
 ### MIDI FX at the Audio Developer Conference
 
@@ -30,17 +30,17 @@ Most Chromium based browsers will work well. Firefox does not support the Serial
 
 ### To use MIDI-FX with your DAW
 
-If you're on Windows, you can use [loopMIDI](https://www.tobias-erichsen.de/software/loopmidi.html) to create a *virtual loopback MIDI port* to send MIDI messages to your DAW. It is also possible to send data from the DAW back to MIDI FX by creating a second port. Make sure to enable the new port in your DAW.
+If you're on Windows, you can use [loopMIDI](https://www.tobias-erichsen.de/software/loopmidi.html) to create a _virtual loopback MIDI port_ to send MIDI messages to your DAW. It is also possible to send data from the DAW back to MIDI FX by creating a second port. Make sure to enable the new port in your DAW.
 
 For Linux and MacOS, I believe something like this is available built-in, but I don't have the intructions. If you know how to do it, a PR would be much appreciated!
 
 ## How to use
 
-MIDI FX will generally lie *between* your MIDI input device and your DAW or hardware synth, etc. Start by adding the `External Input` and `External Output` nodes and select your MIDI input device and the virual port for your DAW respectively. Connect the nodes together to check that the MIDI messages pass through transparently. Next, try adding some node between them like the Delay or Transpose, to see how MIDI-FX transforms the messages.
+MIDI FX will generally lie _between_ your MIDI input device and your DAW or hardware synth, etc. Start by adding the `External Input` and `External Output` nodes and select your MIDI input device and the virual port for your DAW respectively. Connect the nodes together to check that the MIDI messages pass through transparently. Next, try adding some node between them like the Delay or Transpose, to see how MIDI-FX transforms the messages.
 
 ## Contributing
 
-Thank you for your interest in contributing to MIDI-FX! Contributions are very welcome. 
+Thank you for your interest in contributing to MIDI-FX! Contributions are very welcome.
 There is now a [Contributor's Guidebook](./CONTRIBUTING.md).
 
 You are also welcome to share presets or tips and tricks with the [Community](https://github.com/danferns/midi-fx/discussions/categories/show-and-tell).

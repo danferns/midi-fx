@@ -45,12 +45,7 @@
     }
 </script>
 
-<svg
-    height={size}
-    width={size}
-    on:pointerdown|stopPropagation={pointerDown}
-    class="mousedrag"
->
+<svg height={size} width={size} on:pointerdown|stopPropagation={pointerDown} class="mousedrag">
     <circle r={radius} cx={size - radius} cy={size - radius} />
     <circle r={radius} cx={size - radius} cy={size - 3.5 * radius} />
     <circle r={radius} cx={size - 3.5 * radius} cy={size - radius} />

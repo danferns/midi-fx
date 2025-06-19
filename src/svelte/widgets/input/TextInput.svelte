@@ -23,7 +23,14 @@
     export let hint: string = "";
 </script>
 
-<input type="text" bind:value placeholder={hint} on:change class="mousedrag" on:contextmenu|stopPropagation/>
+<input
+    type="text"
+    bind:value
+    placeholder={hint}
+    on:change
+    class="mousedrag"
+    on:contextmenu|stopPropagation
+/>
 
 <style>
     input {

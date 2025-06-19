@@ -25,6 +25,7 @@
     On the Arduino, simply use \`Serial.write()\` to send the MIDI message bytes.
     `;
 </script>
+
 <script lang="ts">
     import { onMount } from "svelte";
     import { createEmitter } from "src/ts/util/NodeUtil";
