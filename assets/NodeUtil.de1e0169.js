@@ -1,0 +1,1 @@
+import{w as a}from"./index.9537bdcf.js";async function o(e,r){a.update(t=>(t&&(t[e].outputs[r].active=!0),t)),await f(0),a.update(t=>(t&&(t[e].outputs[r].active=!1),t))}function p(e,r){return(t,i,u,c)=>{for(const n of r[t])n(i,u,c);o(e,t)}}function f(e){return new Promise(r=>{setTimeout(r,e)})}export{p as c};
