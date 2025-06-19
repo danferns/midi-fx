@@ -1,43 +1,45 @@
 {
-  "name": "midi-fx",
-  "description": "Node Editor for Creative MIDI Effects",
-  "author": "Daniel Fernandes (https://github.com/danferns)",
-  "homepage": "https://github.com/danferns/midi-fx",
-  "bugs": "https://github.com/danferns/midi-fx/issues",
-  "license": "GPL-3.0-or-later",
-  "version": "0.0.1",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "check": "svelte-check --tsconfig ./tsconfig.json"
-  },
-  "devDependencies": {
-    "@sveltejs/vite-plugin-svelte": "^1.0.0-next.30",
-    "@tsconfig/svelte": "^2.0.1",
-    "@typescript-eslint/eslint-plugin": "^5.14.0",
-    "@typescript-eslint/parser": "^5.14.0",
-    "eslint": "^8.10.0",
-    "prettier": "^2.5.1",
-    "svelte": "^3.49.0",
-    "svelte-check": "^2.2.7",
-    "svelte-preprocess": "^4.9.8",
-    "tslib": "^2.3.1",
-    "typescript": "^4.5.4",
-    "vite": "^2.9.16",
-    "vite-plugin-pwa": "^0.12.2"
-  },
-  "dependencies": {
-    "@fortawesome/free-solid-svg-icons": "^6.2.0",
-    "@mediapipe/tasks-vision": "^0.10.20",
-    "@types/w3c-web-serial": "^1.0.2",
-    "colord": "^2.9.3",
-    "interactjs": "^1.10.17",
-    "peerjs": "^1.4.7",
-    "svelte-fa": "^3.0.3",
-    "vec3": "^0.1.8",
-    "webgl-plot": "^0.7.0",
-    "webmidi": "^3.0.11"
-  }
+    "name": "midi-fx",
+    "description": "Node Editor for Creative MIDI Effects",
+    "author": "Daniel Fernandes (https://github.com/danferns)",
+    "homepage": "https://github.com/danferns/midi-fx",
+    "bugs": "https://github.com/danferns/midi-fx/issues",
+    "license": "GPL-3.0-or-later",
+    "version": "0.0.1",
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "format": "prettier . --write --ignore-path ./.gitignore --plugin prettier-plugin-svelte",
+        "preview": "vite preview",
+        "check": "svelte-check --tsconfig ./tsconfig.json"
+    },
+    "devDependencies": {
+        "@sveltejs/vite-plugin-svelte": "^1.0.0-next.30",
+        "@tsconfig/svelte": "^2.0.1",
+        "@typescript-eslint/eslint-plugin": "^5.14.0",
+        "@typescript-eslint/parser": "^5.14.0",
+        "eslint": "^8.10.0",
+        "prettier": "^2.5.1",
+        "prettier-plugin-svelte": "^2.10.1",
+        "svelte": "^3.49.0",
+        "svelte-check": "^2.2.7",
+        "svelte-preprocess": "^4.9.8",
+        "tslib": "^2.3.1",
+        "typescript": "^4.5.4",
+        "vite": "^2.9.16",
+        "vite-plugin-pwa": "^0.12.2"
+    },
+    "dependencies": {
+        "@fortawesome/free-solid-svg-icons": "^6.2.0",
+        "@mediapipe/tasks-vision": "^0.10.20",
+        "@types/w3c-web-serial": "^1.0.2",
+        "colord": "^2.9.3",
+        "interactjs": "^1.10.17",
+        "peerjs": "^1.4.7",
+        "svelte-fa": "^3.0.3",
+        "vec3": "^0.1.8",
+        "webgl-plot": "^0.7.0",
+        "webmidi": "^3.0.11"
+    }
 }

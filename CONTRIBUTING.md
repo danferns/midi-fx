@@ -64,11 +64,10 @@ npm run build
 
 ### Cleaning up
 
-To keep a consistent code style throughout the project, we will use the Prettier formatter. 
-You can format any file with the command: 
+To keep a consistent code style throughout the project, we will format all files:
 
 ```sh
-npx prettier ./path/to/file.js --write
+npm run format
 ```
 
 ### Commit and Push
