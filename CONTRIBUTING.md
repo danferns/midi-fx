@@ -62,6 +62,15 @@ After you've made some changes, it is a good idea to test that everything still 
 npm run build
 ```
 
+### Cleaning up
+
+To keep a consistent code style throughout the project, we will use the Prettier formatter. 
+You can format any file with the command: 
+
+```sh
+npx prettier ./path/to/file.js --write
+```
+
 ### Commit and Push
 
 A commit is like a save point in a video game. When you're happy with the changes, commit them with the command:
